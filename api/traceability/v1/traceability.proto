@@ -155,12 +155,12 @@ message UpdateEnterpriseReply { bool success = 1; }
 message DeleteEnterpriseRequest { int32 id = 1; }
 message DeleteEnterpriseReply { bool success = 1; }
 
-// 2. Site (Updated with Description)
+// 2. Site 
 message CreateSiteRequest { 
     int32 enterprise_id = 1; 
     string name = 2; 
     string location = 3; 
-    string description = 4; // Added
+    string description = 4; 
 }
 message CreateSiteReply { int32 id = 1; }
 message ListSitesRequest { int32 enterprise_id = 1; }
