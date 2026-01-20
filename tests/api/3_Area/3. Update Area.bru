@@ -1,0 +1,22 @@
+meta {
+  name: 3. Update Area
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/traceability/areas/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Paint Shop"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: isTruthy
+}

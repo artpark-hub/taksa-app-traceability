@@ -1,0 +1,22 @@
+meta {
+  name: 5. Update Equip
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/traceability/equipment/ROBOT-99
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "operational_status": "Maintenance"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: isTruthy
+}

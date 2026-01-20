@@ -1,0 +1,23 @@
+meta {
+  name: 1. Set Property
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/properties
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "property_name": "Temp Setpoint",
+    "current_value": "200"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNumber
+}

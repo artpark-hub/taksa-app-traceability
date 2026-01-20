@@ -1,0 +1,22 @@
+meta {
+  name: 3. Update Enterprise
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/traceability/enterprises/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Global Motors Inc."
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: isTruthy
+}

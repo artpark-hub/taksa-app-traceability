@@ -1,0 +1,16 @@
+meta {
+  name: 2. View Logs
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/logs?work_order_id=WO-2025-001
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.logs: isArray
+}

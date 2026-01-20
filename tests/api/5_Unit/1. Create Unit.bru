@@ -1,0 +1,24 @@
+meta {
+  name: 1. Create Unit
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/production-units
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "production_line_id": 1,
+    "name": "Station-01",
+    "description": "Robot Slot"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNumber
+}

@@ -1,0 +1,16 @@
+meta {
+  name: 4. List Equip
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/equipment?line_id=1
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.equipment: isArray
+}

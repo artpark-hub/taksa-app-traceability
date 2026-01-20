@@ -1,0 +1,23 @@
+meta {
+  name: 1. Create Enterprise
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/enterprises
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Global Motors",
+    "description": "Global Headquarters"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNumber
+}
