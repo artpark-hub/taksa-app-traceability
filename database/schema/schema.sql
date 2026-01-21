@@ -1,3 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+
+-- 1. Standard Relational Tables (Metadata)
+
 CREATE TABLE IF NOT EXISTS enterprise (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -66,12 +70,21 @@ CREATE TABLE IF NOT EXISTS equipment_property (
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 2. The Hypertable (Factory Floor Events)
+
 CREATE TABLE IF NOT EXISTS traceability_log (
-    id SERIAL PRIMARY KEY,
+    id SERIAL,
     equipment_id VARCHAR(50) REFERENCES equipment_master(id) ON DELETE CASCADE,
     event_type VARCHAR(100) NOT NULL,
     work_order_id VARCHAR(100),
     material_lot_id VARCHAR(100),
     operator_id VARCHAR(100),
-    event_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    event_time TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id, event_time)
 );
+
+
+-- 3. Convert to Hypertable
+
+SELECT create_hypertable('traceability_log', 'event_time', if_not_exists => TRUE);
