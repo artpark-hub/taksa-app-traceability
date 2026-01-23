@@ -1,0 +1,569 @@
+syntax = "proto3";
+
+package api.traceability.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "traceability/api/traceability/v1;v1";
+
+service Traceability {
+    // 1. Enterprise Management
+    rpc CreateEnterprise (CreateEnterpriseRequest) returns (CreateEnterpriseReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/enterprises", body: "*" };
+    }
+    rpc ListEnterprises (ListEnterprisesRequest) returns (ListEnterprisesReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/enterprises" };
+    }
+    rpc UpdateEnterprise (UpdateEnterpriseRequest) returns (UpdateEnterpriseReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/enterprises/{id}", body: "*" };
+    }
+    rpc DeleteEnterprise (DeleteEnterpriseRequest) returns (DeleteEnterpriseReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/enterprises/{id}" };
+    }
+
+    // 2. Site Management
+    rpc CreateSite (CreateSiteRequest) returns (CreateSiteReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/sites", body: "*" };
+    }
+    rpc ListSites (ListSitesRequest) returns (ListSitesReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/sites" };
+    }
+    rpc UpdateSite (UpdateSiteRequest) returns (UpdateSiteReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/sites/{id}", body: "*" };
+    }
+    rpc DeleteSite (DeleteSiteRequest) returns (DeleteSiteReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/sites/{id}" };
+    }
+
+    // 3. Area Management
+    rpc CreateArea (CreateAreaRequest) returns (CreateAreaReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/areas", body: "*" };
+    }
+    rpc ListAreas (ListAreasRequest) returns (ListAreasReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/areas" };
+    }
+    rpc UpdateArea (UpdateAreaRequest) returns (UpdateAreaReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/areas/{id}", body: "*" };
+    }
+    rpc DeleteArea (DeleteAreaRequest) returns (DeleteAreaReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/areas/{id}" };
+    }
+
+    // 4. Production Line Management
+    rpc CreateLine (CreateLineRequest) returns (CreateLineReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/lines", body: "*" };
+    }
+    rpc ListLines (ListLinesRequest) returns (ListLinesReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/lines" };
+    }
+    rpc UpdateLine (UpdateLineRequest) returns (UpdateLineReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/lines/{id}", body: "*" };
+    }
+    rpc DeleteLine (DeleteLineRequest) returns (DeleteLineReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/lines/{id}" };
+    }
+
+    // 5. Production Unit Management
+    rpc CreateProductionUnit (CreateProductionUnitRequest) returns (CreateProductionUnitReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/production-units", body: "*" };
+    }
+    rpc ListProductionUnits (ListProductionUnitsRequest) returns (ListProductionUnitsReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/production-units" };
+    }
+    rpc UpdateProductionUnit (UpdateProductionUnitRequest) returns (UpdateProductionUnitReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/production-units/{id}", body: "*" };
+    }
+    rpc DeleteProductionUnit (DeleteProductionUnitRequest) returns (DeleteProductionUnitReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/production-units/{id}" };
+    }
+
+    // 6. Equipment Class Management
+    rpc CreateEquipmentClass (CreateEquipmentClassRequest) returns (CreateEquipmentClassReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/equipment-classes", body: "*" };
+    }
+    rpc ListEquipmentClasses (ListEquipmentClassesRequest) returns (ListEquipmentClassesReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/equipment-classes" };
+    }
+    rpc UpdateEquipmentClass (UpdateEquipmentClassRequest) returns (UpdateEquipmentClassReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/equipment-classes/{id}", body: "*" };
+    }
+    rpc DeleteEquipmentClass (DeleteEquipmentClassRequest) returns (DeleteEquipmentClassReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/equipment-classes/{id}" };
+    }
+
+    // 7. Equipment Master Management
+    rpc RegisterEquipment (RegisterEquipmentRequest) returns (RegisterEquipmentReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/equipment", body: "*" };
+    }
+    rpc ListEquipment (ListEquipmentRequest) returns (ListEquipmentReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/equipment" };
+    }
+    rpc UpdateEquipment (UpdateEquipmentRequest) returns (UpdateEquipmentReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/equipment/{id}", body: "*" };
+    }
+    rpc DeleteEquipment (DeleteEquipmentRequest) returns (DeleteEquipmentReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/equipment/{id}" };
+    }
+
+    // 8. Equipment Capability Management
+    rpc AddCapability (AddCapabilityRequest) returns (AddCapabilityReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/equipment/{equipment_id}/capabilities", body: "*" };
+    }
+    rpc ListCapabilities (ListCapabilitiesRequest) returns (ListCapabilitiesReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/equipment/{equipment_id}/capabilities" };
+    }
+    rpc UpdateCapability (UpdateCapabilityRequest) returns (UpdateCapabilityReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}", body: "*" };
+    }
+    rpc DeleteCapability (DeleteCapabilityRequest) returns (DeleteCapabilityReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}" };
+    }
+
+    // 9. Equipment Property Management
+    rpc SetProperty (SetPropertyRequest) returns (SetPropertyReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/equipment/{equipment_id}/properties", body: "*" };
+    }
+    rpc ListProperties (ListPropertiesRequest) returns (ListPropertiesReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/equipment/{equipment_id}/properties" };
+    }
+    rpc UpdateProperty (UpdatePropertyRequest) returns (UpdatePropertyReply) {
+        option (google.api.http) = { patch: "/api/v1/traceability/equipment/{equipment_id}/properties/{id}", body: "*" };
+    }
+    rpc DeleteProperty (DeletePropertyRequest) returns (DeletePropertyReply) {
+        option (google.api.http) = { delete: "/api/v1/traceability/equipment/{equipment_id}/properties/{id}" };
+    }
+
+    // 10. Traceability Logs
+    rpc LogEvent (LogEventRequest) returns (LogEventReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/logs", body: "*" };
+    }
+    rpc ListLogs (ListLogsRequest) returns (ListLogsReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/logs" };
+    }
+}
+
+// ---------------- Messages ----------------
+
+// 1. Enterprise
+message CreateEnterpriseRequest {
+    string name = 1;
+    string description = 2;
+}
+
+message CreateEnterpriseReply {
+    int32 id = 1;
+}
+
+message ListEnterprisesRequest {
+}
+
+message ListEnterprisesReply {
+    repeated Enterprise enterprises = 1;
+}
+
+message Enterprise {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateEnterpriseRequest {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateEnterpriseReply {
+    bool success = 1;
+}
+
+message DeleteEnterpriseRequest {
+    int32 id = 1;
+}
+
+message DeleteEnterpriseReply {
+    bool success = 1;
+}
+
+// 2. Site
+message CreateSiteRequest {
+    int32 enterprise_id = 1;
+    string name = 2;
+    string location = 3;
+    string description = 4;
+}
+
+message CreateSiteReply {
+    int32 id = 1;
+}
+
+message ListSitesRequest {
+    int32 enterprise_id = 1;
+}
+
+message ListSitesReply {
+    repeated Site sites = 1;
+}
+
+message Site {
+    int32 id = 1;
+    string name = 2;
+    string location = 3;
+    string description = 4;
+}
+
+message UpdateSiteRequest {
+    int32 id = 1;
+    string location = 2;
+}
+
+message UpdateSiteReply {
+    bool success = 1;
+}
+
+message DeleteSiteRequest {
+    int32 id = 1;
+}
+
+message DeleteSiteReply {
+    bool success = 1;
+}
+
+// 3. Area
+message CreateAreaRequest {
+    int32 site_id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message CreateAreaReply {
+    int32 id = 1;
+}
+
+message ListAreasRequest {
+    int32 site_id = 1;
+}
+
+message ListAreasReply {
+    repeated Area areas = 1;
+}
+
+message Area {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateAreaRequest {
+    int32 id = 1;
+    string name = 2;
+    string description = 3; 
+}
+
+message UpdateAreaReply {
+    bool success = 1;
+}
+
+message DeleteAreaRequest {
+    int32 id = 1;
+}
+
+message DeleteAreaReply {
+    bool success = 1;
+}
+
+// 4. Production Line
+message CreateLineRequest {
+    int32 area_id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message CreateLineReply {
+    int32 id = 1;
+}
+
+message ListLinesRequest {
+    int32 area_id = 1;
+}
+
+message ListLinesReply {
+    repeated Line lines = 1;
+}
+
+message Line {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateLineRequest {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateLineReply {
+    bool success = 1;
+}
+
+message DeleteLineRequest {
+    int32 id = 1;
+}
+
+message DeleteLineReply {
+    bool success = 1;
+}
+
+// 5. Production Unit
+message CreateProductionUnitRequest {
+    int32 production_line_id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message CreateProductionUnitReply {
+    int32 id = 1;
+}
+
+message ListProductionUnitsRequest {
+    int32 line_id = 1;
+}
+
+message ListProductionUnitsReply {
+    repeated ProductionUnit units = 1;
+}
+
+message ProductionUnit {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateProductionUnitRequest {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateProductionUnitReply {
+    bool success = 1;
+}
+
+message DeleteProductionUnitRequest {
+    int32 id = 1;
+}
+
+message DeleteProductionUnitReply {
+    bool success = 1;
+}
+
+// 6. Equipment Class
+message CreateEquipmentClassRequest {
+    string class_name = 1;
+    string version = 2;
+    string description = 3;
+}
+
+message CreateEquipmentClassReply {
+    int32 id = 1;
+}
+
+message ListEquipmentClassesRequest {
+}
+
+message ListEquipmentClassesReply {
+    repeated EquipmentClass classes = 1;
+}
+
+message EquipmentClass {
+    int32 id = 1;
+    string class_name = 2;
+    string version = 3;
+    string description = 4;
+}
+
+message UpdateEquipmentClassRequest {
+    int32 id = 1;
+    string version = 2;
+    string description = 3;
+}
+
+message UpdateEquipmentClassReply {
+    bool success = 1;
+}
+
+message DeleteEquipmentClassRequest {
+    int32 id = 1;
+}
+
+message DeleteEquipmentClassReply {
+    bool success = 1;
+}
+
+// 7. Equipment Master
+message RegisterEquipmentRequest {
+    string id = 1;
+    string physical_asset_id = 2;
+    int32 production_unit_id = 3;
+    int32 equipment_class_id = 4;
+    string operational_status = 5;
+    string parent_equipment_id = 6;
+}
+
+message RegisterEquipmentReply {
+    string id = 1;
+}
+
+message ListEquipmentRequest {
+    int32 line_id = 1;
+    string parent_equipment_id = 2;
+}
+
+message ListEquipmentReply {
+    repeated Equipment equipment = 1;
+}
+message Equipment {
+    string id = 1;
+    string physical_asset_id = 2;
+    int32 production_unit_id = 3;
+    int32 equipment_class_id = 4;
+    string operational_status = 5;
+    string parent_equipment_id = 6;
+}
+
+message UpdateEquipmentRequest {
+    string id = 1;
+    string operational_status = 2;
+    int32 production_unit_id = 3;
+}
+
+message UpdateEquipmentReply {
+    bool success = 1;
+}
+
+message DeleteEquipmentRequest {
+    string id = 1;
+}
+
+message DeleteEquipmentReply {
+    bool success = 1;
+}
+
+// 8. Capabilities
+message AddCapabilityRequest {
+    string equipment_id = 1;
+    string capability_name = 2;
+    string value = 3;
+    string uom = 4;
+    string description = 5;
+}
+
+message AddCapabilityReply {
+    int32 id = 1;
+}
+
+message ListCapabilitiesRequest {
+    string equipment_id = 1;
+}
+
+message ListCapabilitiesReply {
+    repeated Capability capabilities = 1;
+}
+
+message Capability {
+    string name = 1;
+    string value = 2;
+    string uom = 3;
+    string description = 4;
+}
+
+message UpdateCapabilityRequest {
+    string equipment_id = 1;
+    int32 id = 2;
+    string value = 3;
+}
+
+message UpdateCapabilityReply {
+    bool success = 1;
+}
+
+message DeleteCapabilityRequest {
+    string equipment_id = 1;
+    int32 id = 2;
+}
+
+message DeleteCapabilityReply {
+    bool success = 1;
+}
+
+// 9. Properties
+message SetPropertyRequest {
+    string equipment_id = 1;
+    string property_name = 2;
+    string current_value = 3;
+}
+
+message SetPropertyReply {
+    int32 id = 1;
+}
+
+message ListPropertiesRequest {
+    string equipment_id = 1;
+}
+
+message ListPropertiesReply {
+    repeated Property properties = 1;
+}
+
+message Property {
+    string name = 1;
+    string value = 2;
+}
+
+message UpdatePropertyRequest {
+    string equipment_id = 1;
+    int32 id = 2;
+    string current_value = 3;
+}
+
+message UpdatePropertyReply {
+    bool success = 1;
+}
+
+message DeletePropertyRequest {
+    string equipment_id = 1;
+    int32 id = 2;
+}
+
+message DeletePropertyReply {
+    bool success = 1;
+}
+
+// 10. Traceability Logs
+message LogEventRequest {
+    string equipment_id = 1;
+    string event_type = 2;
+    string work_order_id = 3;
+    string material_lot_id = 4;
+    string operator_id = 5;
+}
+
+message LogEventReply {
+    int32 id = 1;
+}
+
+message ListLogsRequest {
+    string work_order_id = 1;
+}
+
+message ListLogsReply {
+    repeated LogEntry logs = 1;
+}
+
+message LogEntry {
+    string equipment_id = 1;
+    string event_type = 2;
+    string event_time = 3;
+    string operator_id = 4;
+}
