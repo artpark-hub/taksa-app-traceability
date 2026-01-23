@@ -73,7 +73,7 @@ type EquipmentORM struct {
 	ProductionUnitID  int32
 	EquipmentClassID  int32
 	OperationalStatus string
-	ParentEquipmentID *string // Pointer because it can be null
+	ParentEquipmentID *string
 }
 
 func (EquipmentORM) TableName() string { return "equipment_master" }
