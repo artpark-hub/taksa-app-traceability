@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewTraceabilityRepo)
+var ProviderSet = wire.NewSet(NewData, NewTraceabilityRepo)
 
 type Data struct {
 	db *gorm.DB
@@ -26,12 +26,15 @@ func NewData(c *conf.Data, loggerInput log.Logger) (*Data, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
+
 	d := &Data{
 		db: db,
 	}
+
 	cleanup := func() {
 		l.Info("closing the data resources")
-
+		// DB connection usually doesn't need explicit close in GORM for long-running apps,
+		// but if you had Redis/Nats, you'd close them here.
 	}
 
 	return d, cleanup, nil
