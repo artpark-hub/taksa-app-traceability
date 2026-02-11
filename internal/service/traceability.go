@@ -337,7 +337,7 @@ func (s *TraceabilityService) DeleteEquipment(ctx context.Context, req *pb.Delet
 
 func (s *TraceabilityService) AddCapability(ctx context.Context, req *pb.AddCapabilityRequest) (*pb.AddCapabilityReply, error) {
 	id, err := s.uc.AddCapability(ctx, &biz.EquipmentCapability{
-		EquipmentID:    req.Id, // Note: Mapped from URL {id}
+		EquipmentID:    req.EquipmentId,
 		CapabilityName: req.CapabilityName,
 		Value:          req.Value,
 		UOM:            req.Uom,
@@ -350,7 +350,7 @@ func (s *TraceabilityService) AddCapability(ctx context.Context, req *pb.AddCapa
 }
 
 func (s *TraceabilityService) ListCapabilities(ctx context.Context, req *pb.ListCapabilitiesRequest) (*pb.ListCapabilitiesReply, error) {
-	list, err := s.uc.ListCapabilities(ctx, req.Id)
+	list, err := s.uc.ListCapabilities(ctx, req.EquipmentId)
 	if err != nil {
 		return nil, err
 	}
@@ -383,7 +383,7 @@ func (s *TraceabilityService) DeleteCapability(ctx context.Context, req *pb.Dele
 
 func (s *TraceabilityService) SetProperty(ctx context.Context, req *pb.SetPropertyRequest) (*pb.SetPropertyReply, error) {
 	id, err := s.uc.SetProperty(ctx, &biz.EquipmentProperty{
-		EquipmentID:  req.Id,
+		EquipmentID:  req.EquipmentId,
 		PropertyName: req.PropertyName,
 		CurrentValue: req.CurrentValue,
 	})
@@ -394,7 +394,7 @@ func (s *TraceabilityService) SetProperty(ctx context.Context, req *pb.SetProper
 }
 
 func (s *TraceabilityService) ListProperties(ctx context.Context, req *pb.ListPropertiesRequest) (*pb.ListPropertiesReply, error) {
-	list, err := s.uc.ListProperties(ctx, req.Id)
+	list, err := s.uc.ListProperties(ctx, req.EquipmentId)
 	if err != nil {
 		return nil, err
 	}

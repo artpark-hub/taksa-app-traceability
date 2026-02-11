@@ -271,6 +271,48 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.traceability.v1.UpdateEquipmentClassReply'
+    /api/v1/traceability/equipment/{equipmentId}/capabilities:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListCapabilities
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListCapabilitiesReply'
+        post:
+            tags:
+                - Traceability
+            description: 8. Equipment Capability Management
+            operationId: Traceability_AddCapability
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.AddCapabilityRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.AddCapabilityReply'
     /api/v1/traceability/equipment/{equipmentId}/capabilities/{id}:
         delete:
             tags:
@@ -324,6 +366,48 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.traceability.v1.UpdateCapabilityReply'
+    /api/v1/traceability/equipment/{equipmentId}/properties:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListProperties
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListPropertiesReply'
+        post:
+            tags:
+                - Traceability
+            description: 9. Equipment Property Management
+            operationId: Traceability_SetProperty
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.SetPropertyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.SetPropertyReply'
     /api/v1/traceability/equipment/{equipmentId}/properties/{id}:
         delete:
             tags:
@@ -418,90 +502,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.traceability.v1.UpdateEquipmentReply'
-    /api/v1/traceability/equipment/{id}/capabilities:
-        get:
-            tags:
-                - Traceability
-            operationId: Traceability_ListCapabilities
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.traceability.v1.ListCapabilitiesReply'
-        post:
-            tags:
-                - Traceability
-            description: 8. Equipment Capability Management
-            operationId: Traceability_AddCapability
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.traceability.v1.AddCapabilityRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.traceability.v1.AddCapabilityReply'
-    /api/v1/traceability/equipment/{id}/properties:
-        get:
-            tags:
-                - Traceability
-            operationId: Traceability_ListProperties
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.traceability.v1.ListPropertiesReply'
-        post:
-            tags:
-                - Traceability
-            description: 9. Equipment Property Management
-            operationId: Traceability_SetProperty
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.traceability.v1.SetPropertyRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.traceability.v1.SetPropertyReply'
     /api/v1/traceability/lines:
         get:
             tags:
@@ -804,7 +804,7 @@ components:
         api.traceability.v1.AddCapabilityRequest:
             type: object
             properties:
-                id:
+                equipmentId:
                     type: string
                 capabilityName:
                     type: string
@@ -814,7 +814,7 @@ components:
                     type: string
                 description:
                     type: string
-            description: 8. Capabilities (Updated with Description)
+            description: 8. Capabilities
         api.traceability.v1.Area:
             type: object
             properties:
@@ -852,7 +852,7 @@ components:
                     type: string
                 description:
                     type: string
-            description: 3. Area (Updated with Description)
+            description: 3. Area
         api.traceability.v1.CreateEnterpriseReply:
             type: object
             properties:
@@ -882,7 +882,7 @@ components:
                     type: string
                 description:
                     type: string
-            description: 6. Equipment Class (Updated with Description)
+            description: 6. Equipment Class
         api.traceability.v1.CreateLineReply:
             type: object
             properties:
@@ -899,7 +899,7 @@ components:
                     type: string
                 description:
                     type: string
-            description: 4. Production Line (Updated with Description)
+            description: 4. Production Line
         api.traceability.v1.CreateProductionUnitReply:
             type: object
             properties:
@@ -916,7 +916,7 @@ components:
                     type: string
                 description:
                     type: string
-            description: 5. Production Unit (Updated with Description)
+            description: 5. Production Unit
         api.traceability.v1.CreateSiteReply:
             type: object
             properties:
@@ -935,7 +935,7 @@ components:
                     type: string
                 description:
                     type: string
-            description: 2. Site (Updated with Description)
+            description: 2. Site
         api.traceability.v1.DeleteAreaReply:
             type: object
             properties:
@@ -996,7 +996,17 @@ components:
             properties:
                 id:
                     type: string
+                physicalAssetId:
+                    type: string
+                productionUnitId:
+                    type: integer
+                    format: int32
+                equipmentClassId:
+                    type: integer
+                    format: int32
                 operationalStatus:
+                    type: string
+                parentEquipmentId:
                     type: string
         api.traceability.v1.EquipmentClass:
             type: object
@@ -1120,7 +1130,7 @@ components:
                     type: string
                 operatorId:
                     type: string
-            description: 10. Traceability Logs (Updated with Operator and Material)
+            description: 10. Traceability Logs
         api.traceability.v1.ProductionUnit:
             type: object
             properties:
@@ -1170,7 +1180,7 @@ components:
         api.traceability.v1.SetPropertyRequest:
             type: object
             properties:
-                id:
+                equipmentId:
                     type: string
                 propertyName:
                     type: string
@@ -1202,6 +1212,8 @@ components:
                     format: int32
                 name:
                     type: string
+                description:
+                    type: string
         api.traceability.v1.UpdateCapabilityReply:
             type: object
             properties:
@@ -1230,6 +1242,8 @@ components:
                     format: int32
                 name:
                     type: string
+                description:
+                    type: string
         api.traceability.v1.UpdateEquipmentClassReply:
             type: object
             properties:
@@ -1242,6 +1256,8 @@ components:
                     type: integer
                     format: int32
                 version:
+                    type: string
+                description:
                     type: string
         api.traceability.v1.UpdateEquipmentReply:
             type: object
@@ -1285,6 +1301,8 @@ components:
                     type: integer
                     format: int32
                 name:
+                    type: string
+                description:
                     type: string
         api.traceability.v1.UpdatePropertyReply:
             type: object

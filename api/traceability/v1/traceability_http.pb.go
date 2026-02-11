@@ -139,12 +139,12 @@ func RegisterTraceabilityHTTPServer(s *http.Server, srv TraceabilityHTTPServer) 
 	r.GET("/api/v1/traceability/equipment", _Traceability_ListEquipment0_HTTP_Handler(srv))
 	r.PATCH("/api/v1/traceability/equipment/{id}", _Traceability_UpdateEquipment0_HTTP_Handler(srv))
 	r.DELETE("/api/v1/traceability/equipment/{id}", _Traceability_DeleteEquipment0_HTTP_Handler(srv))
-	r.POST("/api/v1/traceability/equipment/{id}/capabilities", _Traceability_AddCapability0_HTTP_Handler(srv))
-	r.GET("/api/v1/traceability/equipment/{id}/capabilities", _Traceability_ListCapabilities0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/equipment/{equipment_id}/capabilities", _Traceability_AddCapability0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/equipment/{equipment_id}/capabilities", _Traceability_ListCapabilities0_HTTP_Handler(srv))
 	r.PATCH("/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}", _Traceability_UpdateCapability0_HTTP_Handler(srv))
 	r.DELETE("/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}", _Traceability_DeleteCapability0_HTTP_Handler(srv))
-	r.POST("/api/v1/traceability/equipment/{id}/properties", _Traceability_SetProperty0_HTTP_Handler(srv))
-	r.GET("/api/v1/traceability/equipment/{id}/properties", _Traceability_ListProperties0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/equipment/{equipment_id}/properties", _Traceability_SetProperty0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/equipment/{equipment_id}/properties", _Traceability_ListProperties0_HTTP_Handler(srv))
 	r.PATCH("/api/v1/traceability/equipment/{equipment_id}/properties/{id}", _Traceability_UpdateProperty0_HTTP_Handler(srv))
 	r.DELETE("/api/v1/traceability/equipment/{equipment_id}/properties/{id}", _Traceability_DeleteProperty0_HTTP_Handler(srv))
 	r.POST("/api/v1/traceability/logs", _Traceability_LogEvent0_HTTP_Handler(srv))
@@ -1058,7 +1058,7 @@ func NewTraceabilityHTTPClient(client *http.Client) TraceabilityHTTPClient {
 // AddCapability 8. Equipment Capability Management
 func (c *TraceabilityHTTPClientImpl) AddCapability(ctx context.Context, in *AddCapabilityRequest, opts ...http.CallOption) (*AddCapabilityReply, error) {
 	var out AddCapabilityReply
-	pattern := "/api/v1/traceability/equipment/{id}/capabilities"
+	pattern := "/api/v1/traceability/equipment/{equipment_id}/capabilities"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTraceabilityAddCapability))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -1285,7 +1285,7 @@ func (c *TraceabilityHTTPClientImpl) ListAreas(ctx context.Context, in *ListArea
 
 func (c *TraceabilityHTTPClientImpl) ListCapabilities(ctx context.Context, in *ListCapabilitiesRequest, opts ...http.CallOption) (*ListCapabilitiesReply, error) {
 	var out ListCapabilitiesReply
-	pattern := "/api/v1/traceability/equipment/{id}/capabilities"
+	pattern := "/api/v1/traceability/equipment/{equipment_id}/capabilities"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationTraceabilityListCapabilities))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -1376,7 +1376,7 @@ func (c *TraceabilityHTTPClientImpl) ListProductionUnits(ctx context.Context, in
 
 func (c *TraceabilityHTTPClientImpl) ListProperties(ctx context.Context, in *ListPropertiesRequest, opts ...http.CallOption) (*ListPropertiesReply, error) {
 	var out ListPropertiesReply
-	pattern := "/api/v1/traceability/equipment/{id}/properties"
+	pattern := "/api/v1/traceability/equipment/{equipment_id}/properties"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationTraceabilityListProperties))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -1431,7 +1431,7 @@ func (c *TraceabilityHTTPClientImpl) RegisterEquipment(ctx context.Context, in *
 // SetProperty 9. Equipment Property Management
 func (c *TraceabilityHTTPClientImpl) SetProperty(ctx context.Context, in *SetPropertyRequest, opts ...http.CallOption) (*SetPropertyReply, error) {
 	var out SetPropertyReply
-	pattern := "/api/v1/traceability/equipment/{id}/properties"
+	pattern := "/api/v1/traceability/equipment/{equipment_id}/properties"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTraceabilitySetProperty))
 	opts = append(opts, http.PathTemplate(pattern))

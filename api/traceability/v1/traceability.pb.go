@@ -263,6 +263,7 @@ type UpdateEnterpriseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -307,6 +308,13 @@ func (x *UpdateEnterpriseRequest) GetId() int32 {
 func (x *UpdateEnterpriseRequest) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateEnterpriseRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
 	}
 	return ""
 }
@@ -443,13 +451,13 @@ func (x *DeleteEnterpriseReply) GetSuccess() bool {
 	return false
 }
 
-// 2. Site (Updated with Description)
+// 2. Site
 type CreateSiteRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	EnterpriseId  int32                  `protobuf:"varint,1,opt,name=enterprise_id,json=enterpriseId,proto3" json:"enterprise_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Location      string                 `protobuf:"bytes,3,opt,name=location,proto3" json:"location,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // Added
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -896,12 +904,12 @@ func (x *DeleteSiteReply) GetSuccess() bool {
 	return false
 }
 
-// 3. Area (Updated with Description)
+// 3. Area
 type CreateAreaRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SiteId        int32                  `protobuf:"varint,1,opt,name=site_id,json=siteId,proto3" json:"site_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"` // Added
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1153,6 +1161,7 @@ type UpdateAreaRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1197,6 +1206,13 @@ func (x *UpdateAreaRequest) GetId() int32 {
 func (x *UpdateAreaRequest) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateAreaRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
 	}
 	return ""
 }
@@ -1333,12 +1349,12 @@ func (x *DeleteAreaReply) GetSuccess() bool {
 	return false
 }
 
-// 4. Production Line (Updated with Description)
+// 4. Production Line
 type CreateLineRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AreaId        int32                  `protobuf:"varint,1,opt,name=area_id,json=areaId,proto3" json:"area_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"` // Added
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1778,12 +1794,12 @@ func (x *DeleteLineReply) GetSuccess() bool {
 	return false
 }
 
-// 5. Production Unit (Updated with Description)
+// 5. Production Unit
 type CreateProductionUnitRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	ProductionLineId int32                  `protobuf:"varint,1,opt,name=production_line_id,json=productionLineId,proto3" json:"production_line_id,omitempty"`
 	Name             string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description      string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"` // Added
+	Description      string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -2035,6 +2051,7 @@ type UpdateProductionUnitRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2079,6 +2096,13 @@ func (x *UpdateProductionUnitRequest) GetId() int32 {
 func (x *UpdateProductionUnitRequest) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateProductionUnitRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
 	}
 	return ""
 }
@@ -2215,12 +2239,12 @@ func (x *DeleteProductionUnitReply) GetSuccess() bool {
 	return false
 }
 
-// 6. Equipment Class (Updated with Description)
+// 6. Equipment Class
 type CreateEquipmentClassRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ClassName     string                 `protobuf:"bytes,1,opt,name=class_name,json=className,proto3" json:"class_name,omitempty"`
 	Version       string                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"` // Added
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2472,6 +2496,7 @@ type UpdateEquipmentClassRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Version       string                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2516,6 +2541,13 @@ func (x *UpdateEquipmentClassRequest) GetId() int32 {
 func (x *UpdateEquipmentClassRequest) GetVersion() string {
 	if x != nil {
 		return x.Version
+	}
+	return ""
+}
+
+func (x *UpdateEquipmentClassRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
 	}
 	return ""
 }
@@ -2880,7 +2912,11 @@ func (x *ListEquipmentReply) GetEquipment() []*Equipment {
 type Equipment struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	OperationalStatus string                 `protobuf:"bytes,2,opt,name=operational_status,json=operationalStatus,proto3" json:"operational_status,omitempty"`
+	PhysicalAssetId   string                 `protobuf:"bytes,2,opt,name=physical_asset_id,json=physicalAssetId,proto3" json:"physical_asset_id,omitempty"`
+	ProductionUnitId  int32                  `protobuf:"varint,3,opt,name=production_unit_id,json=productionUnitId,proto3" json:"production_unit_id,omitempty"`
+	EquipmentClassId  int32                  `protobuf:"varint,4,opt,name=equipment_class_id,json=equipmentClassId,proto3" json:"equipment_class_id,omitempty"`
+	OperationalStatus string                 `protobuf:"bytes,5,opt,name=operational_status,json=operationalStatus,proto3" json:"operational_status,omitempty"`
+	ParentEquipmentId string                 `protobuf:"bytes,6,opt,name=parent_equipment_id,json=parentEquipmentId,proto3" json:"parent_equipment_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -2922,9 +2958,37 @@ func (x *Equipment) GetId() string {
 	return ""
 }
 
+func (x *Equipment) GetPhysicalAssetId() string {
+	if x != nil {
+		return x.PhysicalAssetId
+	}
+	return ""
+}
+
+func (x *Equipment) GetProductionUnitId() int32 {
+	if x != nil {
+		return x.ProductionUnitId
+	}
+	return 0
+}
+
+func (x *Equipment) GetEquipmentClassId() int32 {
+	if x != nil {
+		return x.EquipmentClassId
+	}
+	return 0
+}
+
 func (x *Equipment) GetOperationalStatus() string {
 	if x != nil {
 		return x.OperationalStatus
+	}
+	return ""
+}
+
+func (x *Equipment) GetParentEquipmentId() string {
+	if x != nil {
+		return x.ParentEquipmentId
 	}
 	return ""
 }
@@ -3121,14 +3185,14 @@ func (x *DeleteEquipmentReply) GetSuccess() bool {
 	return false
 }
 
-// 8. Capabilities (Updated with Description)
+// 8. Capabilities
 type AddCapabilityRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	EquipmentId    string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	CapabilityName string                 `protobuf:"bytes,2,opt,name=capability_name,json=capabilityName,proto3" json:"capability_name,omitempty"`
 	Value          string                 `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
 	Uom            string                 `protobuf:"bytes,4,opt,name=uom,proto3" json:"uom,omitempty"`
-	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"` // Added
+	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -3163,9 +3227,9 @@ func (*AddCapabilityRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{63}
 }
 
-func (x *AddCapabilityRequest) GetId() string {
+func (x *AddCapabilityRequest) GetEquipmentId() string {
 	if x != nil {
-		return x.Id
+		return x.EquipmentId
 	}
 	return ""
 }
@@ -3244,7 +3308,7 @@ func (x *AddCapabilityReply) GetId() int32 {
 
 type ListCapabilitiesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	EquipmentId   string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3279,9 +3343,9 @@ func (*ListCapabilitiesRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{65}
 }
 
-func (x *ListCapabilitiesRequest) GetId() string {
+func (x *ListCapabilitiesRequest) GetEquipmentId() string {
 	if x != nil {
-		return x.Id
+		return x.EquipmentId
 	}
 	return ""
 }
@@ -3601,7 +3665,7 @@ func (x *DeleteCapabilityReply) GetSuccess() bool {
 // 9. Properties
 type SetPropertyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	EquipmentId   string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	PropertyName  string                 `protobuf:"bytes,2,opt,name=property_name,json=propertyName,proto3" json:"property_name,omitempty"`
 	CurrentValue  string                 `protobuf:"bytes,3,opt,name=current_value,json=currentValue,proto3" json:"current_value,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -3638,9 +3702,9 @@ func (*SetPropertyRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{72}
 }
 
-func (x *SetPropertyRequest) GetId() string {
+func (x *SetPropertyRequest) GetEquipmentId() string {
 	if x != nil {
-		return x.Id
+		return x.EquipmentId
 	}
 	return ""
 }
@@ -3705,7 +3769,7 @@ func (x *SetPropertyReply) GetId() int32 {
 
 type ListPropertiesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	EquipmentId   string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3740,9 +3804,9 @@ func (*ListPropertiesRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{74}
 }
 
-func (x *ListPropertiesRequest) GetId() string {
+func (x *ListPropertiesRequest) GetEquipmentId() string {
 	if x != nil {
-		return x.Id
+		return x.EquipmentId
 	}
 	return ""
 }
@@ -4043,14 +4107,14 @@ func (x *DeletePropertyReply) GetSuccess() bool {
 	return false
 }
 
-// 10. Traceability Logs (Updated with Operator and Material)
+// 10. Traceability Logs
 type LogEventRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	EquipmentId   string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	EventType     string                 `protobuf:"bytes,2,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
 	WorkOrderId   string                 `protobuf:"bytes,3,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
-	MaterialLotId string                 `protobuf:"bytes,4,opt,name=material_lot_id,json=materialLotId,proto3" json:"material_lot_id,omitempty"` // Added
-	OperatorId    string                 `protobuf:"bytes,5,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`            // Added
+	MaterialLotId string                 `protobuf:"bytes,4,opt,name=material_lot_id,json=materialLotId,proto3" json:"material_lot_id,omitempty"`
+	OperatorId    string                 `protobuf:"bytes,5,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4337,10 +4401,11 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"Enterprise\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"=\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"_\n" +
 	"\x17UpdateEnterpriseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"1\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"1\n" +
 	"\x15UpdateEnterpriseReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\")\n" +
 	"\x17DeleteEnterpriseRequest\x12\x0e\n" +
@@ -4385,10 +4450,11 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x04Area\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"7\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"Y\n" +
 	"\x11UpdateAreaRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"+\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"+\n" +
 	"\x0fUpdateAreaReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"#\n" +
 	"\x11DeleteAreaRequest\x12\x0e\n" +
@@ -4432,10 +4498,11 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x0eProductionUnit\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"A\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"c\n" +
 	"\x1bUpdateProductionUnitRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"5\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"5\n" +
 	"\x19UpdateProductionUnitReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"-\n" +
 	"\x1bDeleteProductionUnitRequest\x12\x0e\n" +
@@ -4457,10 +4524,11 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\n" +
 	"class_name\x18\x02 \x01(\tR\tclassName\x12\x18\n" +
 	"\aversion\x18\x03 \x01(\tR\aversion\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"G\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"i\n" +
 	"\x1bUpdateEquipmentClassRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\"5\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"5\n" +
 	"\x19UpdateEquipmentClassReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"-\n" +
 	"\x1bDeleteEquipmentClassRequest\x12\x0e\n" +
@@ -4480,10 +4548,14 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\aline_id\x18\x01 \x01(\x05R\x06lineId\x12.\n" +
 	"\x13parent_equipment_id\x18\x02 \x01(\tR\x11parentEquipmentId\"R\n" +
 	"\x12ListEquipmentReply\x12<\n" +
-	"\tequipment\x18\x01 \x03(\v2\x1e.api.traceability.v1.EquipmentR\tequipment\"J\n" +
+	"\tequipment\x18\x01 \x03(\v2\x1e.api.traceability.v1.EquipmentR\tequipment\"\x82\x02\n" +
 	"\tEquipment\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12-\n" +
-	"\x12operational_status\x18\x02 \x01(\tR\x11operationalStatus\"\x85\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12*\n" +
+	"\x11physical_asset_id\x18\x02 \x01(\tR\x0fphysicalAssetId\x12,\n" +
+	"\x12production_unit_id\x18\x03 \x01(\x05R\x10productionUnitId\x12,\n" +
+	"\x12equipment_class_id\x18\x04 \x01(\x05R\x10equipmentClassId\x12-\n" +
+	"\x12operational_status\x18\x05 \x01(\tR\x11operationalStatus\x12.\n" +
+	"\x13parent_equipment_id\x18\x06 \x01(\tR\x11parentEquipmentId\"\x85\x01\n" +
 	"\x16UpdateEquipmentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12-\n" +
 	"\x12operational_status\x18\x02 \x01(\tR\x11operationalStatus\x12,\n" +
@@ -4493,17 +4565,17 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x16DeleteEquipmentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"0\n" +
 	"\x14DeleteEquipmentReply\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x99\x01\n" +
-	"\x14AddCapabilityRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12'\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xac\x01\n" +
+	"\x14AddCapabilityRequest\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12'\n" +
 	"\x0fcapability_name\x18\x02 \x01(\tR\x0ecapabilityName\x12\x14\n" +
 	"\x05value\x18\x03 \x01(\tR\x05value\x12\x10\n" +
 	"\x03uom\x18\x04 \x01(\tR\x03uom\x12 \n" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\"$\n" +
 	"\x12AddCapabilityReply\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\")\n" +
-	"\x17ListCapabilitiesRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\\\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"<\n" +
+	"\x17ListCapabilitiesRequest\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\"\\\n" +
 	"\x15ListCapabilitiesReply\x12C\n" +
 	"\fcapabilities\x18\x01 \x03(\v2\x1f.api.traceability.v1.CapabilityR\fcapabilities\"j\n" +
 	"\n" +
@@ -4522,15 +4594,15 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x05R\x02id\"1\n" +
 	"\x15DeleteCapabilityReply\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"n\n" +
-	"\x12SetPropertyRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12#\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x81\x01\n" +
+	"\x12SetPropertyRequest\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12#\n" +
 	"\rproperty_name\x18\x02 \x01(\tR\fpropertyName\x12#\n" +
 	"\rcurrent_value\x18\x03 \x01(\tR\fcurrentValue\"\"\n" +
 	"\x10SetPropertyReply\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"'\n" +
-	"\x15ListPropertiesRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"T\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\":\n" +
+	"\x15ListPropertiesRequest\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\"T\n" +
 	"\x13ListPropertiesReply\x12=\n" +
 	"\n" +
 	"properties\x18\x01 \x03(\v2\x1d.api.traceability.v1.PropertyR\n" +
@@ -4570,7 +4642,7 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\n" +
 	"event_time\x18\x03 \x01(\tR\teventTime\x12\x1f\n" +
 	"\voperator_id\x18\x04 \x01(\tR\n" +
-	"operatorId2\xd3-\n" +
+	"operatorId2\xfb-\n" +
 	"\fTraceability\x12\x99\x01\n" +
 	"\x10CreateEnterprise\x12,.api.traceability.v1.CreateEnterpriseRequest\x1a*.api.traceability.v1.CreateEnterpriseReply\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/traceability/enterprises\x12\x93\x01\n" +
 	"\x0fListEnterprises\x12+.api.traceability.v1.ListEnterprisesRequest\x1a).api.traceability.v1.ListEnterprisesReply\"(\x82\xd3\xe4\x93\x02\"\x12 /api/v1/traceability/enterprises\x12\x9e\x01\n" +
@@ -4608,13 +4680,13 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x11RegisterEquipment\x12-.api.traceability.v1.RegisterEquipmentRequest\x1a+.api.traceability.v1.RegisterEquipmentReply\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/api/v1/traceability/equipment\x12\x8b\x01\n" +
 	"\rListEquipment\x12).api.traceability.v1.ListEquipmentRequest\x1a'.api.traceability.v1.ListEquipmentReply\"&\x82\xd3\xe4\x93\x02 \x12\x1e/api/v1/traceability/equipment\x12\x99\x01\n" +
 	"\x0fUpdateEquipment\x12+.api.traceability.v1.UpdateEquipmentRequest\x1a).api.traceability.v1.UpdateEquipmentReply\".\x82\xd3\xe4\x93\x02(:\x01*2#/api/v1/traceability/equipment/{id}\x12\x96\x01\n" +
-	"\x0fDeleteEquipment\x12+.api.traceability.v1.DeleteEquipmentRequest\x1a).api.traceability.v1.DeleteEquipmentReply\"+\x82\xd3\xe4\x93\x02%*#/api/v1/traceability/equipment/{id}\x12\xa0\x01\n" +
-	"\rAddCapability\x12).api.traceability.v1.AddCapabilityRequest\x1a'.api.traceability.v1.AddCapabilityReply\";\x82\xd3\xe4\x93\x025:\x01*\"0/api/v1/traceability/equipment/{id}/capabilities\x12\xa6\x01\n" +
-	"\x10ListCapabilities\x12,.api.traceability.v1.ListCapabilitiesRequest\x1a*.api.traceability.v1.ListCapabilitiesReply\"8\x82\xd3\xe4\x93\x022\x120/api/v1/traceability/equipment/{id}/capabilities\x12\xb8\x01\n" +
+	"\x0fDeleteEquipment\x12+.api.traceability.v1.DeleteEquipmentRequest\x1a).api.traceability.v1.DeleteEquipmentReply\"+\x82\xd3\xe4\x93\x02%*#/api/v1/traceability/equipment/{id}\x12\xaa\x01\n" +
+	"\rAddCapability\x12).api.traceability.v1.AddCapabilityRequest\x1a'.api.traceability.v1.AddCapabilityReply\"E\x82\xd3\xe4\x93\x02?:\x01*\":/api/v1/traceability/equipment/{equipment_id}/capabilities\x12\xb0\x01\n" +
+	"\x10ListCapabilities\x12,.api.traceability.v1.ListCapabilitiesRequest\x1a*.api.traceability.v1.ListCapabilitiesReply\"B\x82\xd3\xe4\x93\x02<\x12:/api/v1/traceability/equipment/{equipment_id}/capabilities\x12\xb8\x01\n" +
 	"\x10UpdateCapability\x12,.api.traceability.v1.UpdateCapabilityRequest\x1a*.api.traceability.v1.UpdateCapabilityReply\"J\x82\xd3\xe4\x93\x02D:\x01*2?/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}\x12\xb5\x01\n" +
-	"\x10DeleteCapability\x12,.api.traceability.v1.DeleteCapabilityRequest\x1a*.api.traceability.v1.DeleteCapabilityReply\"G\x82\xd3\xe4\x93\x02A*?/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}\x12\x98\x01\n" +
-	"\vSetProperty\x12'.api.traceability.v1.SetPropertyRequest\x1a%.api.traceability.v1.SetPropertyReply\"9\x82\xd3\xe4\x93\x023:\x01*\"./api/v1/traceability/equipment/{id}/properties\x12\x9e\x01\n" +
-	"\x0eListProperties\x12*.api.traceability.v1.ListPropertiesRequest\x1a(.api.traceability.v1.ListPropertiesReply\"6\x82\xd3\xe4\x93\x020\x12./api/v1/traceability/equipment/{id}/properties\x12\xb0\x01\n" +
+	"\x10DeleteCapability\x12,.api.traceability.v1.DeleteCapabilityRequest\x1a*.api.traceability.v1.DeleteCapabilityReply\"G\x82\xd3\xe4\x93\x02A*?/api/v1/traceability/equipment/{equipment_id}/capabilities/{id}\x12\xa2\x01\n" +
+	"\vSetProperty\x12'.api.traceability.v1.SetPropertyRequest\x1a%.api.traceability.v1.SetPropertyReply\"C\x82\xd3\xe4\x93\x02=:\x01*\"8/api/v1/traceability/equipment/{equipment_id}/properties\x12\xa8\x01\n" +
+	"\x0eListProperties\x12*.api.traceability.v1.ListPropertiesRequest\x1a(.api.traceability.v1.ListPropertiesReply\"@\x82\xd3\xe4\x93\x02:\x128/api/v1/traceability/equipment/{equipment_id}/properties\x12\xb0\x01\n" +
 	"\x0eUpdateProperty\x12*.api.traceability.v1.UpdatePropertyRequest\x1a(.api.traceability.v1.UpdatePropertyReply\"H\x82\xd3\xe4\x93\x02B:\x01*2=/api/v1/traceability/equipment/{equipment_id}/properties/{id}\x12\xad\x01\n" +
 	"\x0eDeleteProperty\x12*.api.traceability.v1.DeletePropertyRequest\x1a(.api.traceability.v1.DeletePropertyReply\"E\x82\xd3\xe4\x93\x02?*=/api/v1/traceability/equipment/{equipment_id}/properties/{id}\x12z\n" +
 	"\bLogEvent\x12$.api.traceability.v1.LogEventRequest\x1a\".api.traceability.v1.LogEventReply\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/traceability/logs\x12w\n" +
