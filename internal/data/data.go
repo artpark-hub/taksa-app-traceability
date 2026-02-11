@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-var ProviderSet = wire.NewSet(NewData, NewTraceabilityRepo)
+var ProviderSet = wire.NewSet(NewData, NewTraceabilityRepo, NewGreeterRepo)
 
 type Data struct {
 	db *gorm.DB

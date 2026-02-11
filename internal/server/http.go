@@ -28,7 +28,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, traceability
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	
+
 	// Register Services
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	trv1.RegisterTraceabilityHTTPServer(srv, traceability)
