@@ -271,7 +271,9 @@ func (r *traceabilityRepo) CreateEquipmentClass(ctx context.Context, c *biz.Equi
 }
 func (r *traceabilityRepo) ListEquipmentClasses(ctx context.Context) ([]*biz.EquipmentClass, error) {
 	var dbList []ClassORM
-	r.data.db.WithContext(ctx).Find(&dbList)
+	if err := r.data.db.WithContext(ctx).Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.EquipmentClass
 	for _, x := range dbList {
 		list = append(list, &biz.EquipmentClass{ID: x.ID, ClassName: x.ClassName, Version: x.Version, Description: x.Description})
@@ -279,7 +281,11 @@ func (r *traceabilityRepo) ListEquipmentClasses(ctx context.Context) ([]*biz.Equ
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateEquipmentClass(ctx context.Context, c *biz.EquipmentClass) error {
-	return r.data.db.WithContext(ctx).Model(&ClassORM{}).Where("id = ?", c.ID).Updates(ClassORM{Version: c.Version}).Error
+	updates := map[string]interface{}{"version": c.Version}
+	if c.Description != "" {
+		updates["description"] = c.Description
+	}
+	return r.data.db.WithContext(ctx).Model(&ClassORM{}).Where("id = ?", c.ID).Updates(updates).Error
 }
 func (r *traceabilityRepo) DeleteEquipmentClass(ctx context.Context, id int32) error {
 	return r.data.db.WithContext(ctx).Delete(&ClassORM{}, id).Error
@@ -318,7 +324,9 @@ func (r *traceabilityRepo) ListEquipment(ctx context.Context, lid int32, pid str
 		query = query.Where("parent_equipment_id = ?", pid)
 	}
 
-	query.Find(&dbList)
+	if err := query.Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.EquipmentMaster
 	for _, x := range dbList {
 		// Handle potential nil ParentID

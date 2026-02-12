@@ -35,7 +35,7 @@ go get github.com/google/wire/cmd/wire
 ```bash
 # Create database and schema
 psql -U postgres -c "CREATE DATABASE traceability_db;"
-psql -U traceability_db < database/schema/schema.sql
+psql -U postgres -d traceability_db -f database/schema/schema.sql
 
 # Or with custom credentials
 psql -U $DB_USER -c "CREATE DATABASE traceability_db;"

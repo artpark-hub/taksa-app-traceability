@@ -266,7 +266,7 @@ func (s *TraceabilityService) ListEquipmentClasses(ctx context.Context, req *pb.
 }
 
 func (s *TraceabilityService) UpdateEquipmentClass(ctx context.Context, req *pb.UpdateEquipmentClassRequest) (*pb.UpdateEquipmentClassReply, error) {
-	err := s.uc.UpdateEquipmentClass(ctx, &biz.EquipmentClass{ID: req.Id, Version: req.Version})
+	err := s.uc.UpdateEquipmentClass(ctx, &biz.EquipmentClass{ID: req.Id, Version: req.Version, Description: req.Description})
 	if err != nil {
 		return nil, err
 	}
@@ -363,7 +363,7 @@ func (s *TraceabilityService) ListCapabilities(ctx context.Context, req *pb.List
 }
 
 func (s *TraceabilityService) UpdateCapability(ctx context.Context, req *pb.UpdateCapabilityRequest) (*pb.UpdateCapabilityReply, error) {
-	err := s.uc.UpdateCapability(ctx, &biz.EquipmentCapability{ID: req.Id, Value: req.Value})
+	err := s.uc.UpdateCapability(ctx, &biz.EquipmentCapability{ID: req.Id, EquipmentID: req.EquipmentId, Value: req.Value})
 	if err != nil {
 		return nil, err
 	}
@@ -407,7 +407,7 @@ func (s *TraceabilityService) ListProperties(ctx context.Context, req *pb.ListPr
 }
 
 func (s *TraceabilityService) UpdateProperty(ctx context.Context, req *pb.UpdatePropertyRequest) (*pb.UpdatePropertyReply, error) {
-	err := s.uc.UpdateProperty(ctx, &biz.EquipmentProperty{ID: req.Id, CurrentValue: req.CurrentValue})
+	err := s.uc.UpdateProperty(ctx, &biz.EquipmentProperty{ID: req.Id, EquipmentID: req.EquipmentId, CurrentValue: req.CurrentValue})
 	if err != nil {
 		return nil, err
 	}

@@ -33,8 +33,14 @@ func NewData(c *conf.Data, loggerInput log.Logger) (*Data, func(), error) {
 
 	cleanup := func() {
 		l.Info("closing the data resources")
-		// DB connection usually doesn't need explicit close in GORM for long-running apps,
-		// but if you had Redis/Nats, you'd close them here.
+		sqlDB, err := db.DB()
+		if err != nil {
+			l.Errorf("failed to get underlying sql.DB: %v", err)
+			return
+		}
+		if err := sqlDB.Close(); err != nil {
+			l.Errorf("failed to close database: %v", err)
+		}
 	}
 
 	return d, cleanup, nil
