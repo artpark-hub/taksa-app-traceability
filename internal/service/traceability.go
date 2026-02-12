@@ -44,7 +44,7 @@ func (s *TraceabilityService) ListEnterprises(ctx context.Context, req *pb.ListE
 }
 
 func (s *TraceabilityService) UpdateEnterprise(ctx context.Context, req *pb.UpdateEnterpriseRequest) (*pb.UpdateEnterpriseReply, error) {
-	err := s.uc.UpdateEnterprise(ctx, &biz.Enterprise{ID: req.Id, Name: req.Name})
+	err := s.uc.UpdateEnterprise(ctx, &biz.Enterprise{ID: req.Id, Name: req.Name, Description: req.Description})
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +133,7 @@ func (s *TraceabilityService) ListAreas(ctx context.Context, req *pb.ListAreasRe
 }
 
 func (s *TraceabilityService) UpdateArea(ctx context.Context, req *pb.UpdateAreaRequest) (*pb.UpdateAreaReply, error) {
-	err := s.uc.UpdateArea(ctx, &biz.Area{ID: req.Id, Name: req.Name})
+	err := s.uc.UpdateArea(ctx, &biz.Area{ID: req.Id, Name: req.Name, Description: req.Description})
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +177,7 @@ func (s *TraceabilityService) ListLines(ctx context.Context, req *pb.ListLinesRe
 }
 
 func (s *TraceabilityService) UpdateLine(ctx context.Context, req *pb.UpdateLineRequest) (*pb.UpdateLineReply, error) {
-	err := s.uc.UpdateLine(ctx, &biz.ProductionLine{ID: req.Id, Name: req.Name}) // Assuming name update
+	err := s.uc.UpdateLine(ctx, &biz.ProductionLine{ID: req.Id, Name: req.Name, Description: req.Description})
 	if err != nil {
 		return nil, err
 	}

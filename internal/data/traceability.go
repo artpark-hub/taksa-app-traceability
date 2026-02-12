@@ -135,7 +135,9 @@ func (r *traceabilityRepo) CreateEnterprise(ctx context.Context, e *biz.Enterpri
 }
 func (r *traceabilityRepo) ListEnterprises(ctx context.Context) ([]*biz.Enterprise, error) {
 	var dbList []EnterpriseORM
-	r.data.db.WithContext(ctx).Find(&dbList)
+	if err := r.data.db.WithContext(ctx).Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.Enterprise
 	for _, x := range dbList {
 		list = append(list, &biz.Enterprise{ID: x.ID, Name: x.Name, Description: x.Description})
@@ -143,7 +145,7 @@ func (r *traceabilityRepo) ListEnterprises(ctx context.Context) ([]*biz.Enterpri
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateEnterprise(ctx context.Context, e *biz.Enterprise) error {
-	return r.data.db.WithContext(ctx).Model(&EnterpriseORM{}).Where("id = ?", e.ID).Updates(EnterpriseORM{Name: e.Name}).Error
+	return r.data.db.WithContext(ctx).Model(&EnterpriseORM{}).Where("id = ?", e.ID).Updates(EnterpriseORM{Name: e.Name, Description: e.Description}).Error
 }
 func (r *traceabilityRepo) DeleteEnterprise(ctx context.Context, id int32) error {
 	return r.data.db.WithContext(ctx).Delete(&EnterpriseORM{}, id).Error
@@ -161,7 +163,9 @@ func (r *traceabilityRepo) ListSites(ctx context.Context, eid int32) ([]*biz.Sit
 	if eid > 0 {
 		query = query.Where("enterprise_id = ?", eid)
 	}
-	query.Find(&dbList)
+	if err := query.Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.Site
 	for _, x := range dbList {
 		list = append(list, &biz.Site{ID: x.ID, EnterpriseID: x.EnterpriseID, Name: x.Name, Location: x.Location, Description: x.Description})
@@ -187,7 +191,9 @@ func (r *traceabilityRepo) ListAreas(ctx context.Context, sid int32) ([]*biz.Are
 	if sid > 0 {
 		query = query.Where("site_id = ?", sid)
 	}
-	query.Find(&dbList)
+	if err := query.Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.Area
 	for _, x := range dbList {
 		list = append(list, &biz.Area{ID: x.ID, SiteID: x.SiteID, Name: x.Name, Description: x.Description})
@@ -195,7 +201,7 @@ func (r *traceabilityRepo) ListAreas(ctx context.Context, sid int32) ([]*biz.Are
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateArea(ctx context.Context, a *biz.Area) error {
-	return r.data.db.WithContext(ctx).Model(&AreaORM{}).Where("id = ?", a.ID).Updates(AreaORM{Name: a.Name}).Error
+	return r.data.db.WithContext(ctx).Model(&AreaORM{}).Where("id = ?", a.ID).Updates(AreaORM{Name: a.Name, Description: a.Description}).Error
 }
 func (r *traceabilityRepo) DeleteArea(ctx context.Context, id int32) error {
 	return r.data.db.WithContext(ctx).Delete(&AreaORM{}, id).Error
@@ -213,7 +219,9 @@ func (r *traceabilityRepo) ListLines(ctx context.Context, aid int32) ([]*biz.Pro
 	if aid > 0 {
 		query = query.Where("area_id = ?", aid)
 	}
-	query.Find(&dbList)
+	if err := query.Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.ProductionLine
 	for _, x := range dbList {
 		list = append(list, &biz.ProductionLine{ID: x.ID, AreaID: x.AreaID, Name: x.Name, Description: x.Description})
@@ -221,7 +229,7 @@ func (r *traceabilityRepo) ListLines(ctx context.Context, aid int32) ([]*biz.Pro
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateLine(ctx context.Context, l *biz.ProductionLine) error {
-	return r.data.db.WithContext(ctx).Model(&LineORM{}).Where("id = ?", l.ID).Updates(LineORM{Name: l.Name}).Error
+	return r.data.db.WithContext(ctx).Model(&LineORM{}).Where("id = ?", l.ID).Updates(LineORM{Name: l.Name, Description: l.Description}).Error
 }
 func (r *traceabilityRepo) DeleteLine(ctx context.Context, id int32) error {
 	return r.data.db.WithContext(ctx).Delete(&LineORM{}, id).Error
@@ -239,7 +247,9 @@ func (r *traceabilityRepo) ListProductionUnits(ctx context.Context, lid int32) (
 	if lid > 0 {
 		query = query.Where("production_line_id = ?", lid)
 	}
-	query.Find(&dbList)
+	if err := query.Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.ProductionUnit
 	for _, x := range dbList {
 		list = append(list, &biz.ProductionUnit{ID: x.ID, ProductionLineID: x.ProductionLineID, Name: x.Name, Description: x.Description})
@@ -347,7 +357,9 @@ func (r *traceabilityRepo) AddCapability(ctx context.Context, c *biz.EquipmentCa
 }
 func (r *traceabilityRepo) ListCapabilities(ctx context.Context, eid string) ([]*biz.EquipmentCapability, error) {
 	var dbList []CapabilityORM
-	r.data.db.WithContext(ctx).Where("equipment_id = ?", eid).Find(&dbList)
+	if err := r.data.db.WithContext(ctx).Where("equipment_id = ?", eid).Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.EquipmentCapability
 	for _, x := range dbList {
 		list = append(list, &biz.EquipmentCapability{ID: x.ID, EquipmentID: x.EquipmentID, CapabilityName: x.CapabilityName, Value: x.Value, UOM: x.UOM, Description: x.Description})
@@ -355,10 +367,10 @@ func (r *traceabilityRepo) ListCapabilities(ctx context.Context, eid string) ([]
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateCapability(ctx context.Context, c *biz.EquipmentCapability) error {
-	return r.data.db.WithContext(ctx).Model(&CapabilityORM{}).Where("id = ?", c.ID).Updates(CapabilityORM{Value: c.Value}).Error
+	return r.data.db.WithContext(ctx).Model(&CapabilityORM{}).Where("equipment_id = ? AND id = ?", c.EquipmentID, c.ID).Updates(CapabilityORM{Value: c.Value}).Error
 }
 func (r *traceabilityRepo) DeleteCapability(ctx context.Context, eid string, id int32) error {
-	return r.data.db.WithContext(ctx).Delete(&CapabilityORM{}, id).Error
+	return r.data.db.WithContext(ctx).Where("equipment_id = ? AND id = ?", eid, id).Delete(&CapabilityORM{}).Error
 }
 
 // Property
@@ -369,7 +381,9 @@ func (r *traceabilityRepo) SetProperty(ctx context.Context, p *biz.EquipmentProp
 }
 func (r *traceabilityRepo) ListProperties(ctx context.Context, eid string) ([]*biz.EquipmentProperty, error) {
 	var dbList []PropertyORM
-	r.data.db.WithContext(ctx).Where("equipment_id = ?", eid).Find(&dbList)
+	if err := r.data.db.WithContext(ctx).Where("equipment_id = ?", eid).Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.EquipmentProperty
 	for _, x := range dbList {
 		list = append(list, &biz.EquipmentProperty{ID: x.ID, EquipmentID: x.EquipmentID, PropertyName: x.PropertyName, CurrentValue: x.CurrentValue, LastUpdated: x.LastUpdated})
@@ -377,10 +391,10 @@ func (r *traceabilityRepo) ListProperties(ctx context.Context, eid string) ([]*b
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateProperty(ctx context.Context, p *biz.EquipmentProperty) error {
-	return r.data.db.WithContext(ctx).Model(&PropertyORM{}).Where("id = ?", p.ID).Updates(PropertyORM{CurrentValue: p.CurrentValue, LastUpdated: time.Now()}).Error
+	return r.data.db.WithContext(ctx).Model(&PropertyORM{}).Where("equipment_id = ? AND id = ?", p.EquipmentID, p.ID).Updates(PropertyORM{CurrentValue: p.CurrentValue, LastUpdated: time.Now()}).Error
 }
 func (r *traceabilityRepo) DeleteProperty(ctx context.Context, eid string, id int32) error {
-	return r.data.db.WithContext(ctx).Delete(&PropertyORM{}, id).Error
+	return r.data.db.WithContext(ctx).Where("equipment_id = ? AND id = ?", eid, id).Delete(&PropertyORM{}).Error
 }
 
 // Logs
@@ -391,7 +405,9 @@ func (r *traceabilityRepo) LogEvent(ctx context.Context, l *biz.TraceabilityLog)
 }
 func (r *traceabilityRepo) ListLogs(ctx context.Context, wid string) ([]*biz.TraceabilityLog, error) {
 	var dbList []LogORM
-	r.data.db.WithContext(ctx).Where("work_order_id = ?", wid).Order("event_time desc").Find(&dbList)
+	if err := r.data.db.WithContext(ctx).Where("work_order_id = ?", wid).Order("event_time desc").Find(&dbList).Error; err != nil {
+		return nil, err
+	}
 	var list []*biz.TraceabilityLog
 	for _, x := range dbList {
 		list = append(list, &biz.TraceabilityLog{ID: x.ID, EquipmentID: x.EquipmentID, EventType: x.EventType, WorkOrderID: x.WorkOrderID, MaterialLotID: x.MaterialLotID, OperatorID: x.OperatorID, EventTime: x.EventTime})
