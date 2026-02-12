@@ -3,7 +3,7 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: Traceability API
     version: 0.0.1
 paths:
     /api/v1/traceability/areas:
@@ -809,6 +809,9 @@ components:
         api.traceability.v1.Capability:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: int32
                 name:
                     type: string
                 value:
@@ -1125,6 +1128,9 @@ components:
         api.traceability.v1.Property:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: int32
                 name:
                     type: string
                 value:

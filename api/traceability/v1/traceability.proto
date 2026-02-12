@@ -472,10 +472,11 @@ message ListCapabilitiesReply {
 }
 
 message Capability {
-    string name = 1;
-    string value = 2;
-    string uom = 3;
-    string description = 4;
+    int32 id = 1;
+    string name = 2;
+    string value = 3;
+    string uom = 4;
+    string description = 5;
 }
 
 message UpdateCapabilityRequest {
@@ -517,8 +518,9 @@ message ListPropertiesReply {
 }
 
 message Property {
-    string name = 1;
-    string value = 2;
+    int32 id = 1;
+    string name = 2;
+    string value = 3;
 }
 
 message UpdatePropertyRequest {

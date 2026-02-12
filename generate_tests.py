@@ -1,7 +1,7 @@
 import os
 
-# Base Directory
-BASE_DIR = os.path.expanduser("~/artpark-hub/taksa-app-traceability/tests/api")
+# Base Directory - Use relative path instead of absolute
+BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tests", "api")
 os.makedirs(BASE_DIR, exist_ok=True)
 
 # Create bruno.json

@@ -3396,10 +3396,11 @@ func (x *ListCapabilitiesReply) GetCapabilities() []*Capability {
 
 type Capability struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
-	Uom           string                 `protobuf:"bytes,3,opt,name=uom,proto3" json:"uom,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Value         string                 `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+	Uom           string                 `protobuf:"bytes,4,opt,name=uom,proto3" json:"uom,omitempty"`
+	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3432,6 +3433,13 @@ func (x *Capability) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Capability.ProtoReflect.Descriptor instead.
 func (*Capability) Descriptor() ([]byte, []int) {
 	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{67}
+}
+
+func (x *Capability) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *Capability) GetName() string {
@@ -3857,8 +3865,9 @@ func (x *ListPropertiesReply) GetProperties() []*Property {
 
 type Property struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Value         string                 `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3891,6 +3900,13 @@ func (x *Property) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Property.ProtoReflect.Descriptor instead.
 func (*Property) Descriptor() ([]byte, []int) {
 	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{76}
+}
+
+func (x *Property) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *Property) GetName() string {
@@ -4577,13 +4593,14 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x17ListCapabilitiesRequest\x12!\n" +
 	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\"\\\n" +
 	"\x15ListCapabilitiesReply\x12C\n" +
-	"\fcapabilities\x18\x01 \x03(\v2\x1f.api.traceability.v1.CapabilityR\fcapabilities\"j\n" +
+	"\fcapabilities\x18\x01 \x03(\v2\x1f.api.traceability.v1.CapabilityR\fcapabilities\"z\n" +
 	"\n" +
-	"Capability\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value\x12\x10\n" +
-	"\x03uom\x18\x03 \x01(\tR\x03uom\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"b\n" +
+	"Capability\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\tR\x05value\x12\x10\n" +
+	"\x03uom\x18\x04 \x01(\tR\x03uom\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\"b\n" +
 	"\x17UpdateCapabilityRequest\x12!\n" +
 	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x05R\x02id\x12\x14\n" +
@@ -4606,10 +4623,11 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x13ListPropertiesReply\x12=\n" +
 	"\n" +
 	"properties\x18\x01 \x03(\v2\x1d.api.traceability.v1.PropertyR\n" +
-	"properties\"4\n" +
-	"\bProperty\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value\"o\n" +
+	"properties\"D\n" +
+	"\bProperty\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\tR\x05value\"o\n" +
 	"\x15UpdatePropertyRequest\x12!\n" +
 	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x05R\x02id\x12#\n" +

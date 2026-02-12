@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	pb "traceability/api/traceability/v1"
 	"traceability/internal/biz"
@@ -356,7 +357,7 @@ func (s *TraceabilityService) ListCapabilities(ctx context.Context, req *pb.List
 	}
 	res := make([]*pb.Capability, 0)
 	for _, x := range list {
-		res = append(res, &pb.Capability{Name: x.CapabilityName, Value: x.Value, Uom: x.UOM, Description: x.Description})
+		res = append(res, &pb.Capability{Id: x.ID, Name: x.CapabilityName, Value: x.Value, Uom: x.UOM, Description: x.Description})
 	}
 	return &pb.ListCapabilitiesReply{Capabilities: res}, nil
 }
@@ -400,7 +401,7 @@ func (s *TraceabilityService) ListProperties(ctx context.Context, req *pb.ListPr
 	}
 	res := make([]*pb.Property, 0)
 	for _, x := range list {
-		res = append(res, &pb.Property{Name: x.PropertyName, Value: x.CurrentValue})
+		res = append(res, &pb.Property{Id: x.ID, Name: x.PropertyName, Value: x.CurrentValue})
 	}
 	return &pb.ListPropertiesReply{Properties: res}, nil
 }
@@ -449,7 +450,7 @@ func (s *TraceabilityService) ListLogs(ctx context.Context, req *pb.ListLogsRequ
 		res = append(res, &pb.LogEntry{
 			EquipmentId: x.EquipmentID,
 			EventType:   x.EventType,
-			EventTime:   x.EventTime.Format("2006-01-02 15:04:05"),
+			EventTime:   x.EventTime.Format(time.RFC3339),
 			OperatorId:  x.OperatorID,
 		})
 	}
