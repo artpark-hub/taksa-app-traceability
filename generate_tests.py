@@ -1,7 +1,7 @@
 import os
 
 # Base Directory
-BASE_DIR = os.path.expanduser("~/artpark-hub/taksa-mes/traceability/tests/api")
+BASE_DIR = os.path.expanduser("~/artpark-hub/taksa-app-traceability/tests/api")
 os.makedirs(BASE_DIR, exist_ok=True)
 
 # Create bruno.json

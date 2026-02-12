@@ -1,7 +1,6 @@
 package server
 
 import (
-	v1 "traceability/api/helloworld/v1"
 	trv1 "traceability/api/traceability/v1"
 	"traceability/internal/conf"
 	"traceability/internal/service"
@@ -12,7 +11,7 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, traceability *service.TraceabilityService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, traceability *service.TraceabilityService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -29,8 +28,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, traceability
 	}
 	srv := http.NewServer(opts...)
 
-	// Register Services
-	v1.RegisterGreeterHTTPServer(srv, greeter)
+	// Register Traceability Service
 	trv1.RegisterTraceabilityHTTPServer(srv, traceability)
 
 	return srv

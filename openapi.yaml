@@ -774,25 +774,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.traceability.v1.UpdateSiteReply'
-    /helloworld/{name}:
-        get:
-            tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
 components:
     schemas:
         api.traceability.v1.AddCapabilityReply:
@@ -1332,13 +1313,5 @@ components:
                     format: int32
                 location:
                     type: string
-        helloworld.v1.HelloReply:
-            type: object
-            properties:
-                message:
-                    type: string
-            description: The response message containing the greetings
 tags:
-    - name: Greeter
-      description: The greeting service definition.
     - name: Traceability

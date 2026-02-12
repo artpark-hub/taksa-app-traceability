@@ -1,7 +1,6 @@
 package server
 
 import (
-	v1 "traceability/api/helloworld/v1"
 	trv1 "traceability/api/traceability/v1"
 	"traceability/internal/conf"
 	"traceability/internal/service"
@@ -14,7 +13,6 @@ import (
 // NewGRPCServer new a gRPC server.
 func NewGRPCServer(
 	c *conf.Server,
-	greeter *service.GreeterService,
 	traceability *service.TraceabilityService,
 	logger log.Logger,
 ) *grpc.Server {
@@ -33,9 +31,6 @@ func NewGRPCServer(
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
 	srv := grpc.NewServer(opts...)
-
-	// Register Greeter
-	v1.RegisterGreeterServer(srv, greeter)
 
 	// Register Traceability
 	trv1.RegisterTraceabilityServer(srv, traceability)
