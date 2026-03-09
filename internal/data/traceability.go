@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"traceability/internal/biz"
@@ -110,6 +111,69 @@ type LogORM struct {
 }
 
 func (LogORM) TableName() string { return "traceability_log" }
+
+type MaterialDefinitionORM struct {
+	ID            int32  `gorm:"primaryKey;autoIncrement;column:id"`
+	Name          string `gorm:"column:name"`
+	MaterialType  string `gorm:"column:material_type"`
+	UnitOfMeasure string `gorm:"column:unit_of_measure"`
+	Description   string `gorm:"column:description"`
+}
+
+func (MaterialDefinitionORM) TableName() string { return "material_definition" }
+
+type MaterialLotORM struct {
+	LotID                string    `gorm:"primaryKey;column:lot_id"`
+	MaterialDefinitionID int32     `gorm:"column:material_definition_id"`
+	Quantity             float64   `gorm:"column:quantity"`
+	UnitOfMeasure        string    `gorm:"column:unit_of_measure"`
+	Status               string    `gorm:"column:status"`
+	CreatedAt            time.Time `gorm:"column:created_at"`
+	UpdatedAt            time.Time `gorm:"column:updated_at"`
+}
+
+func (MaterialLotORM) TableName() string { return "material_lot" }
+
+type OperatorORM struct {
+	OperatorID string `gorm:"primaryKey;column:operator_id"`
+	Name       string `gorm:"column:name"`
+	Role       string `gorm:"column:role"`
+	Shift      string `gorm:"column:shift"`
+	Status     string `gorm:"column:status"`
+}
+
+func (OperatorORM) TableName() string { return "operator" }
+
+type WorkOrderORM struct {
+	WorkOrderID     string     `gorm:"primaryKey;column:work_order_id"`
+	Description     string     `gorm:"column:description"`
+	Status          string     `gorm:"column:status"`
+	EquipmentID     string     `gorm:"column:equipment_id"`
+	OperatorID      string     `gorm:"column:operator_id"`
+	OutputLotID     string     `gorm:"column:output_lot_id"`
+	PlannedQuantity float64    `gorm:"column:planned_quantity"`
+	ActualQuantity  *float64   `gorm:"column:actual_quantity"`
+	UnitOfMeasure   string     `gorm:"column:unit_of_measure"`
+	PlannedStart    time.Time  `gorm:"column:planned_start"`
+	PlannedEnd      time.Time  `gorm:"column:planned_end"`
+	ActualStart     *time.Time `gorm:"column:actual_start"`
+	ActualEnd       *time.Time `gorm:"column:actual_end"`
+}
+
+func (WorkOrderORM) TableName() string { return "work_order" }
+
+type LotGenealogyORM struct {
+	ID               int32     `gorm:"primaryKey;autoIncrement;column:id"`
+	ParentLotID      string    `gorm:"column:parent_lot_id"`
+	ChildLotID       string    `gorm:"column:child_lot_id"`
+	WorkOrderID      string    `gorm:"column:work_order_id"`
+	EquipmentID      string    `gorm:"column:equipment_id"`
+	QuantityConsumed float64   `gorm:"column:quantity_consumed"`
+	QuantityProduced float64   `gorm:"column:quantity_produced"`
+	EventTime        time.Time `gorm:"column:event_time"`
+}
+
+func (LotGenealogyORM) TableName() string { return "lot_genealogy" }
 
 // ==========================================
 // 2. Repository Implementation
@@ -257,7 +321,14 @@ func (r *traceabilityRepo) ListProductionUnits(ctx context.Context, lid int32) (
 	return list, nil
 }
 func (r *traceabilityRepo) UpdateProductionUnit(ctx context.Context, u *biz.ProductionUnit) error {
-	return r.data.db.WithContext(ctx).Model(&UnitORM{}).Where("id = ?", u.ID).Updates(UnitORM{Name: u.Name}).Error
+    updates := map[string]interface{}{}
+    if u.Name != "" {
+        updates["name"] = u.Name
+    }
+    if u.Description != "" {
+        updates["description"] = u.Description
+    }
+    return r.data.db.WithContext(ctx).Model(&UnitORM{}).Where("id = ?", u.ID).Updates(updates).Error
 }
 func (r *traceabilityRepo) DeleteProductionUnit(ctx context.Context, id int32) error {
 	return r.data.db.WithContext(ctx).Delete(&UnitORM{}, id).Error
@@ -419,6 +490,407 @@ func (r *traceabilityRepo) ListLogs(ctx context.Context, wid string) ([]*biz.Tra
 	var list []*biz.TraceabilityLog
 	for _, x := range dbList {
 		list = append(list, &biz.TraceabilityLog{ID: x.ID, EquipmentID: x.EquipmentID, EventType: x.EventType, WorkOrderID: x.WorkOrderID, MaterialLotID: x.MaterialLotID, OperatorID: x.OperatorID, EventTime: x.EventTime})
+	}
+	return list, nil
+}
+
+// ==========================================
+// 11. Material Definition
+// ==========================================
+
+func (r *traceabilityRepo) CreateMaterialDefinition(ctx context.Context, md *biz.MaterialDefinition) (int32, error) {
+	orm := MaterialDefinitionORM{
+		Name:          md.Name,
+		MaterialType:  md.MaterialType,
+		UnitOfMeasure: md.UnitOfMeasure,
+		Description:   md.Description,
+	}
+	res := r.data.db.WithContext(ctx).Create(&orm)
+	return orm.ID, res.Error
+}
+
+func (r *traceabilityRepo) ListMaterialDefinitions(ctx context.Context, mType string) ([]*biz.MaterialDefinition, error) {
+	var orms []MaterialDefinitionORM
+	query := r.data.db.WithContext(ctx)
+	if mType != "" {
+		query = query.Where("material_type = ?", mType)
+	}
+	if err := query.Find(&orms).Error; err != nil {
+		return nil, err
+	}
+	list := make([]*biz.MaterialDefinition, len(orms))
+	for i, x := range orms {
+		list[i] = &biz.MaterialDefinition{
+			ID:            x.ID,
+			Name:          x.Name,
+			MaterialType:  x.MaterialType,
+			UnitOfMeasure: x.UnitOfMeasure,
+			Description:   x.Description,
+		}
+	}
+	return list, nil
+}
+
+// ==========================================
+// 12. Material Lot
+// ==========================================
+
+func (r *traceabilityRepo) CreateMaterialLot(ctx context.Context, ml *biz.MaterialLot) (string, error) {
+	orm := MaterialLotORM{
+		LotID:                ml.LotID,
+		MaterialDefinitionID: ml.MaterialDefinitionID,
+		Quantity:             ml.Quantity,
+		UnitOfMeasure:        ml.UnitOfMeasure,
+		Status:               ml.Status,
+		CreatedAt:            time.Now(),
+		UpdatedAt:            time.Now(),
+	}
+	res := r.data.db.WithContext(ctx).Create(&orm)
+	return orm.LotID, res.Error
+}
+
+func (r *traceabilityRepo) GetMaterialLot(ctx context.Context, id string) (*biz.MaterialLotDetail, error) {
+    sqlStr := `SELECT ml.lot_id, ml.status, ml.quantity, ml.unit_of_measure, ml.created_at, ml.updated_at,
+        md.id AS material_definition_id, md.name AS material_name, md.material_type, md.description AS material_description
+        FROM material_lot ml JOIN material_definition md ON md.id = ml.material_definition_id WHERE ml.lot_id = ?`
+    var res biz.MaterialLotDetail
+    if err := r.data.db.WithContext(ctx).Raw(sqlStr, id).Scan(&res).Error; err != nil {
+        return nil, err
+    }
+    if res.LotID == "" {
+        return nil, fmt.Errorf("material lot not found: %s", id)
+    }
+    return &res, nil
+}
+
+func (r *traceabilityRepo) ListMaterialLots(ctx context.Context, status, mType string) ([]*biz.MaterialLotSummary, error) {
+	sqlStr := `SELECT ml.lot_id, ml.status, ml.quantity, ml.unit_of_measure, ml.created_at,
+		md.name AS material_name, md.material_type
+		FROM material_lot ml JOIN material_definition md ON md.id = ml.material_definition_id WHERE 1=1`
+	var args []interface{}
+	if status != "" {
+		sqlStr += " AND ml.status = ?"
+		args = append(args, status)
+	}
+	if mType != "" {
+		sqlStr += " AND md.material_type = ?"
+		args = append(args, mType)
+	}
+	sqlStr += " ORDER BY ml.created_at DESC"
+	
+	var list []*biz.MaterialLotSummary
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, args...).Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) UpdateMaterialLotStatus(ctx context.Context, id, status string) error {
+	return r.data.db.WithContext(ctx).Model(&MaterialLotORM{}).Where("lot_id = ?", id).Updates(map[string]interface{}{"status": status, "updated_at": time.Now()}).Error
+}
+
+// ==========================================
+// 13. Operator
+// ==========================================
+
+func (r *traceabilityRepo) CreateOperator(ctx context.Context, op *biz.Operator) (string, error) {
+	orm := OperatorORM{
+		OperatorID: op.OperatorID,
+		Name:       op.Name,
+		Role:       op.Role,
+		Shift:      op.Shift,
+		Status:     op.Status,
+	}
+	if orm.Status == "" {
+		orm.Status = "active"
+	}
+	res := r.data.db.WithContext(ctx).Create(&orm)
+	return orm.OperatorID, res.Error
+}
+
+func (r *traceabilityRepo) ListOperators(ctx context.Context, shift, status string) ([]*biz.Operator, error) {
+	var orms []OperatorORM
+	query := r.data.db.WithContext(ctx)
+	if shift != "" {
+		query = query.Where("shift = ?", shift)
+	}
+	if status != "" {
+		query = query.Where("status = ?", status)
+	}
+	if err := query.Find(&orms).Error; err != nil {
+		return nil, err
+	}
+	var list []*biz.Operator
+	for _, x := range orms {
+		list = append(list, &biz.Operator{OperatorID: x.OperatorID, Name: x.Name, Role: x.Role, Shift: x.Shift, Status: x.Status})
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) UpdateOperator(ctx context.Context, op *biz.Operator) error {
+	updates := map[string]interface{}{}
+	if op.Role != "" { updates["role"] = op.Role }
+	if op.Shift != "" { updates["shift"] = op.Shift }
+	if op.Status != "" { updates["status"] = op.Status }
+	return r.data.db.WithContext(ctx).Model(&OperatorORM{}).Where("operator_id = ?", op.OperatorID).Updates(updates).Error
+}
+
+// ==========================================
+// 14. Work Order
+// ==========================================
+
+func (r *traceabilityRepo) CreateWorkOrder(ctx context.Context, wo *biz.WorkOrder) (string, error) {
+	orm := WorkOrderORM{
+		WorkOrderID:     wo.WorkOrderID,
+		Description:     wo.Description,
+		Status:          wo.Status,
+		EquipmentID:     wo.EquipmentID,
+		OperatorID:      wo.OperatorID,
+		OutputLotID:     wo.OutputLotID,
+		PlannedQuantity: wo.PlannedQuantity,
+		UnitOfMeasure:   wo.UnitOfMeasure,
+		PlannedStart:    wo.PlannedStart,
+		PlannedEnd:      wo.PlannedEnd,
+	}
+	res := r.data.db.WithContext(ctx).Create(&orm)
+	return orm.WorkOrderID, res.Error
+}
+
+func (r *traceabilityRepo) GetWorkOrder(ctx context.Context, id string) (*biz.WorkOrderDetail, error) {
+	type woScan struct {
+		WorkOrderID        string     `gorm:"column:work_order_id"`
+		Description        string     `gorm:"column:description"`
+		Status             string     `gorm:"column:status"`
+		PlannedQuantity    float64    `gorm:"column:planned_quantity"`
+		ActualQuantity     *float64   `gorm:"column:actual_quantity"`
+		UnitOfMeasure      string     `gorm:"column:unit_of_measure"`
+		PlannedStart       time.Time  `gorm:"column:planned_start"`
+		PlannedEnd         time.Time  `gorm:"column:planned_end"`
+		ActualStart        *time.Time `gorm:"column:actual_start"`
+		ActualEnd          *time.Time `gorm:"column:actual_end"`
+		OutputLotID        string     `gorm:"column:output_lot_id"`
+		EquipmentID        string     `gorm:"column:equipment_id"`
+		EquipmentClassName string     `gorm:"column:equipment_class_name"`
+		OperatorID         string     `gorm:"column:operator_id"`
+		OperatorName       string     `gorm:"column:operator_name"`
+		OperatorShift      string     `gorm:"column:operator_shift"`
+	}
+	sql1 := `SELECT wo.work_order_id, wo.description, wo.status, wo.planned_quantity, wo.actual_quantity,
+		wo.unit_of_measure, wo.planned_start, wo.planned_end, wo.actual_start, wo.actual_end, wo.output_lot_id,
+		wo.equipment_id, ec.class_name AS equipment_class_name, wo.operator_id, op.name AS operator_name, op.shift AS operator_shift
+		FROM work_order wo
+		LEFT JOIN equipment_master em ON em.id = wo.equipment_id
+		LEFT JOIN equipment_class ec ON ec.id = em.equipment_class_id
+		LEFT JOIN operator op ON op.operator_id = wo.operator_id
+		WHERE wo.work_order_id = ?`
+	var scan woScan
+	if err := r.data.db.WithContext(ctx).Raw(sql1, id).Scan(&scan).Error; err != nil {
+		return nil, err
+	}
+	if scan.WorkOrderID == "" {
+		return nil, fmt.Errorf("work order not found: %s", id)
+	}
+	sql2 := `SELECT lg.parent_lot_id AS lot_id, md.name AS material_name, md.material_type, lg.quantity_consumed, ml.unit_of_measure
+		FROM lot_genealogy lg
+		JOIN material_lot ml ON ml.lot_id = lg.parent_lot_id
+		JOIN material_definition md ON md.id = ml.material_definition_id
+		WHERE lg.work_order_id = ?`
+	var inputs []*biz.WorkOrderInputLot
+	if err := r.data.db.WithContext(ctx).Raw(sql2, id).Scan(&inputs).Error; err != nil {
+		return nil, err
+	}
+	return &biz.WorkOrderDetail{
+		WorkOrder: biz.WorkOrder{
+			WorkOrderID:     scan.WorkOrderID,
+			Description:     scan.Description,
+			Status:          scan.Status,
+			EquipmentID:     scan.EquipmentID,
+			OperatorID:      scan.OperatorID,
+			OutputLotID:     scan.OutputLotID,
+			PlannedQuantity: scan.PlannedQuantity,
+			ActualQuantity:  scan.ActualQuantity,
+			UnitOfMeasure:   scan.UnitOfMeasure,
+			PlannedStart:    scan.PlannedStart,
+			PlannedEnd:      scan.PlannedEnd,
+			ActualStart:     scan.ActualStart,
+			ActualEnd:       scan.ActualEnd,
+		},
+		EquipmentClassName: scan.EquipmentClassName,
+		OperatorName:       scan.OperatorName,
+		OperatorShift:      scan.OperatorShift,
+		InputLots:          inputs,
+	}, nil
+}
+
+func (r *traceabilityRepo) ListWorkOrders(ctx context.Context, status, eqID string) ([]*biz.WorkOrderSummary, error) {
+	query := r.data.db.WithContext(ctx).Model(&WorkOrderORM{})
+	if status != "" { query = query.Where("status = ?", status) }
+	if eqID != "" { query = query.Where("equipment_id = ?", eqID) }
+	var orms []WorkOrderORM
+	if err := query.Find(&orms).Error; err != nil {
+		return nil, err
+	}
+	var list []*biz.WorkOrderSummary
+	for _, x := range orms {
+		list = append(list, &biz.WorkOrderSummary{
+			WorkOrderID: x.WorkOrderID, Description: x.Description, Status: x.Status,
+			EquipmentID: x.EquipmentID, OperatorID: x.OperatorID, OutputLotID: x.OutputLotID,
+			ActualStart: x.ActualStart, ActualEnd: x.ActualEnd,
+		})
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) UpdateWorkOrderStatus(ctx context.Context, wo *biz.WorkOrder) error {
+	updates := map[string]interface{}{}
+	if wo.Status != "" { updates["status"] = wo.Status }
+	if wo.ActualQuantity != nil { updates["actual_quantity"] = *wo.ActualQuantity }
+	if wo.ActualStart != nil { updates["actual_start"] = *wo.ActualStart }
+	if wo.ActualEnd != nil { updates["actual_end"] = *wo.ActualEnd }
+	return r.data.db.WithContext(ctx).Model(&WorkOrderORM{}).Where("work_order_id = ?", wo.WorkOrderID).Updates(updates).Error
+}
+
+// ==========================================
+// 15. Genealogy
+// ==========================================
+
+func (r *traceabilityRepo) RegisterGenealogyLink(ctx context.Context, lg *biz.LotGenealogy) (int32, error) {
+	orm := LotGenealogyORM{
+		ParentLotID:      lg.ParentLotID,
+		ChildLotID:       lg.ChildLotID,
+		WorkOrderID:      lg.WorkOrderID,
+		EquipmentID:      lg.EquipmentID,
+		QuantityConsumed: lg.QuantityConsumed,
+		QuantityProduced: lg.QuantityProduced,
+		EventTime:        time.Now(),
+	}
+	res := r.data.db.WithContext(ctx).Create(&orm)
+	return orm.ID, res.Error
+}
+
+// ==========================================
+// 16. Trace Queries
+// ==========================================
+
+func (r *traceabilityRepo) TraceBackward(ctx context.Context, lotID string) ([]*biz.TraceNode, error) {
+	sqlStr := `WITH RECURSIVE backward_trace AS (
+		SELECT lg.parent_lot_id, lg.child_lot_id, lg.work_order_id, lg.equipment_id, lg.quantity_consumed AS qty_used, lg.event_time, 1 AS depth
+		FROM lot_genealogy lg WHERE lg.child_lot_id = ?
+		UNION ALL
+		SELECT lg.parent_lot_id, lg.child_lot_id, lg.work_order_id, lg.equipment_id, lg.quantity_consumed AS qty_used, lg.event_time, bt.depth + 1
+		FROM lot_genealogy lg JOIN backward_trace bt ON lg.child_lot_id = bt.parent_lot_id
+	)
+	SELECT bt.depth, bt.parent_lot_id AS lot_id, bt.child_lot_id AS related_lot_id, md.name AS material_name, md.material_type,
+		ml.status AS lot_status, ml.quantity, ml.unit_of_measure, bt.qty_used AS quantity_used,
+		bt.work_order_id, bt.equipment_id, ec.class_name AS equipment_class_name, wo.operator_id, op.name AS operator_name, bt.event_time
+	FROM backward_trace bt
+	JOIN material_lot ml ON ml.lot_id = bt.parent_lot_id JOIN material_definition md ON md.id = ml.material_definition_id
+	LEFT JOIN equipment_master em ON em.id = bt.equipment_id LEFT JOIN equipment_class ec ON ec.id = em.equipment_class_id
+	LEFT JOIN work_order wo ON wo.work_order_id = bt.work_order_id LEFT JOIN operator op ON op.operator_id = wo.operator_id
+	ORDER BY bt.depth, bt.parent_lot_id`
+	var list []*biz.TraceNode
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, lotID).Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) TraceForward(ctx context.Context, lotID string) ([]*biz.TraceNode, error) {
+	sqlStr := `WITH RECURSIVE forward_trace AS (
+		SELECT lg.parent_lot_id, lg.child_lot_id, lg.work_order_id, lg.equipment_id, lg.quantity_produced AS qty_used, lg.event_time, 1 AS depth
+		FROM lot_genealogy lg WHERE lg.parent_lot_id = ?
+		UNION ALL
+		SELECT lg.parent_lot_id, lg.child_lot_id, lg.work_order_id, lg.equipment_id, lg.quantity_produced AS qty_used, lg.event_time, ft.depth + 1
+		FROM lot_genealogy lg JOIN forward_trace ft ON lg.parent_lot_id = ft.child_lot_id
+	)
+	SELECT ft.depth, ft.child_lot_id AS lot_id, ft.parent_lot_id AS related_lot_id, md.name AS material_name, md.material_type,
+		ml.status AS lot_status, ml.quantity, ml.unit_of_measure, ft.qty_used AS quantity_used,
+		ft.work_order_id, ft.equipment_id, ec.class_name AS equipment_class_name, wo.operator_id, op.name AS operator_name, ft.event_time
+	FROM forward_trace ft
+	JOIN material_lot ml ON ml.lot_id = ft.child_lot_id JOIN material_definition md ON md.id = ml.material_definition_id
+	LEFT JOIN equipment_master em ON em.id = ft.equipment_id LEFT JOIN equipment_class ec ON ec.id = em.equipment_class_id
+	LEFT JOIN work_order wo ON wo.work_order_id = ft.work_order_id LEFT JOIN operator op ON op.operator_id = wo.operator_id
+	ORDER BY ft.depth, ft.child_lot_id`
+	var list []*biz.TraceNode
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, lotID).Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) TraceFullGenealogyNodes(ctx context.Context, lotID string) ([]*biz.GenealogyNode, error) {
+	sqlStr := `WITH RECURSIVE backward AS (
+		SELECT lg.parent_lot_id AS lot_id FROM lot_genealogy lg WHERE lg.child_lot_id = ?
+		UNION SELECT lg.parent_lot_id FROM lot_genealogy lg JOIN backward b ON lg.child_lot_id = b.lot_id
+	), forward AS (
+		SELECT lg.child_lot_id AS lot_id FROM lot_genealogy lg WHERE lg.parent_lot_id = ?
+		UNION SELECT lg.child_lot_id FROM lot_genealogy lg JOIN forward f ON lg.parent_lot_id = f.lot_id
+	), all_lot_ids AS (
+		SELECT lot_id FROM backward UNION SELECT ? AS lot_id UNION SELECT lot_id FROM forward
+	)
+	SELECT ml.lot_id, md.name AS material_name, md.material_type, ml.status, ml.quantity, ml.unit_of_measure
+	FROM all_lot_ids a JOIN material_lot ml ON ml.lot_id = a.lot_id JOIN material_definition md ON md.id = ml.material_definition_id
+	ORDER BY ml.created_at`
+	var list []*biz.GenealogyNode
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, lotID, lotID, lotID).Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) TraceFullGenealogyEdges(ctx context.Context, lotID string) ([]*biz.GenealogyEdge, error) {
+	sqlStr := `WITH RECURSIVE backward AS (
+		SELECT lg.parent_lot_id AS lot_id FROM lot_genealogy lg WHERE lg.child_lot_id = ?
+		UNION SELECT lg.parent_lot_id FROM lot_genealogy lg JOIN backward b ON lg.child_lot_id = b.lot_id
+	), forward AS (
+		SELECT lg.child_lot_id AS lot_id FROM lot_genealogy lg WHERE lg.parent_lot_id = ?
+		UNION SELECT lg.child_lot_id FROM lot_genealogy lg JOIN forward f ON lg.parent_lot_id = f.lot_id
+	), all_lot_ids AS (
+		SELECT lot_id FROM backward UNION SELECT ? AS lot_id UNION SELECT lot_id FROM forward
+	)
+	SELECT lg.parent_lot_id AS source_lot_id, lg.child_lot_id AS target_lot_id, lg.work_order_id, lg.equipment_id,
+		lg.quantity_consumed, lg.quantity_produced, lg.event_time
+	FROM lot_genealogy lg WHERE lg.parent_lot_id IN (SELECT lot_id FROM all_lot_ids) OR lg.child_lot_id IN (SELECT lot_id FROM all_lot_ids)
+	ORDER BY lg.event_time`
+	var list []*biz.GenealogyEdge
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, lotID, lotID, lotID).Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) GetEquipmentProcessHistorySummary(ctx context.Context, lotID string) ([]*biz.EquipmentParameterSummary, error) {
+	sqlStr := `WITH lot_processing_window AS (
+		SELECT tl.equipment_id, MIN(tl.event_time) AS process_start, MAX(tl.event_time) AS process_end
+		FROM traceability_log tl WHERE tl.material_lot_id = ? GROUP BY tl.equipment_id
+	)
+	SELECT et.equipment_id, ec.class_name AS equipment_class_name, et.parameter_name, et.unit_of_measure,
+		MIN(et.value) AS min_value, MAX(et.value) AS max_value, AVG(et.value) AS avg_value, COUNT(et.value) AS reading_count,
+		lpw.process_start, lpw.process_end
+	FROM lot_processing_window lpw
+	JOIN equipment_telemetry et ON et.equipment_id = lpw.equipment_id AND et.recorded_at >= lpw.process_start AND et.recorded_at <= lpw.process_end
+	JOIN equipment_master em ON em.id = et.equipment_id JOIN equipment_class ec ON ec.id = em.equipment_class_id
+	GROUP BY et.equipment_id, ec.class_name, et.parameter_name, et.unit_of_measure, lpw.process_start, lpw.process_end
+	ORDER BY et.equipment_id, et.parameter_name`
+	var list []*biz.EquipmentParameterSummary
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, lotID).Scan(&list).Error; err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) GetEquipmentProcessHistoryReadings(ctx context.Context, lotID string) ([]*biz.TelemetryReading, error) {
+	sqlStr := `WITH lot_processing_window AS (
+		SELECT tl.equipment_id, MIN(tl.event_time) AS process_start, MAX(tl.event_time) AS process_end
+		FROM traceability_log tl WHERE tl.material_lot_id = ? GROUP BY tl.equipment_id
+	)
+	SELECT et.equipment_id, et.parameter_name, et.value, et.unit_of_measure, et.recorded_at
+	FROM lot_processing_window lpw
+	JOIN equipment_telemetry et ON et.equipment_id = lpw.equipment_id AND et.recorded_at >= lpw.process_start AND et.recorded_at <= lpw.process_end
+	ORDER BY et.equipment_id, et.parameter_name, et.recorded_at`
+	var list []*biz.TelemetryReading
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, lotID).Scan(&list).Error; err != nil {
+		return nil, err
 	}
 	return list, nil
 }

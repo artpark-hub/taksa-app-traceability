@@ -89,6 +89,161 @@ type TraceabilityLog struct {
 	EventTime     time.Time
 }
 
+type MaterialDefinition struct {
+	ID            int32
+	Name          string
+	MaterialType  string
+	UnitOfMeasure string
+	Description   string
+}
+
+type MaterialLot struct {
+	LotID                string
+	MaterialDefinitionID int32
+	Quantity             float64
+	UnitOfMeasure        string
+	Status               string
+	CreatedAt            time.Time
+	UpdatedAt            time.Time
+}
+
+type MaterialLotSummary struct {
+	LotID         string
+	Status        string
+	Quantity      float64
+	UnitOfMeasure string
+	CreatedAt     time.Time
+	MaterialName  string
+	MaterialType  string
+}
+
+type MaterialLotDetail struct {
+	MaterialLot
+	MaterialName        string
+	MaterialType        string
+	MaterialDescription string
+}
+
+type Operator struct {
+	OperatorID string
+	Name       string
+	Role       string
+	Shift      string
+	Status     string
+}
+
+type WorkOrder struct {
+	WorkOrderID     string
+	Description     string
+	Status          string
+	EquipmentID     string
+	OperatorID      string
+	OutputLotID     string
+	PlannedQuantity float64
+	ActualQuantity  *float64
+	UnitOfMeasure   string
+	PlannedStart    time.Time
+	PlannedEnd      time.Time
+	ActualStart     *time.Time
+	ActualEnd       *time.Time
+}
+
+type WorkOrderSummary struct {
+	WorkOrderID  string
+	Description  string
+	Status       string
+	EquipmentID  string
+	OperatorID   string
+	OutputLotID  string
+	ActualStart  *time.Time
+	ActualEnd    *time.Time
+}
+
+type WorkOrderInputLot struct {
+	LotID            string
+	MaterialName     string
+	MaterialType     string
+	QuantityConsumed float64
+	UnitOfMeasure    string
+}
+
+type WorkOrderDetail struct {
+	WorkOrder
+	EquipmentClassName string
+	OperatorName       string
+	OperatorShift      string
+	InputLots          []*WorkOrderInputLot
+}
+
+type LotGenealogy struct {
+	ID               int32
+	ParentLotID      string
+	ChildLotID       string
+	WorkOrderID      string
+	EquipmentID      string
+	QuantityConsumed float64
+	QuantityProduced float64
+	EventTime        time.Time
+}
+
+type TraceNode struct {
+	Depth              int32
+	LotID              string
+	RelatedLotID       string
+	MaterialName       string
+	MaterialType       string
+	LotStatus          string
+	Quantity           float64
+	UnitOfMeasure      string
+	QuantityUsed       float64
+	WorkOrderID        string
+	EquipmentID        string
+	EquipmentClassName string
+	OperatorID         string
+	OperatorName       string
+	EventTime          *time.Time
+}
+
+type GenealogyNode struct {
+	LotID         string
+	MaterialName  string
+	MaterialType  string
+	Status        string
+	Quantity      float64
+	UnitOfMeasure string
+}
+
+type GenealogyEdge struct {
+	SourceLotID      string
+	TargetLotID      string
+	WorkOrderID      string
+	EquipmentID      string
+	QuantityConsumed float64
+	QuantityProduced float64
+	EventTime        *time.Time
+}
+
+type EquipmentParameterSummary struct {
+	EquipmentID        string
+	EquipmentClassName string
+	ParameterName      string
+	UnitOfMeasure      string
+	MinValue           float64
+	MaxValue           float64
+	AvgValue           float64
+	ReadingCount       int32
+	ProcessStart       *time.Time
+	ProcessEnd         *time.Time
+}
+
+type TelemetryReading struct {
+	EquipmentID   string
+	ParameterName string
+	Value         float64
+	UnitOfMeasure string
+	RecordedAt    *time.Time
+}
+
 // ==========================================
 // 2. Repository Interface (Contract for Data Layer)
 // ==========================================
@@ -151,6 +306,38 @@ type TraceabilityRepo interface {
 	// Logs
 	LogEvent(ctx context.Context, l *TraceabilityLog) (int32, error)
 	ListLogs(ctx context.Context, workOrderID string) ([]*TraceabilityLog, error)
+
+	// Material Definition
+	CreateMaterialDefinition(ctx context.Context, md *MaterialDefinition) (int32, error)
+	ListMaterialDefinitions(ctx context.Context, mType string) ([]*MaterialDefinition, error)
+
+	// Material Lot
+	CreateMaterialLot(ctx context.Context, ml *MaterialLot) (string, error)
+	GetMaterialLot(ctx context.Context, id string) (*MaterialLotDetail, error)
+	ListMaterialLots(ctx context.Context, status, mType string) ([]*MaterialLotSummary, error)
+	UpdateMaterialLotStatus(ctx context.Context, id, status string) error
+
+	// Operator
+	CreateOperator(ctx context.Context, op *Operator) (string, error)
+	ListOperators(ctx context.Context, shift, status string) ([]*Operator, error)
+	UpdateOperator(ctx context.Context, op *Operator) error
+
+	// Work Order
+	CreateWorkOrder(ctx context.Context, wo *WorkOrder) (string, error)
+	GetWorkOrder(ctx context.Context, id string) (*WorkOrderDetail, error)
+	ListWorkOrders(ctx context.Context, status, eqID string) ([]*WorkOrderSummary, error)
+	UpdateWorkOrderStatus(ctx context.Context, wo *WorkOrder) error
+
+	// Genealogy
+	RegisterGenealogyLink(ctx context.Context, lg *LotGenealogy) (int32, error)
+
+	// Trace
+	TraceBackward(ctx context.Context, lotID string) ([]*TraceNode, error)
+	TraceForward(ctx context.Context, lotID string) ([]*TraceNode, error)
+	TraceFullGenealogyNodes(ctx context.Context, lotID string) ([]*GenealogyNode, error)
+	TraceFullGenealogyEdges(ctx context.Context, lotID string) ([]*GenealogyEdge, error)
+	GetEquipmentProcessHistorySummary(ctx context.Context, lotID string) ([]*EquipmentParameterSummary, error)
+	GetEquipmentProcessHistoryReadings(ctx context.Context, lotID string) ([]*TelemetryReading, error)
 }
 
 // ==========================================
@@ -290,4 +477,80 @@ func (uc *TraceabilityUsecase) LogEvent(ctx context.Context, l *TraceabilityLog)
 }
 func (uc *TraceabilityUsecase) ListLogs(ctx context.Context, wid string) ([]*TraceabilityLog, error) {
 	return uc.repo.ListLogs(ctx, wid)
+}
+
+func (uc *TraceabilityUsecase) CreateMaterialDefinition(ctx context.Context, md *MaterialDefinition) (int32, error) {
+	return uc.repo.CreateMaterialDefinition(ctx, md)
+}
+func (uc *TraceabilityUsecase) ListMaterialDefinitions(ctx context.Context, mType string) ([]*MaterialDefinition, error) {
+	return uc.repo.ListMaterialDefinitions(ctx, mType)
+}
+
+func (uc *TraceabilityUsecase) CreateMaterialLot(ctx context.Context, ml *MaterialLot) (string, error) {
+	return uc.repo.CreateMaterialLot(ctx, ml)
+}
+func (uc *TraceabilityUsecase) GetMaterialLot(ctx context.Context, id string) (*MaterialLotDetail, error) {
+	return uc.repo.GetMaterialLot(ctx, id)
+}
+func (uc *TraceabilityUsecase) ListMaterialLots(ctx context.Context, status, mType string) ([]*MaterialLotSummary, error) {
+	return uc.repo.ListMaterialLots(ctx, status, mType)
+}
+func (uc *TraceabilityUsecase) UpdateMaterialLotStatus(ctx context.Context, id, status string) error {
+	return uc.repo.UpdateMaterialLotStatus(ctx, id, status)
+}
+
+func (uc *TraceabilityUsecase) CreateOperator(ctx context.Context, op *Operator) (string, error) {
+	return uc.repo.CreateOperator(ctx, op)
+}
+func (uc *TraceabilityUsecase) ListOperators(ctx context.Context, shift, status string) ([]*Operator, error) {
+	return uc.repo.ListOperators(ctx, shift, status)
+}
+func (uc *TraceabilityUsecase) UpdateOperator(ctx context.Context, op *Operator) error {
+	return uc.repo.UpdateOperator(ctx, op)
+}
+
+func (uc *TraceabilityUsecase) CreateWorkOrder(ctx context.Context, wo *WorkOrder) (string, error) {
+	return uc.repo.CreateWorkOrder(ctx, wo)
+}
+func (uc *TraceabilityUsecase) GetWorkOrder(ctx context.Context, id string) (*WorkOrderDetail, error) {
+	return uc.repo.GetWorkOrder(ctx, id)
+}
+func (uc *TraceabilityUsecase) ListWorkOrders(ctx context.Context, status, eqID string) ([]*WorkOrderSummary, error) {
+	return uc.repo.ListWorkOrders(ctx, status, eqID)
+}
+func (uc *TraceabilityUsecase) UpdateWorkOrderStatus(ctx context.Context, wo *WorkOrder) error {
+	return uc.repo.UpdateWorkOrderStatus(ctx, wo)
+}
+
+func (uc *TraceabilityUsecase) RegisterGenealogyLink(ctx context.Context, lg *LotGenealogy) (int32, error) {
+	return uc.repo.RegisterGenealogyLink(ctx, lg)
+}
+
+func (uc *TraceabilityUsecase) TraceBackward(ctx context.Context, lotID string) ([]*TraceNode, error) {
+	return uc.repo.TraceBackward(ctx, lotID)
+}
+func (uc *TraceabilityUsecase) TraceForward(ctx context.Context, lotID string) ([]*TraceNode, error) {
+	return uc.repo.TraceForward(ctx, lotID)
+}
+func (uc *TraceabilityUsecase) TraceFullGenealogy(ctx context.Context, lotID string) ([]*GenealogyNode, []*GenealogyEdge, error) {
+	nodes, err := uc.repo.TraceFullGenealogyNodes(ctx, lotID)
+	if err != nil {
+		return nil, nil, err
+	}
+	edges, err := uc.repo.TraceFullGenealogyEdges(ctx, lotID)
+	if err != nil {
+		return nil, nil, err
+	}
+	return nodes, edges, nil
+}
+func (uc *TraceabilityUsecase) GetEquipmentProcessHistory(ctx context.Context, lotID string) ([]*EquipmentParameterSummary, []*TelemetryReading, error) {
+	summary, err := uc.repo.GetEquipmentProcessHistorySummary(ctx, lotID)
+	if err != nil {
+		return nil, nil, err
+	}
+	readings, err := uc.repo.GetEquipmentProcessHistoryReadings(ctx, lotID)
+	if err != nil {
+		return nil, nil, err
+	}
+	return summary, readings, nil
 }

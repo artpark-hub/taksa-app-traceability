@@ -19,44 +19,62 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Traceability_CreateEnterprise_FullMethodName     = "/api.traceability.v1.Traceability/CreateEnterprise"
-	Traceability_ListEnterprises_FullMethodName      = "/api.traceability.v1.Traceability/ListEnterprises"
-	Traceability_UpdateEnterprise_FullMethodName     = "/api.traceability.v1.Traceability/UpdateEnterprise"
-	Traceability_DeleteEnterprise_FullMethodName     = "/api.traceability.v1.Traceability/DeleteEnterprise"
-	Traceability_CreateSite_FullMethodName           = "/api.traceability.v1.Traceability/CreateSite"
-	Traceability_ListSites_FullMethodName            = "/api.traceability.v1.Traceability/ListSites"
-	Traceability_UpdateSite_FullMethodName           = "/api.traceability.v1.Traceability/UpdateSite"
-	Traceability_DeleteSite_FullMethodName           = "/api.traceability.v1.Traceability/DeleteSite"
-	Traceability_CreateArea_FullMethodName           = "/api.traceability.v1.Traceability/CreateArea"
-	Traceability_ListAreas_FullMethodName            = "/api.traceability.v1.Traceability/ListAreas"
-	Traceability_UpdateArea_FullMethodName           = "/api.traceability.v1.Traceability/UpdateArea"
-	Traceability_DeleteArea_FullMethodName           = "/api.traceability.v1.Traceability/DeleteArea"
-	Traceability_CreateLine_FullMethodName           = "/api.traceability.v1.Traceability/CreateLine"
-	Traceability_ListLines_FullMethodName            = "/api.traceability.v1.Traceability/ListLines"
-	Traceability_UpdateLine_FullMethodName           = "/api.traceability.v1.Traceability/UpdateLine"
-	Traceability_DeleteLine_FullMethodName           = "/api.traceability.v1.Traceability/DeleteLine"
-	Traceability_CreateProductionUnit_FullMethodName = "/api.traceability.v1.Traceability/CreateProductionUnit"
-	Traceability_ListProductionUnits_FullMethodName  = "/api.traceability.v1.Traceability/ListProductionUnits"
-	Traceability_UpdateProductionUnit_FullMethodName = "/api.traceability.v1.Traceability/UpdateProductionUnit"
-	Traceability_DeleteProductionUnit_FullMethodName = "/api.traceability.v1.Traceability/DeleteProductionUnit"
-	Traceability_CreateEquipmentClass_FullMethodName = "/api.traceability.v1.Traceability/CreateEquipmentClass"
-	Traceability_ListEquipmentClasses_FullMethodName = "/api.traceability.v1.Traceability/ListEquipmentClasses"
-	Traceability_UpdateEquipmentClass_FullMethodName = "/api.traceability.v1.Traceability/UpdateEquipmentClass"
-	Traceability_DeleteEquipmentClass_FullMethodName = "/api.traceability.v1.Traceability/DeleteEquipmentClass"
-	Traceability_RegisterEquipment_FullMethodName    = "/api.traceability.v1.Traceability/RegisterEquipment"
-	Traceability_ListEquipment_FullMethodName        = "/api.traceability.v1.Traceability/ListEquipment"
-	Traceability_UpdateEquipment_FullMethodName      = "/api.traceability.v1.Traceability/UpdateEquipment"
-	Traceability_DeleteEquipment_FullMethodName      = "/api.traceability.v1.Traceability/DeleteEquipment"
-	Traceability_AddCapability_FullMethodName        = "/api.traceability.v1.Traceability/AddCapability"
-	Traceability_ListCapabilities_FullMethodName     = "/api.traceability.v1.Traceability/ListCapabilities"
-	Traceability_UpdateCapability_FullMethodName     = "/api.traceability.v1.Traceability/UpdateCapability"
-	Traceability_DeleteCapability_FullMethodName     = "/api.traceability.v1.Traceability/DeleteCapability"
-	Traceability_SetProperty_FullMethodName          = "/api.traceability.v1.Traceability/SetProperty"
-	Traceability_ListProperties_FullMethodName       = "/api.traceability.v1.Traceability/ListProperties"
-	Traceability_UpdateProperty_FullMethodName       = "/api.traceability.v1.Traceability/UpdateProperty"
-	Traceability_DeleteProperty_FullMethodName       = "/api.traceability.v1.Traceability/DeleteProperty"
-	Traceability_LogEvent_FullMethodName             = "/api.traceability.v1.Traceability/LogEvent"
-	Traceability_ListLogs_FullMethodName             = "/api.traceability.v1.Traceability/ListLogs"
+	Traceability_CreateEnterprise_FullMethodName           = "/api.traceability.v1.Traceability/CreateEnterprise"
+	Traceability_ListEnterprises_FullMethodName            = "/api.traceability.v1.Traceability/ListEnterprises"
+	Traceability_UpdateEnterprise_FullMethodName           = "/api.traceability.v1.Traceability/UpdateEnterprise"
+	Traceability_DeleteEnterprise_FullMethodName           = "/api.traceability.v1.Traceability/DeleteEnterprise"
+	Traceability_CreateSite_FullMethodName                 = "/api.traceability.v1.Traceability/CreateSite"
+	Traceability_ListSites_FullMethodName                  = "/api.traceability.v1.Traceability/ListSites"
+	Traceability_UpdateSite_FullMethodName                 = "/api.traceability.v1.Traceability/UpdateSite"
+	Traceability_DeleteSite_FullMethodName                 = "/api.traceability.v1.Traceability/DeleteSite"
+	Traceability_CreateArea_FullMethodName                 = "/api.traceability.v1.Traceability/CreateArea"
+	Traceability_ListAreas_FullMethodName                  = "/api.traceability.v1.Traceability/ListAreas"
+	Traceability_UpdateArea_FullMethodName                 = "/api.traceability.v1.Traceability/UpdateArea"
+	Traceability_DeleteArea_FullMethodName                 = "/api.traceability.v1.Traceability/DeleteArea"
+	Traceability_CreateLine_FullMethodName                 = "/api.traceability.v1.Traceability/CreateLine"
+	Traceability_ListLines_FullMethodName                  = "/api.traceability.v1.Traceability/ListLines"
+	Traceability_UpdateLine_FullMethodName                 = "/api.traceability.v1.Traceability/UpdateLine"
+	Traceability_DeleteLine_FullMethodName                 = "/api.traceability.v1.Traceability/DeleteLine"
+	Traceability_CreateProductionUnit_FullMethodName       = "/api.traceability.v1.Traceability/CreateProductionUnit"
+	Traceability_ListProductionUnits_FullMethodName        = "/api.traceability.v1.Traceability/ListProductionUnits"
+	Traceability_UpdateProductionUnit_FullMethodName       = "/api.traceability.v1.Traceability/UpdateProductionUnit"
+	Traceability_DeleteProductionUnit_FullMethodName       = "/api.traceability.v1.Traceability/DeleteProductionUnit"
+	Traceability_CreateEquipmentClass_FullMethodName       = "/api.traceability.v1.Traceability/CreateEquipmentClass"
+	Traceability_ListEquipmentClasses_FullMethodName       = "/api.traceability.v1.Traceability/ListEquipmentClasses"
+	Traceability_UpdateEquipmentClass_FullMethodName       = "/api.traceability.v1.Traceability/UpdateEquipmentClass"
+	Traceability_DeleteEquipmentClass_FullMethodName       = "/api.traceability.v1.Traceability/DeleteEquipmentClass"
+	Traceability_RegisterEquipment_FullMethodName          = "/api.traceability.v1.Traceability/RegisterEquipment"
+	Traceability_ListEquipment_FullMethodName              = "/api.traceability.v1.Traceability/ListEquipment"
+	Traceability_UpdateEquipment_FullMethodName            = "/api.traceability.v1.Traceability/UpdateEquipment"
+	Traceability_DeleteEquipment_FullMethodName            = "/api.traceability.v1.Traceability/DeleteEquipment"
+	Traceability_AddCapability_FullMethodName              = "/api.traceability.v1.Traceability/AddCapability"
+	Traceability_ListCapabilities_FullMethodName           = "/api.traceability.v1.Traceability/ListCapabilities"
+	Traceability_UpdateCapability_FullMethodName           = "/api.traceability.v1.Traceability/UpdateCapability"
+	Traceability_DeleteCapability_FullMethodName           = "/api.traceability.v1.Traceability/DeleteCapability"
+	Traceability_SetProperty_FullMethodName                = "/api.traceability.v1.Traceability/SetProperty"
+	Traceability_ListProperties_FullMethodName             = "/api.traceability.v1.Traceability/ListProperties"
+	Traceability_UpdateProperty_FullMethodName             = "/api.traceability.v1.Traceability/UpdateProperty"
+	Traceability_DeleteProperty_FullMethodName             = "/api.traceability.v1.Traceability/DeleteProperty"
+	Traceability_LogEvent_FullMethodName                   = "/api.traceability.v1.Traceability/LogEvent"
+	Traceability_ListLogs_FullMethodName                   = "/api.traceability.v1.Traceability/ListLogs"
+	Traceability_CreateMaterialDefinition_FullMethodName   = "/api.traceability.v1.Traceability/CreateMaterialDefinition"
+	Traceability_ListMaterialDefinitions_FullMethodName    = "/api.traceability.v1.Traceability/ListMaterialDefinitions"
+	Traceability_CreateMaterialLot_FullMethodName          = "/api.traceability.v1.Traceability/CreateMaterialLot"
+	Traceability_GetMaterialLot_FullMethodName             = "/api.traceability.v1.Traceability/GetMaterialLot"
+	Traceability_ListMaterialLots_FullMethodName           = "/api.traceability.v1.Traceability/ListMaterialLots"
+	Traceability_UpdateMaterialLotStatus_FullMethodName    = "/api.traceability.v1.Traceability/UpdateMaterialLotStatus"
+	Traceability_CreateOperator_FullMethodName             = "/api.traceability.v1.Traceability/CreateOperator"
+	Traceability_ListOperators_FullMethodName              = "/api.traceability.v1.Traceability/ListOperators"
+	Traceability_UpdateOperator_FullMethodName             = "/api.traceability.v1.Traceability/UpdateOperator"
+	Traceability_CreateWorkOrder_FullMethodName            = "/api.traceability.v1.Traceability/CreateWorkOrder"
+	Traceability_GetWorkOrder_FullMethodName               = "/api.traceability.v1.Traceability/GetWorkOrder"
+	Traceability_ListWorkOrders_FullMethodName             = "/api.traceability.v1.Traceability/ListWorkOrders"
+	Traceability_UpdateWorkOrderStatus_FullMethodName      = "/api.traceability.v1.Traceability/UpdateWorkOrderStatus"
+	Traceability_RegisterGenealogyLink_FullMethodName      = "/api.traceability.v1.Traceability/RegisterGenealogyLink"
+	Traceability_TraceBackward_FullMethodName              = "/api.traceability.v1.Traceability/TraceBackward"
+	Traceability_TraceForward_FullMethodName               = "/api.traceability.v1.Traceability/TraceForward"
+	Traceability_TraceFullGenealogy_FullMethodName         = "/api.traceability.v1.Traceability/TraceFullGenealogy"
+	Traceability_GetEquipmentProcessHistory_FullMethodName = "/api.traceability.v1.Traceability/GetEquipmentProcessHistory"
 )
 
 // TraceabilityClient is the client API for Traceability service.
@@ -111,6 +129,42 @@ type TraceabilityClient interface {
 	// 10. Traceability Logs
 	LogEvent(ctx context.Context, in *LogEventRequest, opts ...grpc.CallOption) (*LogEventReply, error)
 	ListLogs(ctx context.Context, in *ListLogsRequest, opts ...grpc.CallOption) (*ListLogsReply, error)
+	// =====================================================================
+	// 11. Material Definition Management
+	// =====================================================================
+	CreateMaterialDefinition(ctx context.Context, in *CreateMaterialDefinitionRequest, opts ...grpc.CallOption) (*CreateMaterialDefinitionReply, error)
+	ListMaterialDefinitions(ctx context.Context, in *ListMaterialDefinitionsRequest, opts ...grpc.CallOption) (*ListMaterialDefinitionsReply, error)
+	// =====================================================================
+	// 12. Material Lot Management
+	// =====================================================================
+	CreateMaterialLot(ctx context.Context, in *CreateMaterialLotRequest, opts ...grpc.CallOption) (*CreateMaterialLotReply, error)
+	GetMaterialLot(ctx context.Context, in *GetMaterialLotRequest, opts ...grpc.CallOption) (*GetMaterialLotReply, error)
+	ListMaterialLots(ctx context.Context, in *ListMaterialLotsRequest, opts ...grpc.CallOption) (*ListMaterialLotsReply, error)
+	UpdateMaterialLotStatus(ctx context.Context, in *UpdateMaterialLotStatusRequest, opts ...grpc.CallOption) (*UpdateMaterialLotStatusReply, error)
+	// =====================================================================
+	// 13. Operator Management
+	// =====================================================================
+	CreateOperator(ctx context.Context, in *CreateOperatorRequest, opts ...grpc.CallOption) (*CreateOperatorReply, error)
+	ListOperators(ctx context.Context, in *ListOperatorsRequest, opts ...grpc.CallOption) (*ListOperatorsReply, error)
+	UpdateOperator(ctx context.Context, in *UpdateOperatorRequest, opts ...grpc.CallOption) (*UpdateOperatorReply, error)
+	// =====================================================================
+	// 14. Work Order Management
+	// =====================================================================
+	CreateWorkOrder(ctx context.Context, in *CreateWorkOrderRequest, opts ...grpc.CallOption) (*CreateWorkOrderReply, error)
+	GetWorkOrder(ctx context.Context, in *GetWorkOrderRequest, opts ...grpc.CallOption) (*GetWorkOrderReply, error)
+	ListWorkOrders(ctx context.Context, in *ListWorkOrdersRequest, opts ...grpc.CallOption) (*ListWorkOrdersReply, error)
+	UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusRequest, opts ...grpc.CallOption) (*UpdateWorkOrderStatusReply, error)
+	// =====================================================================
+	// 15. Lot Genealogy Registration
+	// =====================================================================
+	RegisterGenealogyLink(ctx context.Context, in *RegisterGenealogyLinkRequest, opts ...grpc.CallOption) (*RegisterGenealogyLinkReply, error)
+	// =====================================================================
+	// 16. Traceability Queries (THE CORE FEATURES)
+	// =====================================================================
+	TraceBackward(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*TraceReply, error)
+	TraceForward(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*TraceReply, error)
+	TraceFullGenealogy(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*GenealogyTreeReply, error)
+	GetEquipmentProcessHistory(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*EquipmentProcessHistoryReply, error)
 }
 
 type traceabilityClient struct {
@@ -501,6 +555,186 @@ func (c *traceabilityClient) ListLogs(ctx context.Context, in *ListLogsRequest, 
 	return out, nil
 }
 
+func (c *traceabilityClient) CreateMaterialDefinition(ctx context.Context, in *CreateMaterialDefinitionRequest, opts ...grpc.CallOption) (*CreateMaterialDefinitionReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateMaterialDefinitionReply)
+	err := c.cc.Invoke(ctx, Traceability_CreateMaterialDefinition_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) ListMaterialDefinitions(ctx context.Context, in *ListMaterialDefinitionsRequest, opts ...grpc.CallOption) (*ListMaterialDefinitionsReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListMaterialDefinitionsReply)
+	err := c.cc.Invoke(ctx, Traceability_ListMaterialDefinitions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) CreateMaterialLot(ctx context.Context, in *CreateMaterialLotRequest, opts ...grpc.CallOption) (*CreateMaterialLotReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateMaterialLotReply)
+	err := c.cc.Invoke(ctx, Traceability_CreateMaterialLot_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) GetMaterialLot(ctx context.Context, in *GetMaterialLotRequest, opts ...grpc.CallOption) (*GetMaterialLotReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMaterialLotReply)
+	err := c.cc.Invoke(ctx, Traceability_GetMaterialLot_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) ListMaterialLots(ctx context.Context, in *ListMaterialLotsRequest, opts ...grpc.CallOption) (*ListMaterialLotsReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListMaterialLotsReply)
+	err := c.cc.Invoke(ctx, Traceability_ListMaterialLots_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) UpdateMaterialLotStatus(ctx context.Context, in *UpdateMaterialLotStatusRequest, opts ...grpc.CallOption) (*UpdateMaterialLotStatusReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateMaterialLotStatusReply)
+	err := c.cc.Invoke(ctx, Traceability_UpdateMaterialLotStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) CreateOperator(ctx context.Context, in *CreateOperatorRequest, opts ...grpc.CallOption) (*CreateOperatorReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateOperatorReply)
+	err := c.cc.Invoke(ctx, Traceability_CreateOperator_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) ListOperators(ctx context.Context, in *ListOperatorsRequest, opts ...grpc.CallOption) (*ListOperatorsReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListOperatorsReply)
+	err := c.cc.Invoke(ctx, Traceability_ListOperators_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) UpdateOperator(ctx context.Context, in *UpdateOperatorRequest, opts ...grpc.CallOption) (*UpdateOperatorReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateOperatorReply)
+	err := c.cc.Invoke(ctx, Traceability_UpdateOperator_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) CreateWorkOrder(ctx context.Context, in *CreateWorkOrderRequest, opts ...grpc.CallOption) (*CreateWorkOrderReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateWorkOrderReply)
+	err := c.cc.Invoke(ctx, Traceability_CreateWorkOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) GetWorkOrder(ctx context.Context, in *GetWorkOrderRequest, opts ...grpc.CallOption) (*GetWorkOrderReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetWorkOrderReply)
+	err := c.cc.Invoke(ctx, Traceability_GetWorkOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) ListWorkOrders(ctx context.Context, in *ListWorkOrdersRequest, opts ...grpc.CallOption) (*ListWorkOrdersReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkOrdersReply)
+	err := c.cc.Invoke(ctx, Traceability_ListWorkOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusRequest, opts ...grpc.CallOption) (*UpdateWorkOrderStatusReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateWorkOrderStatusReply)
+	err := c.cc.Invoke(ctx, Traceability_UpdateWorkOrderStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) RegisterGenealogyLink(ctx context.Context, in *RegisterGenealogyLinkRequest, opts ...grpc.CallOption) (*RegisterGenealogyLinkReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RegisterGenealogyLinkReply)
+	err := c.cc.Invoke(ctx, Traceability_RegisterGenealogyLink_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) TraceBackward(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*TraceReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TraceReply)
+	err := c.cc.Invoke(ctx, Traceability_TraceBackward_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) TraceForward(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*TraceReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TraceReply)
+	err := c.cc.Invoke(ctx, Traceability_TraceForward_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) TraceFullGenealogy(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*GenealogyTreeReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GenealogyTreeReply)
+	err := c.cc.Invoke(ctx, Traceability_TraceFullGenealogy_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) GetEquipmentProcessHistory(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*EquipmentProcessHistoryReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EquipmentProcessHistoryReply)
+	err := c.cc.Invoke(ctx, Traceability_GetEquipmentProcessHistory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TraceabilityServer is the server API for Traceability service.
 // All implementations must embed UnimplementedTraceabilityServer
 // for forward compatibility.
@@ -553,6 +787,42 @@ type TraceabilityServer interface {
 	// 10. Traceability Logs
 	LogEvent(context.Context, *LogEventRequest) (*LogEventReply, error)
 	ListLogs(context.Context, *ListLogsRequest) (*ListLogsReply, error)
+	// =====================================================================
+	// 11. Material Definition Management
+	// =====================================================================
+	CreateMaterialDefinition(context.Context, *CreateMaterialDefinitionRequest) (*CreateMaterialDefinitionReply, error)
+	ListMaterialDefinitions(context.Context, *ListMaterialDefinitionsRequest) (*ListMaterialDefinitionsReply, error)
+	// =====================================================================
+	// 12. Material Lot Management
+	// =====================================================================
+	CreateMaterialLot(context.Context, *CreateMaterialLotRequest) (*CreateMaterialLotReply, error)
+	GetMaterialLot(context.Context, *GetMaterialLotRequest) (*GetMaterialLotReply, error)
+	ListMaterialLots(context.Context, *ListMaterialLotsRequest) (*ListMaterialLotsReply, error)
+	UpdateMaterialLotStatus(context.Context, *UpdateMaterialLotStatusRequest) (*UpdateMaterialLotStatusReply, error)
+	// =====================================================================
+	// 13. Operator Management
+	// =====================================================================
+	CreateOperator(context.Context, *CreateOperatorRequest) (*CreateOperatorReply, error)
+	ListOperators(context.Context, *ListOperatorsRequest) (*ListOperatorsReply, error)
+	UpdateOperator(context.Context, *UpdateOperatorRequest) (*UpdateOperatorReply, error)
+	// =====================================================================
+	// 14. Work Order Management
+	// =====================================================================
+	CreateWorkOrder(context.Context, *CreateWorkOrderRequest) (*CreateWorkOrderReply, error)
+	GetWorkOrder(context.Context, *GetWorkOrderRequest) (*GetWorkOrderReply, error)
+	ListWorkOrders(context.Context, *ListWorkOrdersRequest) (*ListWorkOrdersReply, error)
+	UpdateWorkOrderStatus(context.Context, *UpdateWorkOrderStatusRequest) (*UpdateWorkOrderStatusReply, error)
+	// =====================================================================
+	// 15. Lot Genealogy Registration
+	// =====================================================================
+	RegisterGenealogyLink(context.Context, *RegisterGenealogyLinkRequest) (*RegisterGenealogyLinkReply, error)
+	// =====================================================================
+	// 16. Traceability Queries (THE CORE FEATURES)
+	// =====================================================================
+	TraceBackward(context.Context, *TraceRequest) (*TraceReply, error)
+	TraceForward(context.Context, *TraceRequest) (*TraceReply, error)
+	TraceFullGenealogy(context.Context, *TraceRequest) (*GenealogyTreeReply, error)
+	GetEquipmentProcessHistory(context.Context, *TraceRequest) (*EquipmentProcessHistoryReply, error)
 	mustEmbedUnimplementedTraceabilityServer()
 }
 
@@ -676,6 +946,60 @@ func (UnimplementedTraceabilityServer) LogEvent(context.Context, *LogEventReques
 }
 func (UnimplementedTraceabilityServer) ListLogs(context.Context, *ListLogsRequest) (*ListLogsReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListLogs not implemented")
+}
+func (UnimplementedTraceabilityServer) CreateMaterialDefinition(context.Context, *CreateMaterialDefinitionRequest) (*CreateMaterialDefinitionReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateMaterialDefinition not implemented")
+}
+func (UnimplementedTraceabilityServer) ListMaterialDefinitions(context.Context, *ListMaterialDefinitionsRequest) (*ListMaterialDefinitionsReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListMaterialDefinitions not implemented")
+}
+func (UnimplementedTraceabilityServer) CreateMaterialLot(context.Context, *CreateMaterialLotRequest) (*CreateMaterialLotReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateMaterialLot not implemented")
+}
+func (UnimplementedTraceabilityServer) GetMaterialLot(context.Context, *GetMaterialLotRequest) (*GetMaterialLotReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMaterialLot not implemented")
+}
+func (UnimplementedTraceabilityServer) ListMaterialLots(context.Context, *ListMaterialLotsRequest) (*ListMaterialLotsReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListMaterialLots not implemented")
+}
+func (UnimplementedTraceabilityServer) UpdateMaterialLotStatus(context.Context, *UpdateMaterialLotStatusRequest) (*UpdateMaterialLotStatusReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateMaterialLotStatus not implemented")
+}
+func (UnimplementedTraceabilityServer) CreateOperator(context.Context, *CreateOperatorRequest) (*CreateOperatorReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateOperator not implemented")
+}
+func (UnimplementedTraceabilityServer) ListOperators(context.Context, *ListOperatorsRequest) (*ListOperatorsReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListOperators not implemented")
+}
+func (UnimplementedTraceabilityServer) UpdateOperator(context.Context, *UpdateOperatorRequest) (*UpdateOperatorReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateOperator not implemented")
+}
+func (UnimplementedTraceabilityServer) CreateWorkOrder(context.Context, *CreateWorkOrderRequest) (*CreateWorkOrderReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateWorkOrder not implemented")
+}
+func (UnimplementedTraceabilityServer) GetWorkOrder(context.Context, *GetWorkOrderRequest) (*GetWorkOrderReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetWorkOrder not implemented")
+}
+func (UnimplementedTraceabilityServer) ListWorkOrders(context.Context, *ListWorkOrdersRequest) (*ListWorkOrdersReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListWorkOrders not implemented")
+}
+func (UnimplementedTraceabilityServer) UpdateWorkOrderStatus(context.Context, *UpdateWorkOrderStatusRequest) (*UpdateWorkOrderStatusReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateWorkOrderStatus not implemented")
+}
+func (UnimplementedTraceabilityServer) RegisterGenealogyLink(context.Context, *RegisterGenealogyLinkRequest) (*RegisterGenealogyLinkReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method RegisterGenealogyLink not implemented")
+}
+func (UnimplementedTraceabilityServer) TraceBackward(context.Context, *TraceRequest) (*TraceReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method TraceBackward not implemented")
+}
+func (UnimplementedTraceabilityServer) TraceForward(context.Context, *TraceRequest) (*TraceReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method TraceForward not implemented")
+}
+func (UnimplementedTraceabilityServer) TraceFullGenealogy(context.Context, *TraceRequest) (*GenealogyTreeReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method TraceFullGenealogy not implemented")
+}
+func (UnimplementedTraceabilityServer) GetEquipmentProcessHistory(context.Context, *TraceRequest) (*EquipmentProcessHistoryReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetEquipmentProcessHistory not implemented")
 }
 func (UnimplementedTraceabilityServer) mustEmbedUnimplementedTraceabilityServer() {}
 func (UnimplementedTraceabilityServer) testEmbeddedByValue()                      {}
@@ -1382,6 +1706,330 @@ func _Traceability_ListLogs_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Traceability_CreateMaterialDefinition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMaterialDefinitionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).CreateMaterialDefinition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_CreateMaterialDefinition_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).CreateMaterialDefinition(ctx, req.(*CreateMaterialDefinitionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_ListMaterialDefinitions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMaterialDefinitionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).ListMaterialDefinitions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_ListMaterialDefinitions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).ListMaterialDefinitions(ctx, req.(*ListMaterialDefinitionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_CreateMaterialLot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMaterialLotRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).CreateMaterialLot(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_CreateMaterialLot_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).CreateMaterialLot(ctx, req.(*CreateMaterialLotRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_GetMaterialLot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMaterialLotRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).GetMaterialLot(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_GetMaterialLot_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).GetMaterialLot(ctx, req.(*GetMaterialLotRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_ListMaterialLots_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMaterialLotsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).ListMaterialLots(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_ListMaterialLots_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).ListMaterialLots(ctx, req.(*ListMaterialLotsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_UpdateMaterialLotStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMaterialLotStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).UpdateMaterialLotStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_UpdateMaterialLotStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).UpdateMaterialLotStatus(ctx, req.(*UpdateMaterialLotStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_CreateOperator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOperatorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).CreateOperator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_CreateOperator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).CreateOperator(ctx, req.(*CreateOperatorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_ListOperators_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOperatorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).ListOperators(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_ListOperators_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).ListOperators(ctx, req.(*ListOperatorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_UpdateOperator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOperatorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).UpdateOperator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_UpdateOperator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).UpdateOperator(ctx, req.(*UpdateOperatorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_CreateWorkOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorkOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).CreateWorkOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_CreateWorkOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).CreateWorkOrder(ctx, req.(*CreateWorkOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_GetWorkOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).GetWorkOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_GetWorkOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).GetWorkOrder(ctx, req.(*GetWorkOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_ListWorkOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkOrdersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).ListWorkOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_ListWorkOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).ListWorkOrders(ctx, req.(*ListWorkOrdersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_UpdateWorkOrderStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkOrderStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).UpdateWorkOrderStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_UpdateWorkOrderStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).UpdateWorkOrderStatus(ctx, req.(*UpdateWorkOrderStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_RegisterGenealogyLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterGenealogyLinkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).RegisterGenealogyLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_RegisterGenealogyLink_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).RegisterGenealogyLink(ctx, req.(*RegisterGenealogyLinkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_TraceBackward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TraceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).TraceBackward(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_TraceBackward_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).TraceBackward(ctx, req.(*TraceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_TraceForward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TraceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).TraceForward(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_TraceForward_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).TraceForward(ctx, req.(*TraceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_TraceFullGenealogy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TraceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).TraceFullGenealogy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_TraceFullGenealogy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).TraceFullGenealogy(ctx, req.(*TraceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_GetEquipmentProcessHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TraceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).GetEquipmentProcessHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_GetEquipmentProcessHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).GetEquipmentProcessHistory(ctx, req.(*TraceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Traceability_ServiceDesc is the grpc.ServiceDesc for Traceability service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1540,6 +2188,78 @@ var Traceability_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListLogs",
 			Handler:    _Traceability_ListLogs_Handler,
+		},
+		{
+			MethodName: "CreateMaterialDefinition",
+			Handler:    _Traceability_CreateMaterialDefinition_Handler,
+		},
+		{
+			MethodName: "ListMaterialDefinitions",
+			Handler:    _Traceability_ListMaterialDefinitions_Handler,
+		},
+		{
+			MethodName: "CreateMaterialLot",
+			Handler:    _Traceability_CreateMaterialLot_Handler,
+		},
+		{
+			MethodName: "GetMaterialLot",
+			Handler:    _Traceability_GetMaterialLot_Handler,
+		},
+		{
+			MethodName: "ListMaterialLots",
+			Handler:    _Traceability_ListMaterialLots_Handler,
+		},
+		{
+			MethodName: "UpdateMaterialLotStatus",
+			Handler:    _Traceability_UpdateMaterialLotStatus_Handler,
+		},
+		{
+			MethodName: "CreateOperator",
+			Handler:    _Traceability_CreateOperator_Handler,
+		},
+		{
+			MethodName: "ListOperators",
+			Handler:    _Traceability_ListOperators_Handler,
+		},
+		{
+			MethodName: "UpdateOperator",
+			Handler:    _Traceability_UpdateOperator_Handler,
+		},
+		{
+			MethodName: "CreateWorkOrder",
+			Handler:    _Traceability_CreateWorkOrder_Handler,
+		},
+		{
+			MethodName: "GetWorkOrder",
+			Handler:    _Traceability_GetWorkOrder_Handler,
+		},
+		{
+			MethodName: "ListWorkOrders",
+			Handler:    _Traceability_ListWorkOrders_Handler,
+		},
+		{
+			MethodName: "UpdateWorkOrderStatus",
+			Handler:    _Traceability_UpdateWorkOrderStatus_Handler,
+		},
+		{
+			MethodName: "RegisterGenealogyLink",
+			Handler:    _Traceability_RegisterGenealogyLink_Handler,
+		},
+		{
+			MethodName: "TraceBackward",
+			Handler:    _Traceability_TraceBackward_Handler,
+		},
+		{
+			MethodName: "TraceForward",
+			Handler:    _Traceability_TraceForward_Handler,
+		},
+		{
+			MethodName: "TraceFullGenealogy",
+			Handler:    _Traceability_TraceFullGenealogy_Handler,
+		},
+		{
+			MethodName: "GetEquipmentProcessHistory",
+			Handler:    _Traceability_GetEquipmentProcessHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -222,11 +222,15 @@ func (s *TraceabilityService) ListProductionUnits(ctx context.Context, req *pb.L
 }
 
 func (s *TraceabilityService) UpdateProductionUnit(ctx context.Context, req *pb.UpdateProductionUnitRequest) (*pb.UpdateProductionUnitReply, error) {
-	err := s.uc.UpdateProductionUnit(ctx, &biz.ProductionUnit{ID: req.Id, Name: req.Name})
-	if err != nil {
-		return nil, err
-	}
-	return &pb.UpdateProductionUnitReply{Success: true}, nil
+    err := s.uc.UpdateProductionUnit(ctx, &biz.ProductionUnit{
+        ID:          req.Id,
+        Name:        req.Name,
+        Description: req.Description,
+    })
+    if err != nil {
+        return nil, err
+    }
+    return &pb.UpdateProductionUnitReply{Success: true}, nil
 }
 
 func (s *TraceabilityService) DeleteProductionUnit(ctx context.Context, req *pb.DeleteProductionUnitRequest) (*pb.DeleteProductionUnitReply, error) {
@@ -307,8 +311,15 @@ func (s *TraceabilityService) ListEquipment(ctx context.Context, req *pb.ListEqu
 	}
 	res := make([]*pb.Equipment, 0)
 	for _, x := range list {
-		res = append(res, &pb.Equipment{Id: x.ID, OperationalStatus: x.OperationalStatus})
-	}
+    res = append(res, &pb.Equipment{
+        Id:                x.ID,
+        PhysicalAssetId:   x.PhysicalAssetID,
+        ProductionUnitId:  x.ProductionUnitID,
+        EquipmentClassId:  x.EquipmentClassID,
+        OperationalStatus: x.OperationalStatus,
+        ParentEquipmentId: x.ParentEquipmentID,
+    })
+}
 	return &pb.ListEquipmentReply{Equipment: res}, nil
 }
 
@@ -456,3 +467,405 @@ func (s *TraceabilityService) ListLogs(ctx context.Context, req *pb.ListLogsRequ
 	}
 	return &pb.ListLogsReply{Logs: res}, nil
 }
+
+// ==========================================
+// 11. Material Definition
+// ==========================================
+
+func (s *TraceabilityService) CreateMaterialDefinition(ctx context.Context, req *pb.CreateMaterialDefinitionRequest) (*pb.CreateMaterialDefinitionReply, error) {
+	id, err := s.uc.CreateMaterialDefinition(ctx, &biz.MaterialDefinition{
+		Name:          req.Name,
+		MaterialType:  req.MaterialType,
+		UnitOfMeasure: req.UnitOfMeasure,
+		Description:   req.Description,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.CreateMaterialDefinitionReply{Id: id}, nil
+}
+
+func (s *TraceabilityService) ListMaterialDefinitions(ctx context.Context, req *pb.ListMaterialDefinitionsRequest) (*pb.ListMaterialDefinitionsReply, error) {
+	list, err := s.uc.ListMaterialDefinitions(ctx, req.MaterialType)
+	if err != nil {
+		return nil, err
+	}
+	res := make([]*pb.MaterialDefinition, 0)
+	for _, x := range list {
+		res = append(res, &pb.MaterialDefinition{
+			Id:            x.ID,
+			Name:          x.Name,
+			MaterialType:  x.MaterialType,
+			UnitOfMeasure: x.UnitOfMeasure,
+			Description:   x.Description,
+		})
+	}
+	return &pb.ListMaterialDefinitionsReply{Definitions: res}, nil
+}
+
+// ==========================================
+// 12. Material Lot
+// ==========================================
+
+func (s *TraceabilityService) CreateMaterialLot(ctx context.Context, req *pb.CreateMaterialLotRequest) (*pb.CreateMaterialLotReply, error) {
+	lotID, err := s.uc.CreateMaterialLot(ctx, &biz.MaterialLot{
+		LotID:                req.LotId,
+		MaterialDefinitionID: req.MaterialDefinitionId,
+		Quantity:             req.Quantity,
+		UnitOfMeasure:        req.UnitOfMeasure,
+		Status:               "available",
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.CreateMaterialLotReply{LotId: lotID}, nil
+}
+
+func (s *TraceabilityService) GetMaterialLot(ctx context.Context, req *pb.GetMaterialLotRequest) (*pb.GetMaterialLotReply, error) {
+	det, err := s.uc.GetMaterialLot(ctx, req.LotId)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetMaterialLotReply{
+		LotId:                det.LotID,
+		Status:               det.Status,
+		Quantity:             det.Quantity,
+		UnitOfMeasure:        det.UnitOfMeasure,
+		CreatedAt:            det.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:            det.UpdatedAt.Format(time.RFC3339),
+		MaterialDefinitionId: det.MaterialDefinitionID,
+		MaterialName:         det.MaterialName,
+		MaterialType:         det.MaterialType,
+		MaterialDescription:  det.MaterialDescription,
+	}, nil
+}
+
+func (s *TraceabilityService) ListMaterialLots(ctx context.Context, req *pb.ListMaterialLotsRequest) (*pb.ListMaterialLotsReply, error) {
+	list, err := s.uc.ListMaterialLots(ctx, req.Status, req.MaterialType)
+	if err != nil {
+		return nil, err
+	}
+	res := make([]*pb.MaterialLotSummary, 0)
+	for _, x := range list {
+		res = append(res, &pb.MaterialLotSummary{
+			LotId:         x.LotID,
+			Status:        x.Status,
+			Quantity:      x.Quantity,
+			UnitOfMeasure: x.UnitOfMeasure,
+			CreatedAt:     x.CreatedAt.Format(time.RFC3339),
+			MaterialName:  x.MaterialName,
+			MaterialType:  x.MaterialType,
+		})
+	}
+	return &pb.ListMaterialLotsReply{Lots: res}, nil
+}
+
+func (s *TraceabilityService) UpdateMaterialLotStatus(ctx context.Context, req *pb.UpdateMaterialLotStatusRequest) (*pb.UpdateMaterialLotStatusReply, error) {
+	err := s.uc.UpdateMaterialLotStatus(ctx, req.LotId, req.Status)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateMaterialLotStatusReply{Success: true}, nil
+}
+
+// ==========================================
+// 13. Operator
+// ==========================================
+
+func (s *TraceabilityService) CreateOperator(ctx context.Context, req *pb.CreateOperatorRequest) (*pb.CreateOperatorReply, error) {
+	opID, err := s.uc.CreateOperator(ctx, &biz.Operator{
+		OperatorID: req.OperatorId,
+		Name:       req.Name,
+		Role:       req.Role,
+		Shift:      req.Shift,
+		Status:     "active",
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.CreateOperatorReply{OperatorId: opID}, nil
+}
+
+func (s *TraceabilityService) ListOperators(ctx context.Context, req *pb.ListOperatorsRequest) (*pb.ListOperatorsReply, error) {
+	list, err := s.uc.ListOperators(ctx, req.Shift, req.Status)
+	if err != nil {
+		return nil, err
+	}
+	res := make([]*pb.Operator, 0)
+	for _, x := range list {
+		res = append(res, &pb.Operator{
+			OperatorId: x.OperatorID,
+			Name:       x.Name,
+			Role:       x.Role,
+			Shift:      x.Shift,
+			Status:     x.Status,
+		})
+	}
+	return &pb.ListOperatorsReply{Operators: res}, nil
+}
+
+func (s *TraceabilityService) UpdateOperator(ctx context.Context, req *pb.UpdateOperatorRequest) (*pb.UpdateOperatorReply, error) {
+	err := s.uc.UpdateOperator(ctx, &biz.Operator{
+		OperatorID: req.OperatorId,
+		Role:       req.Role,
+		Shift:      req.Shift,
+		Status:     req.Status,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateOperatorReply{Success: true}, nil
+}
+
+// ==========================================
+// 14. Work Order
+// ==========================================
+
+func (s *TraceabilityService) CreateWorkOrder(ctx context.Context, req *pb.CreateWorkOrderRequest) (*pb.CreateWorkOrderReply, error) {
+	start, _ := time.Parse(time.RFC3339, req.PlannedStart)
+	end, _ := time.Parse(time.RFC3339, req.PlannedEnd)
+	woID, err := s.uc.CreateWorkOrder(ctx, &biz.WorkOrder{
+		WorkOrderID:     req.WorkOrderId,
+		Description:     req.Description,
+		EquipmentID:     req.EquipmentId,
+		OperatorID:      req.OperatorId,
+		OutputLotID:     req.OutputLotId,
+		PlannedQuantity: req.PlannedQuantity,
+		UnitOfMeasure:   req.UnitOfMeasure,
+		PlannedStart:    start,
+		PlannedEnd:      end,
+		Status:          "planned",
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.CreateWorkOrderReply{WorkOrderId: woID}, nil
+}
+
+func (s *TraceabilityService) GetWorkOrder(ctx context.Context, req *pb.GetWorkOrderRequest) (*pb.GetWorkOrderReply, error) {
+	x, err := s.uc.GetWorkOrder(ctx, req.WorkOrderId)
+	if err != nil {
+		return nil, err
+	}
+	
+	inputs := make([]*pb.WorkOrderInputLot, len(x.InputLots))
+	for i, in := range x.InputLots {
+		inputs[i] = &pb.WorkOrderInputLot{
+			LotId:            in.LotID,
+			MaterialName:     in.MaterialName,
+			MaterialType:     in.MaterialType,
+			QuantityConsumed: in.QuantityConsumed,
+			UnitOfMeasure:    in.UnitOfMeasure,
+		}
+	}
+	
+	res := &pb.GetWorkOrderReply{
+		WorkOrderId:        x.WorkOrderID,
+		Description:        x.Description,
+		Status:             x.Status,
+		PlannedQuantity:    x.PlannedQuantity,
+		UnitOfMeasure:      x.UnitOfMeasure,
+		PlannedStart:       x.PlannedStart.Format(time.RFC3339),
+		PlannedEnd:         x.PlannedEnd.Format(time.RFC3339),
+		OutputLotId:        x.OutputLotID,
+		EquipmentId:        x.EquipmentID,
+		EquipmentClassName: x.EquipmentClassName,
+		OperatorId:         x.OperatorID,
+		OperatorName:       x.OperatorName,
+		OperatorShift:      x.OperatorShift,
+		InputLots:          inputs,
+	}
+	if x.ActualQuantity != nil { res.ActualQuantity = *x.ActualQuantity }
+	if x.ActualStart != nil { res.ActualStart = x.ActualStart.Format(time.RFC3339) }
+	if x.ActualEnd != nil { res.ActualEnd = x.ActualEnd.Format(time.RFC3339) }
+	
+	return res, nil
+}
+
+func (s *TraceabilityService) ListWorkOrders(ctx context.Context, req *pb.ListWorkOrdersRequest) (*pb.ListWorkOrdersReply, error) {
+	list, err := s.uc.ListWorkOrders(ctx, req.Status, req.EquipmentId)
+	if err != nil {
+		return nil, err
+	}
+	res := make([]*pb.WorkOrderSummary, 0)
+	for _, x := range list {
+		wo := &pb.WorkOrderSummary{
+			WorkOrderId: x.WorkOrderID,
+			Description: x.Description,
+			Status:      x.Status,
+			EquipmentId: x.EquipmentID,
+			OperatorId:  x.OperatorID,
+			OutputLotId: x.OutputLotID,
+		}
+		if x.ActualStart != nil { wo.ActualStart = x.ActualStart.Format(time.RFC3339) }
+		if x.ActualEnd != nil { wo.ActualEnd = x.ActualEnd.Format(time.RFC3339) }
+		res = append(res, wo)
+	}
+	return &pb.ListWorkOrdersReply{WorkOrders: res}, nil
+}
+
+func (s *TraceabilityService) UpdateWorkOrderStatus(ctx context.Context, req *pb.UpdateWorkOrderStatusRequest) (*pb.UpdateWorkOrderStatusReply, error) {
+	wo := &biz.WorkOrder{
+		WorkOrderID: req.WorkOrderId,
+		Status:      req.Status,
+	}
+	if req.ActualQuantity > 0 { wo.ActualQuantity = &req.ActualQuantity }
+	if req.ActualStart != "" { t, _ := time.Parse(time.RFC3339, req.ActualStart); wo.ActualStart = &t }
+	if req.ActualEnd != "" { t, _ := time.Parse(time.RFC3339, req.ActualEnd); wo.ActualEnd = &t }
+	
+	err := s.uc.UpdateWorkOrderStatus(ctx, wo)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateWorkOrderStatusReply{Success: true}, nil
+}
+
+// ==========================================
+// 15. Genealogy
+// ==========================================
+
+func (s *TraceabilityService) RegisterGenealogyLink(ctx context.Context, req *pb.RegisterGenealogyLinkRequest) (*pb.RegisterGenealogyLinkReply, error) {
+	id, err := s.uc.RegisterGenealogyLink(ctx, &biz.LotGenealogy{
+		ParentLotID:      req.ParentLotId,
+		ChildLotID:       req.ChildLotId,
+		WorkOrderID:      req.WorkOrderId,
+		EquipmentID:      req.EquipmentId,
+		QuantityConsumed: req.QuantityConsumed,
+		QuantityProduced: req.QuantityProduced,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.RegisterGenealogyLinkReply{Id: id}, nil
+}
+
+// ==========================================
+// 16. Trace
+// ==========================================
+
+func mapTraceNodes(bizNodes []*biz.TraceNode) []*pb.TraceNode {
+	res := make([]*pb.TraceNode, len(bizNodes))
+	for i, x := range bizNodes {
+		res[i] = &pb.TraceNode{
+			Depth:              x.Depth,
+			LotId:              x.LotID,
+			RelatedLotId:       x.RelatedLotID,
+			MaterialName:       x.MaterialName,
+			MaterialType:       x.MaterialType,
+			LotStatus:          x.LotStatus,
+			Quantity:           x.Quantity,
+			UnitOfMeasure:      x.UnitOfMeasure,
+			QuantityUsed:       x.QuantityUsed,
+			WorkOrderId:        x.WorkOrderID,
+			EquipmentId:        x.EquipmentID,
+			EquipmentClassName: x.EquipmentClassName,
+			OperatorId:         x.OperatorID,
+			OperatorName:       x.OperatorName,
+		}
+		if x.EventTime != nil { res[i].EventTime = x.EventTime.Format(time.RFC3339) }
+	}
+	return res
+}
+
+func (s *TraceabilityService) TraceBackward(ctx context.Context, req *pb.TraceRequest) (*pb.TraceReply, error) {
+	list, err := s.uc.TraceBackward(ctx, req.LotId)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.TraceReply{
+		QueriedLotId:   req.LotId,
+		TraceDirection: "backward",
+		Nodes:          mapTraceNodes(list),
+	}, nil
+}
+
+func (s *TraceabilityService) TraceForward(ctx context.Context, req *pb.TraceRequest) (*pb.TraceReply, error) {
+	list, err := s.uc.TraceForward(ctx, req.LotId)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.TraceReply{
+		QueriedLotId:   req.LotId,
+		TraceDirection: "forward",
+		Nodes:          mapTraceNodes(list),
+	}, nil
+}
+
+func (s *TraceabilityService) TraceFullGenealogy(ctx context.Context, req *pb.TraceRequest) (*pb.GenealogyTreeReply, error) {
+	bNodes, bEdges, err := s.uc.TraceFullGenealogy(ctx, req.LotId)
+	if err != nil {
+		return nil, err
+	}
+	
+	nodes := make([]*pb.GenealogyNode, len(bNodes))
+	for i, x := range bNodes {
+		nodes[i] = &pb.GenealogyNode{
+			LotId:         x.LotID,
+			MaterialName:  x.MaterialName,
+			MaterialType:  x.MaterialType,
+			Status:        x.Status,
+			Quantity:      x.Quantity,
+			UnitOfMeasure: x.UnitOfMeasure,
+		}
+	}
+	
+	edges := make([]*pb.GenealogyEdge, len(bEdges))
+	for i, x := range bEdges {
+		edges[i] = &pb.GenealogyEdge{
+			SourceLotId:      x.SourceLotID,
+			TargetLotId:      x.TargetLotID,
+			WorkOrderId:      x.WorkOrderID,
+			EquipmentId:      x.EquipmentID,
+			QuantityConsumed: x.QuantityConsumed,
+			QuantityProduced: x.QuantityProduced,
+		}
+		if x.EventTime != nil { edges[i].EventTime = x.EventTime.Format(time.RFC3339) }
+	}
+	
+	return &pb.GenealogyTreeReply{
+		CenterLotId: req.LotId,
+		Nodes:       nodes,
+		Edges:       edges,
+	}, nil
+}
+
+func (s *TraceabilityService) GetEquipmentProcessHistory(ctx context.Context, req *pb.TraceRequest) (*pb.EquipmentProcessHistoryReply, error) {
+	sParams, sReadings, err := s.uc.GetEquipmentProcessHistory(ctx, req.LotId)
+	if err != nil {
+		return nil, err
+	}
+	
+	params := make([]*pb.EquipmentParameterSummary, len(sParams))
+	for i, x := range sParams {
+		params[i] = &pb.EquipmentParameterSummary{
+			EquipmentId:        x.EquipmentID,
+			EquipmentClassName: x.EquipmentClassName,
+			ParameterName:      x.ParameterName,
+			UnitOfMeasure:      x.UnitOfMeasure,
+			MinValue:           x.MinValue,
+			MaxValue:           x.MaxValue,
+			AvgValue:           x.AvgValue,
+			ReadingCount:       x.ReadingCount,
+		}
+		if x.ProcessStart != nil { params[i].ProcessStart = x.ProcessStart.Format(time.RFC3339) }
+		if x.ProcessEnd != nil { params[i].ProcessEnd = x.ProcessEnd.Format(time.RFC3339) }
+	}
+	
+	readings := make([]*pb.TelemetryReading, len(sReadings))
+	for i, x := range sReadings {
+		readings[i] = &pb.TelemetryReading{
+			EquipmentId:   x.EquipmentID,
+			ParameterName: x.ParameterName,
+			Value:         x.Value,
+			UnitOfMeasure: x.UnitOfMeasure,
+		}
+		if x.RecordedAt != nil { readings[i].RecordedAt = x.RecordedAt.Format(time.RFC3339) }
+	}
+	
+	return &pb.EquipmentProcessHistoryReply{
+		LotId:      req.LotId,
+		Parameters: params,
+		Readings:   readings,
+	}, nil
+}
+

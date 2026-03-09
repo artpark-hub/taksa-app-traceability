@@ -4400,6 +4400,2883 @@ func (x *LogEntry) GetOperatorId() string {
 	return ""
 }
 
+type CreateMaterialDefinitionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                                          // e.g., "Epoxy Resin Grade A"
+	MaterialType  string                 `protobuf:"bytes,2,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`      // RAW_MATERIAL, WORK_IN_PROGRESS, FINISHED_GOOD, PACKAGING
+	UnitOfMeasure string                 `protobuf:"bytes,3,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"` // e.g., "kg", "liters", "units"
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateMaterialDefinitionRequest) Reset() {
+	*x = CreateMaterialDefinitionRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[86]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateMaterialDefinitionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateMaterialDefinitionRequest) ProtoMessage() {}
+
+func (x *CreateMaterialDefinitionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[86]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateMaterialDefinitionRequest.ProtoReflect.Descriptor instead.
+func (*CreateMaterialDefinitionRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{86}
+}
+
+func (x *CreateMaterialDefinitionRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateMaterialDefinitionRequest) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+func (x *CreateMaterialDefinitionRequest) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *CreateMaterialDefinitionRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type CreateMaterialDefinitionReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateMaterialDefinitionReply) Reset() {
+	*x = CreateMaterialDefinitionReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[87]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateMaterialDefinitionReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateMaterialDefinitionReply) ProtoMessage() {}
+
+func (x *CreateMaterialDefinitionReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[87]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateMaterialDefinitionReply.ProtoReflect.Descriptor instead.
+func (*CreateMaterialDefinitionReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{87}
+}
+
+func (x *CreateMaterialDefinitionReply) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListMaterialDefinitionsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MaterialType  string                 `protobuf:"bytes,1,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"` // optional filter
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMaterialDefinitionsRequest) Reset() {
+	*x = ListMaterialDefinitionsRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[88]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMaterialDefinitionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMaterialDefinitionsRequest) ProtoMessage() {}
+
+func (x *ListMaterialDefinitionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[88]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMaterialDefinitionsRequest.ProtoReflect.Descriptor instead.
+func (*ListMaterialDefinitionsRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{88}
+}
+
+func (x *ListMaterialDefinitionsRequest) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+type ListMaterialDefinitionsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Definitions   []*MaterialDefinition  `protobuf:"bytes,1,rep,name=definitions,proto3" json:"definitions,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMaterialDefinitionsReply) Reset() {
+	*x = ListMaterialDefinitionsReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[89]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMaterialDefinitionsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMaterialDefinitionsReply) ProtoMessage() {}
+
+func (x *ListMaterialDefinitionsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[89]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMaterialDefinitionsReply.ProtoReflect.Descriptor instead.
+func (*ListMaterialDefinitionsReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{89}
+}
+
+func (x *ListMaterialDefinitionsReply) GetDefinitions() []*MaterialDefinition {
+	if x != nil {
+		return x.Definitions
+	}
+	return nil
+}
+
+type MaterialDefinition struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	MaterialType  string                 `protobuf:"bytes,3,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
+	UnitOfMeasure string                 `protobuf:"bytes,4,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MaterialDefinition) Reset() {
+	*x = MaterialDefinition{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[90]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MaterialDefinition) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MaterialDefinition) ProtoMessage() {}
+
+func (x *MaterialDefinition) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[90]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MaterialDefinition.ProtoReflect.Descriptor instead.
+func (*MaterialDefinition) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{90}
+}
+
+func (x *MaterialDefinition) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *MaterialDefinition) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *MaterialDefinition) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+func (x *MaterialDefinition) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *MaterialDefinition) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type CreateMaterialLotRequest struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	LotId                string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"` // e.g., "RM-CELL-2026-001"
+	MaterialDefinitionId int32                  `protobuf:"varint,2,opt,name=material_definition_id,json=materialDefinitionId,proto3" json:"material_definition_id,omitempty"`
+	Quantity             float64                `protobuf:"fixed64,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	UnitOfMeasure        string                 `protobuf:"bytes,4,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *CreateMaterialLotRequest) Reset() {
+	*x = CreateMaterialLotRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[91]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateMaterialLotRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateMaterialLotRequest) ProtoMessage() {}
+
+func (x *CreateMaterialLotRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[91]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateMaterialLotRequest.ProtoReflect.Descriptor instead.
+func (*CreateMaterialLotRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{91}
+}
+
+func (x *CreateMaterialLotRequest) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *CreateMaterialLotRequest) GetMaterialDefinitionId() int32 {
+	if x != nil {
+		return x.MaterialDefinitionId
+	}
+	return 0
+}
+
+func (x *CreateMaterialLotRequest) GetQuantity() float64 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *CreateMaterialLotRequest) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+type CreateMaterialLotReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateMaterialLotReply) Reset() {
+	*x = CreateMaterialLotReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[92]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateMaterialLotReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateMaterialLotReply) ProtoMessage() {}
+
+func (x *CreateMaterialLotReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[92]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateMaterialLotReply.ProtoReflect.Descriptor instead.
+func (*CreateMaterialLotReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{92}
+}
+
+func (x *CreateMaterialLotReply) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+type GetMaterialLotRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMaterialLotRequest) Reset() {
+	*x = GetMaterialLotRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[93]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMaterialLotRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMaterialLotRequest) ProtoMessage() {}
+
+func (x *GetMaterialLotRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[93]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMaterialLotRequest.ProtoReflect.Descriptor instead.
+func (*GetMaterialLotRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{93}
+}
+
+func (x *GetMaterialLotRequest) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+type GetMaterialLotReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Quantity      float64                `protobuf:"fixed64,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	UnitOfMeasure string                 `protobuf:"bytes,4,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Material definition info (joined)
+	MaterialDefinitionId int32  `protobuf:"varint,7,opt,name=material_definition_id,json=materialDefinitionId,proto3" json:"material_definition_id,omitempty"`
+	MaterialName         string `protobuf:"bytes,8,opt,name=material_name,json=materialName,proto3" json:"material_name,omitempty"`
+	MaterialType         string `protobuf:"bytes,9,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
+	MaterialDescription  string `protobuf:"bytes,10,opt,name=material_description,json=materialDescription,proto3" json:"material_description,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *GetMaterialLotReply) Reset() {
+	*x = GetMaterialLotReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[94]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMaterialLotReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMaterialLotReply) ProtoMessage() {}
+
+func (x *GetMaterialLotReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[94]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMaterialLotReply.ProtoReflect.Descriptor instead.
+func (*GetMaterialLotReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{94}
+}
+
+func (x *GetMaterialLotReply) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetQuantity() float64 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *GetMaterialLotReply) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetMaterialDefinitionId() int32 {
+	if x != nil {
+		return x.MaterialDefinitionId
+	}
+	return 0
+}
+
+func (x *GetMaterialLotReply) GetMaterialName() string {
+	if x != nil {
+		return x.MaterialName
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+func (x *GetMaterialLotReply) GetMaterialDescription() string {
+	if x != nil {
+		return x.MaterialDescription
+	}
+	return ""
+}
+
+type ListMaterialLotsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`                                 // optional filter: "available", "in_process", etc.
+	MaterialType  string                 `protobuf:"bytes,2,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"` // optional filter: "RAW_MATERIAL", etc.
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMaterialLotsRequest) Reset() {
+	*x = ListMaterialLotsRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[95]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMaterialLotsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMaterialLotsRequest) ProtoMessage() {}
+
+func (x *ListMaterialLotsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[95]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMaterialLotsRequest.ProtoReflect.Descriptor instead.
+func (*ListMaterialLotsRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{95}
+}
+
+func (x *ListMaterialLotsRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *ListMaterialLotsRequest) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+type ListMaterialLotsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Lots          []*MaterialLotSummary  `protobuf:"bytes,1,rep,name=lots,proto3" json:"lots,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMaterialLotsReply) Reset() {
+	*x = ListMaterialLotsReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[96]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMaterialLotsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMaterialLotsReply) ProtoMessage() {}
+
+func (x *ListMaterialLotsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[96]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMaterialLotsReply.ProtoReflect.Descriptor instead.
+func (*ListMaterialLotsReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{96}
+}
+
+func (x *ListMaterialLotsReply) GetLots() []*MaterialLotSummary {
+	if x != nil {
+		return x.Lots
+	}
+	return nil
+}
+
+type MaterialLotSummary struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Quantity      float64                `protobuf:"fixed64,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	UnitOfMeasure string                 `protobuf:"bytes,4,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	MaterialName  string                 `protobuf:"bytes,6,opt,name=material_name,json=materialName,proto3" json:"material_name,omitempty"`
+	MaterialType  string                 `protobuf:"bytes,7,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MaterialLotSummary) Reset() {
+	*x = MaterialLotSummary{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[97]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MaterialLotSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MaterialLotSummary) ProtoMessage() {}
+
+func (x *MaterialLotSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[97]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MaterialLotSummary.ProtoReflect.Descriptor instead.
+func (*MaterialLotSummary) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{97}
+}
+
+func (x *MaterialLotSummary) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *MaterialLotSummary) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *MaterialLotSummary) GetQuantity() float64 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *MaterialLotSummary) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *MaterialLotSummary) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *MaterialLotSummary) GetMaterialName() string {
+	if x != nil {
+		return x.MaterialName
+	}
+	return ""
+}
+
+func (x *MaterialLotSummary) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+type UpdateMaterialLotStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // new status
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateMaterialLotStatusRequest) Reset() {
+	*x = UpdateMaterialLotStatusRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[98]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateMaterialLotStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateMaterialLotStatusRequest) ProtoMessage() {}
+
+func (x *UpdateMaterialLotStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[98]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateMaterialLotStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateMaterialLotStatusRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{98}
+}
+
+func (x *UpdateMaterialLotStatusRequest) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *UpdateMaterialLotStatusRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type UpdateMaterialLotStatusReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateMaterialLotStatusReply) Reset() {
+	*x = UpdateMaterialLotStatusReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[99]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateMaterialLotStatusReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateMaterialLotStatusReply) ProtoMessage() {}
+
+func (x *UpdateMaterialLotStatusReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[99]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateMaterialLotStatusReply.ProtoReflect.Descriptor instead.
+func (*UpdateMaterialLotStatusReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{99}
+}
+
+func (x *UpdateMaterialLotStatusReply) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type CreateOperatorRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OperatorId    string                 `protobuf:"bytes,1,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"` // e.g., "OP-KAVYA-01"
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Role          string                 `protobuf:"bytes,3,opt,name=role,proto3" json:"role,omitempty"`
+	Shift         string                 `protobuf:"bytes,4,opt,name=shift,proto3" json:"shift,omitempty"` // DAY_SHIFT, NIGHT_SHIFT, MORNING_SHIFT
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOperatorRequest) Reset() {
+	*x = CreateOperatorRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[100]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOperatorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOperatorRequest) ProtoMessage() {}
+
+func (x *CreateOperatorRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[100]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOperatorRequest.ProtoReflect.Descriptor instead.
+func (*CreateOperatorRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{100}
+}
+
+func (x *CreateOperatorRequest) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *CreateOperatorRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateOperatorRequest) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *CreateOperatorRequest) GetShift() string {
+	if x != nil {
+		return x.Shift
+	}
+	return ""
+}
+
+type CreateOperatorReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OperatorId    string                 `protobuf:"bytes,1,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOperatorReply) Reset() {
+	*x = CreateOperatorReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[101]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOperatorReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOperatorReply) ProtoMessage() {}
+
+func (x *CreateOperatorReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[101]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOperatorReply.ProtoReflect.Descriptor instead.
+func (*CreateOperatorReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{101}
+}
+
+func (x *CreateOperatorReply) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+type ListOperatorsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Shift         string                 `protobuf:"bytes,1,opt,name=shift,proto3" json:"shift,omitempty"`   // optional filter
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // optional filter: "active", "inactive"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListOperatorsRequest) Reset() {
+	*x = ListOperatorsRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[102]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListOperatorsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListOperatorsRequest) ProtoMessage() {}
+
+func (x *ListOperatorsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[102]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListOperatorsRequest.ProtoReflect.Descriptor instead.
+func (*ListOperatorsRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{102}
+}
+
+func (x *ListOperatorsRequest) GetShift() string {
+	if x != nil {
+		return x.Shift
+	}
+	return ""
+}
+
+func (x *ListOperatorsRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type ListOperatorsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Operators     []*Operator            `protobuf:"bytes,1,rep,name=operators,proto3" json:"operators,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListOperatorsReply) Reset() {
+	*x = ListOperatorsReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[103]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListOperatorsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListOperatorsReply) ProtoMessage() {}
+
+func (x *ListOperatorsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[103]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListOperatorsReply.ProtoReflect.Descriptor instead.
+func (*ListOperatorsReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{103}
+}
+
+func (x *ListOperatorsReply) GetOperators() []*Operator {
+	if x != nil {
+		return x.Operators
+	}
+	return nil
+}
+
+type Operator struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OperatorId    string                 `protobuf:"bytes,1,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Role          string                 `protobuf:"bytes,3,opt,name=role,proto3" json:"role,omitempty"`
+	Shift         string                 `protobuf:"bytes,4,opt,name=shift,proto3" json:"shift,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Operator) Reset() {
+	*x = Operator{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[104]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Operator) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Operator) ProtoMessage() {}
+
+func (x *Operator) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[104]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Operator.ProtoReflect.Descriptor instead.
+func (*Operator) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{104}
+}
+
+func (x *Operator) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *Operator) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Operator) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *Operator) GetShift() string {
+	if x != nil {
+		return x.Shift
+	}
+	return ""
+}
+
+func (x *Operator) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type UpdateOperatorRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OperatorId    string                 `protobuf:"bytes,1,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	Role          string                 `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	Shift         string                 `protobuf:"bytes,3,opt,name=shift,proto3" json:"shift,omitempty"`
+	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateOperatorRequest) Reset() {
+	*x = UpdateOperatorRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[105]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateOperatorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateOperatorRequest) ProtoMessage() {}
+
+func (x *UpdateOperatorRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[105]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateOperatorRequest.ProtoReflect.Descriptor instead.
+func (*UpdateOperatorRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{105}
+}
+
+func (x *UpdateOperatorRequest) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *UpdateOperatorRequest) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *UpdateOperatorRequest) GetShift() string {
+	if x != nil {
+		return x.Shift
+	}
+	return ""
+}
+
+func (x *UpdateOperatorRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type UpdateOperatorReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateOperatorReply) Reset() {
+	*x = UpdateOperatorReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[106]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateOperatorReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateOperatorReply) ProtoMessage() {}
+
+func (x *UpdateOperatorReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[106]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateOperatorReply.ProtoReflect.Descriptor instead.
+func (*UpdateOperatorReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{106}
+}
+
+func (x *UpdateOperatorReply) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type CreateWorkOrderRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId     string                 `protobuf:"bytes,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"` // e.g., "WO-2026-0001"
+	Description     string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	EquipmentId     string                 `protobuf:"bytes,3,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	OperatorId      string                 `protobuf:"bytes,4,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	OutputLotId     string                 `protobuf:"bytes,5,opt,name=output_lot_id,json=outputLotId,proto3" json:"output_lot_id,omitempty"`
+	PlannedQuantity float64                `protobuf:"fixed64,6,opt,name=planned_quantity,json=plannedQuantity,proto3" json:"planned_quantity,omitempty"`
+	UnitOfMeasure   string                 `protobuf:"bytes,7,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	PlannedStart    string                 `protobuf:"bytes,8,opt,name=planned_start,json=plannedStart,proto3" json:"planned_start,omitempty"` // RFC3339 timestamp
+	PlannedEnd      string                 `protobuf:"bytes,9,opt,name=planned_end,json=plannedEnd,proto3" json:"planned_end,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CreateWorkOrderRequest) Reset() {
+	*x = CreateWorkOrderRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[107]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateWorkOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateWorkOrderRequest) ProtoMessage() {}
+
+func (x *CreateWorkOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[107]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateWorkOrderRequest.ProtoReflect.Descriptor instead.
+func (*CreateWorkOrderRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{107}
+}
+
+func (x *CreateWorkOrderRequest) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetOutputLotId() string {
+	if x != nil {
+		return x.OutputLotId
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetPlannedQuantity() float64 {
+	if x != nil {
+		return x.PlannedQuantity
+	}
+	return 0
+}
+
+func (x *CreateWorkOrderRequest) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetPlannedStart() string {
+	if x != nil {
+		return x.PlannedStart
+	}
+	return ""
+}
+
+func (x *CreateWorkOrderRequest) GetPlannedEnd() string {
+	if x != nil {
+		return x.PlannedEnd
+	}
+	return ""
+}
+
+type CreateWorkOrderReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   string                 `protobuf:"bytes,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateWorkOrderReply) Reset() {
+	*x = CreateWorkOrderReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[108]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateWorkOrderReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateWorkOrderReply) ProtoMessage() {}
+
+func (x *CreateWorkOrderReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[108]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateWorkOrderReply.ProtoReflect.Descriptor instead.
+func (*CreateWorkOrderReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{108}
+}
+
+func (x *CreateWorkOrderReply) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+type GetWorkOrderRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   string                 `protobuf:"bytes,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkOrderRequest) Reset() {
+	*x = GetWorkOrderRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[109]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkOrderRequest) ProtoMessage() {}
+
+func (x *GetWorkOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[109]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkOrderRequest.ProtoReflect.Descriptor instead.
+func (*GetWorkOrderRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{109}
+}
+
+func (x *GetWorkOrderRequest) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+type GetWorkOrderReply struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId     string                 `protobuf:"bytes,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	Description     string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Status          string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	PlannedQuantity float64                `protobuf:"fixed64,4,opt,name=planned_quantity,json=plannedQuantity,proto3" json:"planned_quantity,omitempty"`
+	ActualQuantity  float64                `protobuf:"fixed64,5,opt,name=actual_quantity,json=actualQuantity,proto3" json:"actual_quantity,omitempty"`
+	UnitOfMeasure   string                 `protobuf:"bytes,6,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	PlannedStart    string                 `protobuf:"bytes,7,opt,name=planned_start,json=plannedStart,proto3" json:"planned_start,omitempty"`
+	PlannedEnd      string                 `protobuf:"bytes,8,opt,name=planned_end,json=plannedEnd,proto3" json:"planned_end,omitempty"`
+	ActualStart     string                 `protobuf:"bytes,9,opt,name=actual_start,json=actualStart,proto3" json:"actual_start,omitempty"`
+	ActualEnd       string                 `protobuf:"bytes,10,opt,name=actual_end,json=actualEnd,proto3" json:"actual_end,omitempty"`
+	OutputLotId     string                 `protobuf:"bytes,11,opt,name=output_lot_id,json=outputLotId,proto3" json:"output_lot_id,omitempty"`
+	// Equipment info
+	EquipmentId        string `protobuf:"bytes,12,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	EquipmentClassName string `protobuf:"bytes,13,opt,name=equipment_class_name,json=equipmentClassName,proto3" json:"equipment_class_name,omitempty"`
+	// Operator info
+	OperatorId    string `protobuf:"bytes,14,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	OperatorName  string `protobuf:"bytes,15,opt,name=operator_name,json=operatorName,proto3" json:"operator_name,omitempty"`
+	OperatorShift string `protobuf:"bytes,16,opt,name=operator_shift,json=operatorShift,proto3" json:"operator_shift,omitempty"`
+	// Input lots consumed by this work order
+	InputLots     []*WorkOrderInputLot `protobuf:"bytes,17,rep,name=input_lots,json=inputLots,proto3" json:"input_lots,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkOrderReply) Reset() {
+	*x = GetWorkOrderReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[110]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkOrderReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkOrderReply) ProtoMessage() {}
+
+func (x *GetWorkOrderReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[110]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkOrderReply.ProtoReflect.Descriptor instead.
+func (*GetWorkOrderReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{110}
+}
+
+func (x *GetWorkOrderReply) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetPlannedQuantity() float64 {
+	if x != nil {
+		return x.PlannedQuantity
+	}
+	return 0
+}
+
+func (x *GetWorkOrderReply) GetActualQuantity() float64 {
+	if x != nil {
+		return x.ActualQuantity
+	}
+	return 0
+}
+
+func (x *GetWorkOrderReply) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetPlannedStart() string {
+	if x != nil {
+		return x.PlannedStart
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetPlannedEnd() string {
+	if x != nil {
+		return x.PlannedEnd
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetActualStart() string {
+	if x != nil {
+		return x.ActualStart
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetActualEnd() string {
+	if x != nil {
+		return x.ActualEnd
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetOutputLotId() string {
+	if x != nil {
+		return x.OutputLotId
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetEquipmentClassName() string {
+	if x != nil {
+		return x.EquipmentClassName
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetOperatorName() string {
+	if x != nil {
+		return x.OperatorName
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetOperatorShift() string {
+	if x != nil {
+		return x.OperatorShift
+	}
+	return ""
+}
+
+func (x *GetWorkOrderReply) GetInputLots() []*WorkOrderInputLot {
+	if x != nil {
+		return x.InputLots
+	}
+	return nil
+}
+
+type WorkOrderInputLot struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	LotId            string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	MaterialName     string                 `protobuf:"bytes,2,opt,name=material_name,json=materialName,proto3" json:"material_name,omitempty"`
+	MaterialType     string                 `protobuf:"bytes,3,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
+	QuantityConsumed float64                `protobuf:"fixed64,4,opt,name=quantity_consumed,json=quantityConsumed,proto3" json:"quantity_consumed,omitempty"`
+	UnitOfMeasure    string                 `protobuf:"bytes,5,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *WorkOrderInputLot) Reset() {
+	*x = WorkOrderInputLot{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[111]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkOrderInputLot) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkOrderInputLot) ProtoMessage() {}
+
+func (x *WorkOrderInputLot) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[111]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkOrderInputLot.ProtoReflect.Descriptor instead.
+func (*WorkOrderInputLot) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{111}
+}
+
+func (x *WorkOrderInputLot) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *WorkOrderInputLot) GetMaterialName() string {
+	if x != nil {
+		return x.MaterialName
+	}
+	return ""
+}
+
+func (x *WorkOrderInputLot) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+func (x *WorkOrderInputLot) GetQuantityConsumed() float64 {
+	if x != nil {
+		return x.QuantityConsumed
+	}
+	return 0
+}
+
+func (x *WorkOrderInputLot) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+type ListWorkOrdersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`                              // optional filter
+	EquipmentId   string                 `protobuf:"bytes,2,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"` // optional filter
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListWorkOrdersRequest) Reset() {
+	*x = ListWorkOrdersRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[112]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListWorkOrdersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkOrdersRequest) ProtoMessage() {}
+
+func (x *ListWorkOrdersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[112]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkOrdersRequest.ProtoReflect.Descriptor instead.
+func (*ListWorkOrdersRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{112}
+}
+
+func (x *ListWorkOrdersRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *ListWorkOrdersRequest) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+type ListWorkOrdersReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrders    []*WorkOrderSummary    `protobuf:"bytes,1,rep,name=work_orders,json=workOrders,proto3" json:"work_orders,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListWorkOrdersReply) Reset() {
+	*x = ListWorkOrdersReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[113]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListWorkOrdersReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkOrdersReply) ProtoMessage() {}
+
+func (x *ListWorkOrdersReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[113]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkOrdersReply.ProtoReflect.Descriptor instead.
+func (*ListWorkOrdersReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{113}
+}
+
+func (x *ListWorkOrdersReply) GetWorkOrders() []*WorkOrderSummary {
+	if x != nil {
+		return x.WorkOrders
+	}
+	return nil
+}
+
+type WorkOrderSummary struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   string                 `protobuf:"bytes,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	EquipmentId   string                 `protobuf:"bytes,4,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	OperatorId    string                 `protobuf:"bytes,5,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	OutputLotId   string                 `protobuf:"bytes,6,opt,name=output_lot_id,json=outputLotId,proto3" json:"output_lot_id,omitempty"`
+	ActualStart   string                 `protobuf:"bytes,7,opt,name=actual_start,json=actualStart,proto3" json:"actual_start,omitempty"`
+	ActualEnd     string                 `protobuf:"bytes,8,opt,name=actual_end,json=actualEnd,proto3" json:"actual_end,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkOrderSummary) Reset() {
+	*x = WorkOrderSummary{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[114]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkOrderSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkOrderSummary) ProtoMessage() {}
+
+func (x *WorkOrderSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[114]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkOrderSummary.ProtoReflect.Descriptor instead.
+func (*WorkOrderSummary) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{114}
+}
+
+func (x *WorkOrderSummary) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetOutputLotId() string {
+	if x != nil {
+		return x.OutputLotId
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetActualStart() string {
+	if x != nil {
+		return x.ActualStart
+	}
+	return ""
+}
+
+func (x *WorkOrderSummary) GetActualEnd() string {
+	if x != nil {
+		return x.ActualEnd
+	}
+	return ""
+}
+
+type UpdateWorkOrderStatusRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId    string                 `protobuf:"bytes,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	Status         string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`                                         // new status
+	ActualQuantity float64                `protobuf:"fixed64,3,opt,name=actual_quantity,json=actualQuantity,proto3" json:"actual_quantity,omitempty"` // optional: set on completion
+	ActualStart    string                 `protobuf:"bytes,4,opt,name=actual_start,json=actualStart,proto3" json:"actual_start,omitempty"`            // optional: set on start
+	ActualEnd      string                 `protobuf:"bytes,5,opt,name=actual_end,json=actualEnd,proto3" json:"actual_end,omitempty"`                  // optional: set on completion
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateWorkOrderStatusRequest) Reset() {
+	*x = UpdateWorkOrderStatusRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[115]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateWorkOrderStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkOrderStatusRequest) ProtoMessage() {}
+
+func (x *UpdateWorkOrderStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[115]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkOrderStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateWorkOrderStatusRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{115}
+}
+
+func (x *UpdateWorkOrderStatusRequest) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *UpdateWorkOrderStatusRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *UpdateWorkOrderStatusRequest) GetActualQuantity() float64 {
+	if x != nil {
+		return x.ActualQuantity
+	}
+	return 0
+}
+
+func (x *UpdateWorkOrderStatusRequest) GetActualStart() string {
+	if x != nil {
+		return x.ActualStart
+	}
+	return ""
+}
+
+func (x *UpdateWorkOrderStatusRequest) GetActualEnd() string {
+	if x != nil {
+		return x.ActualEnd
+	}
+	return ""
+}
+
+type UpdateWorkOrderStatusReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateWorkOrderStatusReply) Reset() {
+	*x = UpdateWorkOrderStatusReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[116]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateWorkOrderStatusReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkOrderStatusReply) ProtoMessage() {}
+
+func (x *UpdateWorkOrderStatusReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[116]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkOrderStatusReply.ProtoReflect.Descriptor instead.
+func (*UpdateWorkOrderStatusReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{116}
+}
+
+func (x *UpdateWorkOrderStatusReply) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type RegisterGenealogyLinkRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	ParentLotId      string                 `protobuf:"bytes,1,opt,name=parent_lot_id,json=parentLotId,proto3" json:"parent_lot_id,omitempty"` // input consumed
+	ChildLotId       string                 `protobuf:"bytes,2,opt,name=child_lot_id,json=childLotId,proto3" json:"child_lot_id,omitempty"`    // output produced
+	WorkOrderId      string                 `protobuf:"bytes,3,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	EquipmentId      string                 `protobuf:"bytes,4,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	QuantityConsumed float64                `protobuf:"fixed64,5,opt,name=quantity_consumed,json=quantityConsumed,proto3" json:"quantity_consumed,omitempty"`
+	QuantityProduced float64                `protobuf:"fixed64,6,opt,name=quantity_produced,json=quantityProduced,proto3" json:"quantity_produced,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *RegisterGenealogyLinkRequest) Reset() {
+	*x = RegisterGenealogyLinkRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[117]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterGenealogyLinkRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterGenealogyLinkRequest) ProtoMessage() {}
+
+func (x *RegisterGenealogyLinkRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[117]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterGenealogyLinkRequest.ProtoReflect.Descriptor instead.
+func (*RegisterGenealogyLinkRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{117}
+}
+
+func (x *RegisterGenealogyLinkRequest) GetParentLotId() string {
+	if x != nil {
+		return x.ParentLotId
+	}
+	return ""
+}
+
+func (x *RegisterGenealogyLinkRequest) GetChildLotId() string {
+	if x != nil {
+		return x.ChildLotId
+	}
+	return ""
+}
+
+func (x *RegisterGenealogyLinkRequest) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *RegisterGenealogyLinkRequest) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *RegisterGenealogyLinkRequest) GetQuantityConsumed() float64 {
+	if x != nil {
+		return x.QuantityConsumed
+	}
+	return 0
+}
+
+func (x *RegisterGenealogyLinkRequest) GetQuantityProduced() float64 {
+	if x != nil {
+		return x.QuantityProduced
+	}
+	return 0
+}
+
+type RegisterGenealogyLinkReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterGenealogyLinkReply) Reset() {
+	*x = RegisterGenealogyLinkReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[118]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterGenealogyLinkReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterGenealogyLinkReply) ProtoMessage() {}
+
+func (x *RegisterGenealogyLinkReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[118]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterGenealogyLinkReply.ProtoReflect.Descriptor instead.
+func (*RegisterGenealogyLinkReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{118}
+}
+
+func (x *RegisterGenealogyLinkReply) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Shared request for all trace queries — just needs a lot_id
+type TraceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TraceRequest) Reset() {
+	*x = TraceRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[119]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TraceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TraceRequest) ProtoMessage() {}
+
+func (x *TraceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[119]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TraceRequest.ProtoReflect.Descriptor instead.
+func (*TraceRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{119}
+}
+
+func (x *TraceRequest) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+// --- Backward & Forward Trace Response ---
+// Returns a flat list of trace nodes, each with depth for tree reconstruction
+type TraceReply struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	QueriedLotId   string                 `protobuf:"bytes,1,opt,name=queried_lot_id,json=queriedLotId,proto3" json:"queried_lot_id,omitempty"`
+	TraceDirection string                 `protobuf:"bytes,2,opt,name=trace_direction,json=traceDirection,proto3" json:"trace_direction,omitempty"` // "backward" or "forward"
+	Nodes          []*TraceNode           `protobuf:"bytes,3,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *TraceReply) Reset() {
+	*x = TraceReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[120]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TraceReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TraceReply) ProtoMessage() {}
+
+func (x *TraceReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[120]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TraceReply.ProtoReflect.Descriptor instead.
+func (*TraceReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{120}
+}
+
+func (x *TraceReply) GetQueriedLotId() string {
+	if x != nil {
+		return x.QueriedLotId
+	}
+	return ""
+}
+
+func (x *TraceReply) GetTraceDirection() string {
+	if x != nil {
+		return x.TraceDirection
+	}
+	return ""
+}
+
+func (x *TraceReply) GetNodes() []*TraceNode {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+// A single node in the trace tree
+type TraceNode struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Depth              int32                  `protobuf:"varint,1,opt,name=depth,proto3" json:"depth,omitempty"`
+	LotId              string                 `protobuf:"bytes,2,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	RelatedLotId       string                 `protobuf:"bytes,3,opt,name=related_lot_id,json=relatedLotId,proto3" json:"related_lot_id,omitempty"` // consumed_by (backward) or produced_from (forward)
+	MaterialName       string                 `protobuf:"bytes,4,opt,name=material_name,json=materialName,proto3" json:"material_name,omitempty"`
+	MaterialType       string                 `protobuf:"bytes,5,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
+	LotStatus          string                 `protobuf:"bytes,6,opt,name=lot_status,json=lotStatus,proto3" json:"lot_status,omitempty"`
+	Quantity           float64                `protobuf:"fixed64,7,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	UnitOfMeasure      string                 `protobuf:"bytes,8,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	QuantityUsed       float64                `protobuf:"fixed64,9,opt,name=quantity_used,json=quantityUsed,proto3" json:"quantity_used,omitempty"` // consumed (backward) or produced (forward)
+	WorkOrderId        string                 `protobuf:"bytes,10,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	EquipmentId        string                 `protobuf:"bytes,11,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	EquipmentClassName string                 `protobuf:"bytes,12,opt,name=equipment_class_name,json=equipmentClassName,proto3" json:"equipment_class_name,omitempty"`
+	OperatorId         string                 `protobuf:"bytes,13,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	OperatorName       string                 `protobuf:"bytes,14,opt,name=operator_name,json=operatorName,proto3" json:"operator_name,omitempty"`
+	EventTime          string                 `protobuf:"bytes,15,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *TraceNode) Reset() {
+	*x = TraceNode{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[121]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TraceNode) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TraceNode) ProtoMessage() {}
+
+func (x *TraceNode) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[121]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TraceNode.ProtoReflect.Descriptor instead.
+func (*TraceNode) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{121}
+}
+
+func (x *TraceNode) GetDepth() int32 {
+	if x != nil {
+		return x.Depth
+	}
+	return 0
+}
+
+func (x *TraceNode) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *TraceNode) GetRelatedLotId() string {
+	if x != nil {
+		return x.RelatedLotId
+	}
+	return ""
+}
+
+func (x *TraceNode) GetMaterialName() string {
+	if x != nil {
+		return x.MaterialName
+	}
+	return ""
+}
+
+func (x *TraceNode) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+func (x *TraceNode) GetLotStatus() string {
+	if x != nil {
+		return x.LotStatus
+	}
+	return ""
+}
+
+func (x *TraceNode) GetQuantity() float64 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *TraceNode) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *TraceNode) GetQuantityUsed() float64 {
+	if x != nil {
+		return x.QuantityUsed
+	}
+	return 0
+}
+
+func (x *TraceNode) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *TraceNode) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *TraceNode) GetEquipmentClassName() string {
+	if x != nil {
+		return x.EquipmentClassName
+	}
+	return ""
+}
+
+func (x *TraceNode) GetOperatorId() string {
+	if x != nil {
+		return x.OperatorId
+	}
+	return ""
+}
+
+func (x *TraceNode) GetOperatorName() string {
+	if x != nil {
+		return x.OperatorName
+	}
+	return ""
+}
+
+func (x *TraceNode) GetEventTime() string {
+	if x != nil {
+		return x.EventTime
+	}
+	return ""
+}
+
+// --- Full Genealogy Tree Response ---
+// Returns nodes + edges for frontend graph rendering (D3.js / vis.js)
+type GenealogyTreeReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CenterLotId   string                 `protobuf:"bytes,1,opt,name=center_lot_id,json=centerLotId,proto3" json:"center_lot_id,omitempty"`
+	Nodes         []*GenealogyNode       `protobuf:"bytes,2,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	Edges         []*GenealogyEdge       `protobuf:"bytes,3,rep,name=edges,proto3" json:"edges,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenealogyTreeReply) Reset() {
+	*x = GenealogyTreeReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[122]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenealogyTreeReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenealogyTreeReply) ProtoMessage() {}
+
+func (x *GenealogyTreeReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[122]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenealogyTreeReply.ProtoReflect.Descriptor instead.
+func (*GenealogyTreeReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{122}
+}
+
+func (x *GenealogyTreeReply) GetCenterLotId() string {
+	if x != nil {
+		return x.CenterLotId
+	}
+	return ""
+}
+
+func (x *GenealogyTreeReply) GetNodes() []*GenealogyNode {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+func (x *GenealogyTreeReply) GetEdges() []*GenealogyEdge {
+	if x != nil {
+		return x.Edges
+	}
+	return nil
+}
+
+type GenealogyNode struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LotId         string                 `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	MaterialName  string                 `protobuf:"bytes,2,opt,name=material_name,json=materialName,proto3" json:"material_name,omitempty"`
+	MaterialType  string                 `protobuf:"bytes,3,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
+	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	Quantity      float64                `protobuf:"fixed64,5,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	UnitOfMeasure string                 `protobuf:"bytes,6,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenealogyNode) Reset() {
+	*x = GenealogyNode{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[123]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenealogyNode) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenealogyNode) ProtoMessage() {}
+
+func (x *GenealogyNode) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[123]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenealogyNode.ProtoReflect.Descriptor instead.
+func (*GenealogyNode) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{123}
+}
+
+func (x *GenealogyNode) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *GenealogyNode) GetMaterialName() string {
+	if x != nil {
+		return x.MaterialName
+	}
+	return ""
+}
+
+func (x *GenealogyNode) GetMaterialType() string {
+	if x != nil {
+		return x.MaterialType
+	}
+	return ""
+}
+
+func (x *GenealogyNode) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *GenealogyNode) GetQuantity() float64 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *GenealogyNode) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+type GenealogyEdge struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	SourceLotId      string                 `protobuf:"bytes,1,opt,name=source_lot_id,json=sourceLotId,proto3" json:"source_lot_id,omitempty"` // parent (input)
+	TargetLotId      string                 `protobuf:"bytes,2,opt,name=target_lot_id,json=targetLotId,proto3" json:"target_lot_id,omitempty"` // child (output)
+	WorkOrderId      string                 `protobuf:"bytes,3,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	EquipmentId      string                 `protobuf:"bytes,4,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	QuantityConsumed float64                `protobuf:"fixed64,5,opt,name=quantity_consumed,json=quantityConsumed,proto3" json:"quantity_consumed,omitempty"`
+	QuantityProduced float64                `protobuf:"fixed64,6,opt,name=quantity_produced,json=quantityProduced,proto3" json:"quantity_produced,omitempty"`
+	EventTime        string                 `protobuf:"bytes,7,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *GenealogyEdge) Reset() {
+	*x = GenealogyEdge{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[124]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenealogyEdge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenealogyEdge) ProtoMessage() {}
+
+func (x *GenealogyEdge) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[124]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenealogyEdge.ProtoReflect.Descriptor instead.
+func (*GenealogyEdge) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{124}
+}
+
+func (x *GenealogyEdge) GetSourceLotId() string {
+	if x != nil {
+		return x.SourceLotId
+	}
+	return ""
+}
+
+func (x *GenealogyEdge) GetTargetLotId() string {
+	if x != nil {
+		return x.TargetLotId
+	}
+	return ""
+}
+
+func (x *GenealogyEdge) GetWorkOrderId() string {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return ""
+}
+
+func (x *GenealogyEdge) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *GenealogyEdge) GetQuantityConsumed() float64 {
+	if x != nil {
+		return x.QuantityConsumed
+	}
+	return 0
+}
+
+func (x *GenealogyEdge) GetQuantityProduced() float64 {
+	if x != nil {
+		return x.QuantityProduced
+	}
+	return 0
+}
+
+func (x *GenealogyEdge) GetEventTime() string {
+	if x != nil {
+		return x.EventTime
+	}
+	return ""
+}
+
+// --- Equipment Process History Response ---
+type EquipmentProcessHistoryReply struct {
+	state         protoimpl.MessageState       `protogen:"open.v1"`
+	LotId         string                       `protobuf:"bytes,1,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
+	Parameters    []*EquipmentParameterSummary `protobuf:"bytes,2,rep,name=parameters,proto3" json:"parameters,omitempty"`
+	Readings      []*TelemetryReading          `protobuf:"bytes,3,rep,name=readings,proto3" json:"readings,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EquipmentProcessHistoryReply) Reset() {
+	*x = EquipmentProcessHistoryReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[125]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EquipmentProcessHistoryReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EquipmentProcessHistoryReply) ProtoMessage() {}
+
+func (x *EquipmentProcessHistoryReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[125]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EquipmentProcessHistoryReply.ProtoReflect.Descriptor instead.
+func (*EquipmentProcessHistoryReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{125}
+}
+
+func (x *EquipmentProcessHistoryReply) GetLotId() string {
+	if x != nil {
+		return x.LotId
+	}
+	return ""
+}
+
+func (x *EquipmentProcessHistoryReply) GetParameters() []*EquipmentParameterSummary {
+	if x != nil {
+		return x.Parameters
+	}
+	return nil
+}
+
+func (x *EquipmentProcessHistoryReply) GetReadings() []*TelemetryReading {
+	if x != nil {
+		return x.Readings
+	}
+	return nil
+}
+
+// Aggregated summary per parameter
+type EquipmentParameterSummary struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	EquipmentId        string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	EquipmentClassName string                 `protobuf:"bytes,2,opt,name=equipment_class_name,json=equipmentClassName,proto3" json:"equipment_class_name,omitempty"`
+	ParameterName      string                 `protobuf:"bytes,3,opt,name=parameter_name,json=parameterName,proto3" json:"parameter_name,omitempty"`
+	UnitOfMeasure      string                 `protobuf:"bytes,4,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	MinValue           float64                `protobuf:"fixed64,5,opt,name=min_value,json=minValue,proto3" json:"min_value,omitempty"`
+	MaxValue           float64                `protobuf:"fixed64,6,opt,name=max_value,json=maxValue,proto3" json:"max_value,omitempty"`
+	AvgValue           float64                `protobuf:"fixed64,7,opt,name=avg_value,json=avgValue,proto3" json:"avg_value,omitempty"`
+	ReadingCount       int32                  `protobuf:"varint,8,opt,name=reading_count,json=readingCount,proto3" json:"reading_count,omitempty"`
+	ProcessStart       string                 `protobuf:"bytes,9,opt,name=process_start,json=processStart,proto3" json:"process_start,omitempty"`
+	ProcessEnd         string                 `protobuf:"bytes,10,opt,name=process_end,json=processEnd,proto3" json:"process_end,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *EquipmentParameterSummary) Reset() {
+	*x = EquipmentParameterSummary{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[126]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EquipmentParameterSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EquipmentParameterSummary) ProtoMessage() {}
+
+func (x *EquipmentParameterSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[126]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EquipmentParameterSummary.ProtoReflect.Descriptor instead.
+func (*EquipmentParameterSummary) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{126}
+}
+
+func (x *EquipmentParameterSummary) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *EquipmentParameterSummary) GetEquipmentClassName() string {
+	if x != nil {
+		return x.EquipmentClassName
+	}
+	return ""
+}
+
+func (x *EquipmentParameterSummary) GetParameterName() string {
+	if x != nil {
+		return x.ParameterName
+	}
+	return ""
+}
+
+func (x *EquipmentParameterSummary) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *EquipmentParameterSummary) GetMinValue() float64 {
+	if x != nil {
+		return x.MinValue
+	}
+	return 0
+}
+
+func (x *EquipmentParameterSummary) GetMaxValue() float64 {
+	if x != nil {
+		return x.MaxValue
+	}
+	return 0
+}
+
+func (x *EquipmentParameterSummary) GetAvgValue() float64 {
+	if x != nil {
+		return x.AvgValue
+	}
+	return 0
+}
+
+func (x *EquipmentParameterSummary) GetReadingCount() int32 {
+	if x != nil {
+		return x.ReadingCount
+	}
+	return 0
+}
+
+func (x *EquipmentParameterSummary) GetProcessStart() string {
+	if x != nil {
+		return x.ProcessStart
+	}
+	return ""
+}
+
+func (x *EquipmentParameterSummary) GetProcessEnd() string {
+	if x != nil {
+		return x.ProcessEnd
+	}
+	return ""
+}
+
+// Individual telemetry data point
+type TelemetryReading struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EquipmentId   string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	ParameterName string                 `protobuf:"bytes,2,opt,name=parameter_name,json=parameterName,proto3" json:"parameter_name,omitempty"`
+	Value         float64                `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
+	UnitOfMeasure string                 `protobuf:"bytes,4,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
+	RecordedAt    string                 `protobuf:"bytes,5,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TelemetryReading) Reset() {
+	*x = TelemetryReading{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[127]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TelemetryReading) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TelemetryReading) ProtoMessage() {}
+
+func (x *TelemetryReading) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[127]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TelemetryReading.ProtoReflect.Descriptor instead.
+func (*TelemetryReading) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{127}
+}
+
+func (x *TelemetryReading) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *TelemetryReading) GetParameterName() string {
+	if x != nil {
+		return x.ParameterName
+	}
+	return ""
+}
+
+func (x *TelemetryReading) GetValue() float64 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+func (x *TelemetryReading) GetUnitOfMeasure() string {
+	if x != nil {
+		return x.UnitOfMeasure
+	}
+	return ""
+}
+
+func (x *TelemetryReading) GetRecordedAt() string {
+	if x != nil {
+		return x.RecordedAt
+	}
+	return ""
+}
+
 var File_traceability_v1_traceability_proto protoreflect.FileDescriptor
 
 const file_traceability_v1_traceability_proto_rawDesc = "" +
@@ -4660,7 +7537,249 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\n" +
 	"event_time\x18\x03 \x01(\tR\teventTime\x12\x1f\n" +
 	"\voperator_id\x18\x04 \x01(\tR\n" +
-	"operatorId2\xfb-\n" +
+	"operatorId\"\xa4\x01\n" +
+	"\x1fCreateMaterialDefinitionRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12#\n" +
+	"\rmaterial_type\x18\x02 \x01(\tR\fmaterialType\x12&\n" +
+	"\x0funit_of_measure\x18\x03 \x01(\tR\runitOfMeasure\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"/\n" +
+	"\x1dCreateMaterialDefinitionReply\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"E\n" +
+	"\x1eListMaterialDefinitionsRequest\x12#\n" +
+	"\rmaterial_type\x18\x01 \x01(\tR\fmaterialType\"i\n" +
+	"\x1cListMaterialDefinitionsReply\x12I\n" +
+	"\vdefinitions\x18\x01 \x03(\v2'.api.traceability.v1.MaterialDefinitionR\vdefinitions\"\xa7\x01\n" +
+	"\x12MaterialDefinition\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12#\n" +
+	"\rmaterial_type\x18\x03 \x01(\tR\fmaterialType\x12&\n" +
+	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\"\xab\x01\n" +
+	"\x18CreateMaterialLotRequest\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x124\n" +
+	"\x16material_definition_id\x18\x02 \x01(\x05R\x14materialDefinitionId\x12\x1a\n" +
+	"\bquantity\x18\x03 \x01(\x01R\bquantity\x12&\n" +
+	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\"/\n" +
+	"\x16CreateMaterialLotReply\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\".\n" +
+	"\x15GetMaterialLotRequest\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\"\xf9\x02\n" +
+	"\x13GetMaterialLotReply\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12\x1a\n" +
+	"\bquantity\x18\x03 \x01(\x01R\bquantity\x12&\n" +
+	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\tR\tupdatedAt\x124\n" +
+	"\x16material_definition_id\x18\a \x01(\x05R\x14materialDefinitionId\x12#\n" +
+	"\rmaterial_name\x18\b \x01(\tR\fmaterialName\x12#\n" +
+	"\rmaterial_type\x18\t \x01(\tR\fmaterialType\x121\n" +
+	"\x14material_description\x18\n" +
+	" \x01(\tR\x13materialDescription\"V\n" +
+	"\x17ListMaterialLotsRequest\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\x12#\n" +
+	"\rmaterial_type\x18\x02 \x01(\tR\fmaterialType\"T\n" +
+	"\x15ListMaterialLotsReply\x12;\n" +
+	"\x04lots\x18\x01 \x03(\v2'.api.traceability.v1.MaterialLotSummaryR\x04lots\"\xf0\x01\n" +
+	"\x12MaterialLotSummary\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12\x1a\n" +
+	"\bquantity\x18\x03 \x01(\x01R\bquantity\x12&\n" +
+	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\tR\tcreatedAt\x12#\n" +
+	"\rmaterial_name\x18\x06 \x01(\tR\fmaterialName\x12#\n" +
+	"\rmaterial_type\x18\a \x01(\tR\fmaterialType\"O\n" +
+	"\x1eUpdateMaterialLotStatusRequest\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"8\n" +
+	"\x1cUpdateMaterialLotStatusReply\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"v\n" +
+	"\x15CreateOperatorRequest\x12\x1f\n" +
+	"\voperator_id\x18\x01 \x01(\tR\n" +
+	"operatorId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04role\x18\x03 \x01(\tR\x04role\x12\x14\n" +
+	"\x05shift\x18\x04 \x01(\tR\x05shift\"6\n" +
+	"\x13CreateOperatorReply\x12\x1f\n" +
+	"\voperator_id\x18\x01 \x01(\tR\n" +
+	"operatorId\"D\n" +
+	"\x14ListOperatorsRequest\x12\x14\n" +
+	"\x05shift\x18\x01 \x01(\tR\x05shift\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"Q\n" +
+	"\x12ListOperatorsReply\x12;\n" +
+	"\toperators\x18\x01 \x03(\v2\x1d.api.traceability.v1.OperatorR\toperators\"\x81\x01\n" +
+	"\bOperator\x12\x1f\n" +
+	"\voperator_id\x18\x01 \x01(\tR\n" +
+	"operatorId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04role\x18\x03 \x01(\tR\x04role\x12\x14\n" +
+	"\x05shift\x18\x04 \x01(\tR\x05shift\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\"z\n" +
+	"\x15UpdateOperatorRequest\x12\x1f\n" +
+	"\voperator_id\x18\x01 \x01(\tR\n" +
+	"operatorId\x12\x12\n" +
+	"\x04role\x18\x02 \x01(\tR\x04role\x12\x14\n" +
+	"\x05shift\x18\x03 \x01(\tR\x05shift\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"/\n" +
+	"\x13UpdateOperatorReply\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xdf\x02\n" +
+	"\x16CreateWorkOrderRequest\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\tR\vworkOrderId\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12!\n" +
+	"\fequipment_id\x18\x03 \x01(\tR\vequipmentId\x12\x1f\n" +
+	"\voperator_id\x18\x04 \x01(\tR\n" +
+	"operatorId\x12\"\n" +
+	"\routput_lot_id\x18\x05 \x01(\tR\voutputLotId\x12)\n" +
+	"\x10planned_quantity\x18\x06 \x01(\x01R\x0fplannedQuantity\x12&\n" +
+	"\x0funit_of_measure\x18\a \x01(\tR\runitOfMeasure\x12#\n" +
+	"\rplanned_start\x18\b \x01(\tR\fplannedStart\x12\x1f\n" +
+	"\vplanned_end\x18\t \x01(\tR\n" +
+	"plannedEnd\":\n" +
+	"\x14CreateWorkOrderReply\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\tR\vworkOrderId\"9\n" +
+	"\x13GetWorkOrderRequest\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\tR\vworkOrderId\"\xa2\x05\n" +
+	"\x11GetWorkOrderReply\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\tR\vworkOrderId\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12)\n" +
+	"\x10planned_quantity\x18\x04 \x01(\x01R\x0fplannedQuantity\x12'\n" +
+	"\x0factual_quantity\x18\x05 \x01(\x01R\x0eactualQuantity\x12&\n" +
+	"\x0funit_of_measure\x18\x06 \x01(\tR\runitOfMeasure\x12#\n" +
+	"\rplanned_start\x18\a \x01(\tR\fplannedStart\x12\x1f\n" +
+	"\vplanned_end\x18\b \x01(\tR\n" +
+	"plannedEnd\x12!\n" +
+	"\factual_start\x18\t \x01(\tR\vactualStart\x12\x1d\n" +
+	"\n" +
+	"actual_end\x18\n" +
+	" \x01(\tR\tactualEnd\x12\"\n" +
+	"\routput_lot_id\x18\v \x01(\tR\voutputLotId\x12!\n" +
+	"\fequipment_id\x18\f \x01(\tR\vequipmentId\x120\n" +
+	"\x14equipment_class_name\x18\r \x01(\tR\x12equipmentClassName\x12\x1f\n" +
+	"\voperator_id\x18\x0e \x01(\tR\n" +
+	"operatorId\x12#\n" +
+	"\roperator_name\x18\x0f \x01(\tR\foperatorName\x12%\n" +
+	"\x0eoperator_shift\x18\x10 \x01(\tR\roperatorShift\x12E\n" +
+	"\n" +
+	"input_lots\x18\x11 \x03(\v2&.api.traceability.v1.WorkOrderInputLotR\tinputLots\"\xc9\x01\n" +
+	"\x11WorkOrderInputLot\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x12#\n" +
+	"\rmaterial_name\x18\x02 \x01(\tR\fmaterialName\x12#\n" +
+	"\rmaterial_type\x18\x03 \x01(\tR\fmaterialType\x12+\n" +
+	"\x11quantity_consumed\x18\x04 \x01(\x01R\x10quantityConsumed\x12&\n" +
+	"\x0funit_of_measure\x18\x05 \x01(\tR\runitOfMeasure\"R\n" +
+	"\x15ListWorkOrdersRequest\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\x12!\n" +
+	"\fequipment_id\x18\x02 \x01(\tR\vequipmentId\"]\n" +
+	"\x13ListWorkOrdersReply\x12F\n" +
+	"\vwork_orders\x18\x01 \x03(\v2%.api.traceability.v1.WorkOrderSummaryR\n" +
+	"workOrders\"\x9a\x02\n" +
+	"\x10WorkOrderSummary\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\tR\vworkOrderId\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12!\n" +
+	"\fequipment_id\x18\x04 \x01(\tR\vequipmentId\x12\x1f\n" +
+	"\voperator_id\x18\x05 \x01(\tR\n" +
+	"operatorId\x12\"\n" +
+	"\routput_lot_id\x18\x06 \x01(\tR\voutputLotId\x12!\n" +
+	"\factual_start\x18\a \x01(\tR\vactualStart\x12\x1d\n" +
+	"\n" +
+	"actual_end\x18\b \x01(\tR\tactualEnd\"\xc5\x01\n" +
+	"\x1cUpdateWorkOrderStatusRequest\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\tR\vworkOrderId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12'\n" +
+	"\x0factual_quantity\x18\x03 \x01(\x01R\x0eactualQuantity\x12!\n" +
+	"\factual_start\x18\x04 \x01(\tR\vactualStart\x12\x1d\n" +
+	"\n" +
+	"actual_end\x18\x05 \x01(\tR\tactualEnd\"6\n" +
+	"\x1aUpdateWorkOrderStatusReply\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x85\x02\n" +
+	"\x1cRegisterGenealogyLinkRequest\x12\"\n" +
+	"\rparent_lot_id\x18\x01 \x01(\tR\vparentLotId\x12 \n" +
+	"\fchild_lot_id\x18\x02 \x01(\tR\n" +
+	"childLotId\x12\"\n" +
+	"\rwork_order_id\x18\x03 \x01(\tR\vworkOrderId\x12!\n" +
+	"\fequipment_id\x18\x04 \x01(\tR\vequipmentId\x12+\n" +
+	"\x11quantity_consumed\x18\x05 \x01(\x01R\x10quantityConsumed\x12+\n" +
+	"\x11quantity_produced\x18\x06 \x01(\x01R\x10quantityProduced\",\n" +
+	"\x1aRegisterGenealogyLinkReply\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"%\n" +
+	"\fTraceRequest\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\"\x91\x01\n" +
+	"\n" +
+	"TraceReply\x12$\n" +
+	"\x0equeried_lot_id\x18\x01 \x01(\tR\fqueriedLotId\x12'\n" +
+	"\x0ftrace_direction\x18\x02 \x01(\tR\x0etraceDirection\x124\n" +
+	"\x05nodes\x18\x03 \x03(\v2\x1e.api.traceability.v1.TraceNodeR\x05nodes\"\x8e\x04\n" +
+	"\tTraceNode\x12\x14\n" +
+	"\x05depth\x18\x01 \x01(\x05R\x05depth\x12\x15\n" +
+	"\x06lot_id\x18\x02 \x01(\tR\x05lotId\x12$\n" +
+	"\x0erelated_lot_id\x18\x03 \x01(\tR\frelatedLotId\x12#\n" +
+	"\rmaterial_name\x18\x04 \x01(\tR\fmaterialName\x12#\n" +
+	"\rmaterial_type\x18\x05 \x01(\tR\fmaterialType\x12\x1d\n" +
+	"\n" +
+	"lot_status\x18\x06 \x01(\tR\tlotStatus\x12\x1a\n" +
+	"\bquantity\x18\a \x01(\x01R\bquantity\x12&\n" +
+	"\x0funit_of_measure\x18\b \x01(\tR\runitOfMeasure\x12#\n" +
+	"\rquantity_used\x18\t \x01(\x01R\fquantityUsed\x12\"\n" +
+	"\rwork_order_id\x18\n" +
+	" \x01(\tR\vworkOrderId\x12!\n" +
+	"\fequipment_id\x18\v \x01(\tR\vequipmentId\x120\n" +
+	"\x14equipment_class_name\x18\f \x01(\tR\x12equipmentClassName\x12\x1f\n" +
+	"\voperator_id\x18\r \x01(\tR\n" +
+	"operatorId\x12#\n" +
+	"\roperator_name\x18\x0e \x01(\tR\foperatorName\x12\x1d\n" +
+	"\n" +
+	"event_time\x18\x0f \x01(\tR\teventTime\"\xac\x01\n" +
+	"\x12GenealogyTreeReply\x12\"\n" +
+	"\rcenter_lot_id\x18\x01 \x01(\tR\vcenterLotId\x128\n" +
+	"\x05nodes\x18\x02 \x03(\v2\".api.traceability.v1.GenealogyNodeR\x05nodes\x128\n" +
+	"\x05edges\x18\x03 \x03(\v2\".api.traceability.v1.GenealogyEdgeR\x05edges\"\xcc\x01\n" +
+	"\rGenealogyNode\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x12#\n" +
+	"\rmaterial_name\x18\x02 \x01(\tR\fmaterialName\x12#\n" +
+	"\rmaterial_type\x18\x03 \x01(\tR\fmaterialType\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\x12\x1a\n" +
+	"\bquantity\x18\x05 \x01(\x01R\bquantity\x12&\n" +
+	"\x0funit_of_measure\x18\x06 \x01(\tR\runitOfMeasure\"\x97\x02\n" +
+	"\rGenealogyEdge\x12\"\n" +
+	"\rsource_lot_id\x18\x01 \x01(\tR\vsourceLotId\x12\"\n" +
+	"\rtarget_lot_id\x18\x02 \x01(\tR\vtargetLotId\x12\"\n" +
+	"\rwork_order_id\x18\x03 \x01(\tR\vworkOrderId\x12!\n" +
+	"\fequipment_id\x18\x04 \x01(\tR\vequipmentId\x12+\n" +
+	"\x11quantity_consumed\x18\x05 \x01(\x01R\x10quantityConsumed\x12+\n" +
+	"\x11quantity_produced\x18\x06 \x01(\x01R\x10quantityProduced\x12\x1d\n" +
+	"\n" +
+	"event_time\x18\a \x01(\tR\teventTime\"\xc8\x01\n" +
+	"\x1cEquipmentProcessHistoryReply\x12\x15\n" +
+	"\x06lot_id\x18\x01 \x01(\tR\x05lotId\x12N\n" +
+	"\n" +
+	"parameters\x18\x02 \x03(\v2..api.traceability.v1.EquipmentParameterSummaryR\n" +
+	"parameters\x12A\n" +
+	"\breadings\x18\x03 \x03(\v2%.api.traceability.v1.TelemetryReadingR\breadings\"\x81\x03\n" +
+	"\x19EquipmentParameterSummary\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x120\n" +
+	"\x14equipment_class_name\x18\x02 \x01(\tR\x12equipmentClassName\x12%\n" +
+	"\x0eparameter_name\x18\x03 \x01(\tR\rparameterName\x12&\n" +
+	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\x12\x1b\n" +
+	"\tmin_value\x18\x05 \x01(\x01R\bminValue\x12\x1b\n" +
+	"\tmax_value\x18\x06 \x01(\x01R\bmaxValue\x12\x1b\n" +
+	"\tavg_value\x18\a \x01(\x01R\bavgValue\x12#\n" +
+	"\rreading_count\x18\b \x01(\x05R\freadingCount\x12#\n" +
+	"\rprocess_start\x18\t \x01(\tR\fprocessStart\x12\x1f\n" +
+	"\vprocess_end\x18\n" +
+	" \x01(\tR\n" +
+	"processEnd\"\xbb\x01\n" +
+	"\x10TelemetryReading\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12%\n" +
+	"\x0eparameter_name\x18\x02 \x01(\tR\rparameterName\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\x01R\x05value\x12&\n" +
+	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\x12\x1f\n" +
+	"\vrecorded_at\x18\x05 \x01(\tR\n" +
+	"recordedAt2\xbfD\n" +
 	"\fTraceability\x12\x99\x01\n" +
 	"\x10CreateEnterprise\x12,.api.traceability.v1.CreateEnterpriseRequest\x1a*.api.traceability.v1.CreateEnterpriseReply\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/traceability/enterprises\x12\x93\x01\n" +
 	"\x0fListEnterprises\x12+.api.traceability.v1.ListEnterprisesRequest\x1a).api.traceability.v1.ListEnterprisesReply\"(\x82\xd3\xe4\x93\x02\"\x12 /api/v1/traceability/enterprises\x12\x9e\x01\n" +
@@ -4708,7 +7827,25 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x0eUpdateProperty\x12*.api.traceability.v1.UpdatePropertyRequest\x1a(.api.traceability.v1.UpdatePropertyReply\"H\x82\xd3\xe4\x93\x02B:\x01*2=/api/v1/traceability/equipment/{equipment_id}/properties/{id}\x12\xad\x01\n" +
 	"\x0eDeleteProperty\x12*.api.traceability.v1.DeletePropertyRequest\x1a(.api.traceability.v1.DeletePropertyReply\"E\x82\xd3\xe4\x93\x02?*=/api/v1/traceability/equipment/{equipment_id}/properties/{id}\x12z\n" +
 	"\bLogEvent\x12$.api.traceability.v1.LogEventRequest\x1a\".api.traceability.v1.LogEventReply\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/traceability/logs\x12w\n" +
-	"\bListLogs\x12$.api.traceability.v1.ListLogsRequest\x1a\".api.traceability.v1.ListLogsReply\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/v1/traceability/logsB%Z#traceability/api/traceability/v1;v1b\x06proto3"
+	"\bListLogs\x12$.api.traceability.v1.ListLogsRequest\x1a\".api.traceability.v1.ListLogsReply\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/v1/traceability/logs\x12\xba\x01\n" +
+	"\x18CreateMaterialDefinition\x124.api.traceability.v1.CreateMaterialDefinitionRequest\x1a2.api.traceability.v1.CreateMaterialDefinitionReply\"4\x82\xd3\xe4\x93\x02.:\x01*\")/api/v1/traceability/material-definitions\x12\xb4\x01\n" +
+	"\x17ListMaterialDefinitions\x123.api.traceability.v1.ListMaterialDefinitionsRequest\x1a1.api.traceability.v1.ListMaterialDefinitionsReply\"1\x82\xd3\xe4\x93\x02+\x12)/api/v1/traceability/material-definitions\x12\x95\x01\n" +
+	"\x11CreateMaterialLot\x12-.api.traceability.v1.CreateMaterialLotRequest\x1a+.api.traceability.v1.CreateMaterialLotReply\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/traceability/lots\x12\x92\x01\n" +
+	"\x0eGetMaterialLot\x12*.api.traceability.v1.GetMaterialLotRequest\x1a(.api.traceability.v1.GetMaterialLotReply\"*\x82\xd3\xe4\x93\x02$\x12\"/api/v1/traceability/lots/{lot_id}\x12\x8f\x01\n" +
+	"\x10ListMaterialLots\x12,.api.traceability.v1.ListMaterialLotsRequest\x1a*.api.traceability.v1.ListMaterialLotsReply\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/v1/traceability/lots\x12\xb7\x01\n" +
+	"\x17UpdateMaterialLotStatus\x123.api.traceability.v1.UpdateMaterialLotStatusRequest\x1a1.api.traceability.v1.UpdateMaterialLotStatusReply\"4\x82\xd3\xe4\x93\x02.:\x01*2)/api/v1/traceability/lots/{lot_id}/status\x12\x91\x01\n" +
+	"\x0eCreateOperator\x12*.api.traceability.v1.CreateOperatorRequest\x1a(.api.traceability.v1.CreateOperatorReply\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/api/v1/traceability/operators\x12\x8b\x01\n" +
+	"\rListOperators\x12).api.traceability.v1.ListOperatorsRequest\x1a'.api.traceability.v1.ListOperatorsReply\"&\x82\xd3\xe4\x93\x02 \x12\x1e/api/v1/traceability/operators\x12\x9f\x01\n" +
+	"\x0eUpdateOperator\x12*.api.traceability.v1.UpdateOperatorRequest\x1a(.api.traceability.v1.UpdateOperatorReply\"7\x82\xd3\xe4\x93\x021:\x01*2,/api/v1/traceability/operators/{operator_id}\x12\x96\x01\n" +
+	"\x0fCreateWorkOrder\x12+.api.traceability.v1.CreateWorkOrderRequest\x1a).api.traceability.v1.CreateWorkOrderReply\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/traceability/work-orders\x12\x9a\x01\n" +
+	"\fGetWorkOrder\x12(.api.traceability.v1.GetWorkOrderRequest\x1a&.api.traceability.v1.GetWorkOrderReply\"8\x82\xd3\xe4\x93\x022\x120/api/v1/traceability/work-orders/{work_order_id}\x12\x90\x01\n" +
+	"\x0eListWorkOrders\x12*.api.traceability.v1.ListWorkOrdersRequest\x1a(.api.traceability.v1.ListWorkOrdersReply\"(\x82\xd3\xe4\x93\x02\"\x12 /api/v1/traceability/work-orders\x12\xbf\x01\n" +
+	"\x15UpdateWorkOrderStatus\x121.api.traceability.v1.UpdateWorkOrderStatusRequest\x1a/.api.traceability.v1.UpdateWorkOrderStatusReply\"B\x82\xd3\xe4\x93\x02<:\x01*27/api/v1/traceability/work-orders/{work_order_id}/status\x12\xa6\x01\n" +
+	"\x15RegisterGenealogyLink\x121.api.traceability.v1.RegisterGenealogyLinkRequest\x1a/.api.traceability.v1.RegisterGenealogyLinkReply\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/api/v1/traceability/genealogy\x12\x89\x01\n" +
+	"\rTraceBackward\x12!.api.traceability.v1.TraceRequest\x1a\x1f.api.traceability.v1.TraceReply\"4\x82\xd3\xe4\x93\x02.\x12,/api/v1/traceability/trace/backward/{lot_id}\x12\x87\x01\n" +
+	"\fTraceForward\x12!.api.traceability.v1.TraceRequest\x1a\x1f.api.traceability.v1.TraceReply\"3\x82\xd3\xe4\x93\x02-\x12+/api/v1/traceability/trace/forward/{lot_id}\x12\x92\x01\n" +
+	"\x12TraceFullGenealogy\x12!.api.traceability.v1.TraceRequest\x1a'.api.traceability.v1.GenealogyTreeReply\"0\x82\xd3\xe4\x93\x02*\x12(/api/v1/traceability/trace/full/{lot_id}\x12\xb1\x01\n" +
+	"\x1aGetEquipmentProcessHistory\x12!.api.traceability.v1.TraceRequest\x1a1.api.traceability.v1.EquipmentProcessHistoryReply\"=\x82\xd3\xe4\x93\x027\x125/api/v1/traceability/trace/equipment-history/{lot_id}B%Z#traceability/api/traceability/v1;v1b\x06proto3"
 
 var (
 	file_traceability_v1_traceability_proto_rawDescOnce sync.Once
@@ -4722,187 +7859,275 @@ func file_traceability_v1_traceability_proto_rawDescGZIP() []byte {
 	return file_traceability_v1_traceability_proto_rawDescData
 }
 
-var file_traceability_v1_traceability_proto_msgTypes = make([]protoimpl.MessageInfo, 86)
+var file_traceability_v1_traceability_proto_msgTypes = make([]protoimpl.MessageInfo, 128)
 var file_traceability_v1_traceability_proto_goTypes = []any{
-	(*CreateEnterpriseRequest)(nil),     // 0: api.traceability.v1.CreateEnterpriseRequest
-	(*CreateEnterpriseReply)(nil),       // 1: api.traceability.v1.CreateEnterpriseReply
-	(*ListEnterprisesRequest)(nil),      // 2: api.traceability.v1.ListEnterprisesRequest
-	(*ListEnterprisesReply)(nil),        // 3: api.traceability.v1.ListEnterprisesReply
-	(*Enterprise)(nil),                  // 4: api.traceability.v1.Enterprise
-	(*UpdateEnterpriseRequest)(nil),     // 5: api.traceability.v1.UpdateEnterpriseRequest
-	(*UpdateEnterpriseReply)(nil),       // 6: api.traceability.v1.UpdateEnterpriseReply
-	(*DeleteEnterpriseRequest)(nil),     // 7: api.traceability.v1.DeleteEnterpriseRequest
-	(*DeleteEnterpriseReply)(nil),       // 8: api.traceability.v1.DeleteEnterpriseReply
-	(*CreateSiteRequest)(nil),           // 9: api.traceability.v1.CreateSiteRequest
-	(*CreateSiteReply)(nil),             // 10: api.traceability.v1.CreateSiteReply
-	(*ListSitesRequest)(nil),            // 11: api.traceability.v1.ListSitesRequest
-	(*ListSitesReply)(nil),              // 12: api.traceability.v1.ListSitesReply
-	(*Site)(nil),                        // 13: api.traceability.v1.Site
-	(*UpdateSiteRequest)(nil),           // 14: api.traceability.v1.UpdateSiteRequest
-	(*UpdateSiteReply)(nil),             // 15: api.traceability.v1.UpdateSiteReply
-	(*DeleteSiteRequest)(nil),           // 16: api.traceability.v1.DeleteSiteRequest
-	(*DeleteSiteReply)(nil),             // 17: api.traceability.v1.DeleteSiteReply
-	(*CreateAreaRequest)(nil),           // 18: api.traceability.v1.CreateAreaRequest
-	(*CreateAreaReply)(nil),             // 19: api.traceability.v1.CreateAreaReply
-	(*ListAreasRequest)(nil),            // 20: api.traceability.v1.ListAreasRequest
-	(*ListAreasReply)(nil),              // 21: api.traceability.v1.ListAreasReply
-	(*Area)(nil),                        // 22: api.traceability.v1.Area
-	(*UpdateAreaRequest)(nil),           // 23: api.traceability.v1.UpdateAreaRequest
-	(*UpdateAreaReply)(nil),             // 24: api.traceability.v1.UpdateAreaReply
-	(*DeleteAreaRequest)(nil),           // 25: api.traceability.v1.DeleteAreaRequest
-	(*DeleteAreaReply)(nil),             // 26: api.traceability.v1.DeleteAreaReply
-	(*CreateLineRequest)(nil),           // 27: api.traceability.v1.CreateLineRequest
-	(*CreateLineReply)(nil),             // 28: api.traceability.v1.CreateLineReply
-	(*ListLinesRequest)(nil),            // 29: api.traceability.v1.ListLinesRequest
-	(*ListLinesReply)(nil),              // 30: api.traceability.v1.ListLinesReply
-	(*Line)(nil),                        // 31: api.traceability.v1.Line
-	(*UpdateLineRequest)(nil),           // 32: api.traceability.v1.UpdateLineRequest
-	(*UpdateLineReply)(nil),             // 33: api.traceability.v1.UpdateLineReply
-	(*DeleteLineRequest)(nil),           // 34: api.traceability.v1.DeleteLineRequest
-	(*DeleteLineReply)(nil),             // 35: api.traceability.v1.DeleteLineReply
-	(*CreateProductionUnitRequest)(nil), // 36: api.traceability.v1.CreateProductionUnitRequest
-	(*CreateProductionUnitReply)(nil),   // 37: api.traceability.v1.CreateProductionUnitReply
-	(*ListProductionUnitsRequest)(nil),  // 38: api.traceability.v1.ListProductionUnitsRequest
-	(*ListProductionUnitsReply)(nil),    // 39: api.traceability.v1.ListProductionUnitsReply
-	(*ProductionUnit)(nil),              // 40: api.traceability.v1.ProductionUnit
-	(*UpdateProductionUnitRequest)(nil), // 41: api.traceability.v1.UpdateProductionUnitRequest
-	(*UpdateProductionUnitReply)(nil),   // 42: api.traceability.v1.UpdateProductionUnitReply
-	(*DeleteProductionUnitRequest)(nil), // 43: api.traceability.v1.DeleteProductionUnitRequest
-	(*DeleteProductionUnitReply)(nil),   // 44: api.traceability.v1.DeleteProductionUnitReply
-	(*CreateEquipmentClassRequest)(nil), // 45: api.traceability.v1.CreateEquipmentClassRequest
-	(*CreateEquipmentClassReply)(nil),   // 46: api.traceability.v1.CreateEquipmentClassReply
-	(*ListEquipmentClassesRequest)(nil), // 47: api.traceability.v1.ListEquipmentClassesRequest
-	(*ListEquipmentClassesReply)(nil),   // 48: api.traceability.v1.ListEquipmentClassesReply
-	(*EquipmentClass)(nil),              // 49: api.traceability.v1.EquipmentClass
-	(*UpdateEquipmentClassRequest)(nil), // 50: api.traceability.v1.UpdateEquipmentClassRequest
-	(*UpdateEquipmentClassReply)(nil),   // 51: api.traceability.v1.UpdateEquipmentClassReply
-	(*DeleteEquipmentClassRequest)(nil), // 52: api.traceability.v1.DeleteEquipmentClassRequest
-	(*DeleteEquipmentClassReply)(nil),   // 53: api.traceability.v1.DeleteEquipmentClassReply
-	(*RegisterEquipmentRequest)(nil),    // 54: api.traceability.v1.RegisterEquipmentRequest
-	(*RegisterEquipmentReply)(nil),      // 55: api.traceability.v1.RegisterEquipmentReply
-	(*ListEquipmentRequest)(nil),        // 56: api.traceability.v1.ListEquipmentRequest
-	(*ListEquipmentReply)(nil),          // 57: api.traceability.v1.ListEquipmentReply
-	(*Equipment)(nil),                   // 58: api.traceability.v1.Equipment
-	(*UpdateEquipmentRequest)(nil),      // 59: api.traceability.v1.UpdateEquipmentRequest
-	(*UpdateEquipmentReply)(nil),        // 60: api.traceability.v1.UpdateEquipmentReply
-	(*DeleteEquipmentRequest)(nil),      // 61: api.traceability.v1.DeleteEquipmentRequest
-	(*DeleteEquipmentReply)(nil),        // 62: api.traceability.v1.DeleteEquipmentReply
-	(*AddCapabilityRequest)(nil),        // 63: api.traceability.v1.AddCapabilityRequest
-	(*AddCapabilityReply)(nil),          // 64: api.traceability.v1.AddCapabilityReply
-	(*ListCapabilitiesRequest)(nil),     // 65: api.traceability.v1.ListCapabilitiesRequest
-	(*ListCapabilitiesReply)(nil),       // 66: api.traceability.v1.ListCapabilitiesReply
-	(*Capability)(nil),                  // 67: api.traceability.v1.Capability
-	(*UpdateCapabilityRequest)(nil),     // 68: api.traceability.v1.UpdateCapabilityRequest
-	(*UpdateCapabilityReply)(nil),       // 69: api.traceability.v1.UpdateCapabilityReply
-	(*DeleteCapabilityRequest)(nil),     // 70: api.traceability.v1.DeleteCapabilityRequest
-	(*DeleteCapabilityReply)(nil),       // 71: api.traceability.v1.DeleteCapabilityReply
-	(*SetPropertyRequest)(nil),          // 72: api.traceability.v1.SetPropertyRequest
-	(*SetPropertyReply)(nil),            // 73: api.traceability.v1.SetPropertyReply
-	(*ListPropertiesRequest)(nil),       // 74: api.traceability.v1.ListPropertiesRequest
-	(*ListPropertiesReply)(nil),         // 75: api.traceability.v1.ListPropertiesReply
-	(*Property)(nil),                    // 76: api.traceability.v1.Property
-	(*UpdatePropertyRequest)(nil),       // 77: api.traceability.v1.UpdatePropertyRequest
-	(*UpdatePropertyReply)(nil),         // 78: api.traceability.v1.UpdatePropertyReply
-	(*DeletePropertyRequest)(nil),       // 79: api.traceability.v1.DeletePropertyRequest
-	(*DeletePropertyReply)(nil),         // 80: api.traceability.v1.DeletePropertyReply
-	(*LogEventRequest)(nil),             // 81: api.traceability.v1.LogEventRequest
-	(*LogEventReply)(nil),               // 82: api.traceability.v1.LogEventReply
-	(*ListLogsRequest)(nil),             // 83: api.traceability.v1.ListLogsRequest
-	(*ListLogsReply)(nil),               // 84: api.traceability.v1.ListLogsReply
-	(*LogEntry)(nil),                    // 85: api.traceability.v1.LogEntry
+	(*CreateEnterpriseRequest)(nil),         // 0: api.traceability.v1.CreateEnterpriseRequest
+	(*CreateEnterpriseReply)(nil),           // 1: api.traceability.v1.CreateEnterpriseReply
+	(*ListEnterprisesRequest)(nil),          // 2: api.traceability.v1.ListEnterprisesRequest
+	(*ListEnterprisesReply)(nil),            // 3: api.traceability.v1.ListEnterprisesReply
+	(*Enterprise)(nil),                      // 4: api.traceability.v1.Enterprise
+	(*UpdateEnterpriseRequest)(nil),         // 5: api.traceability.v1.UpdateEnterpriseRequest
+	(*UpdateEnterpriseReply)(nil),           // 6: api.traceability.v1.UpdateEnterpriseReply
+	(*DeleteEnterpriseRequest)(nil),         // 7: api.traceability.v1.DeleteEnterpriseRequest
+	(*DeleteEnterpriseReply)(nil),           // 8: api.traceability.v1.DeleteEnterpriseReply
+	(*CreateSiteRequest)(nil),               // 9: api.traceability.v1.CreateSiteRequest
+	(*CreateSiteReply)(nil),                 // 10: api.traceability.v1.CreateSiteReply
+	(*ListSitesRequest)(nil),                // 11: api.traceability.v1.ListSitesRequest
+	(*ListSitesReply)(nil),                  // 12: api.traceability.v1.ListSitesReply
+	(*Site)(nil),                            // 13: api.traceability.v1.Site
+	(*UpdateSiteRequest)(nil),               // 14: api.traceability.v1.UpdateSiteRequest
+	(*UpdateSiteReply)(nil),                 // 15: api.traceability.v1.UpdateSiteReply
+	(*DeleteSiteRequest)(nil),               // 16: api.traceability.v1.DeleteSiteRequest
+	(*DeleteSiteReply)(nil),                 // 17: api.traceability.v1.DeleteSiteReply
+	(*CreateAreaRequest)(nil),               // 18: api.traceability.v1.CreateAreaRequest
+	(*CreateAreaReply)(nil),                 // 19: api.traceability.v1.CreateAreaReply
+	(*ListAreasRequest)(nil),                // 20: api.traceability.v1.ListAreasRequest
+	(*ListAreasReply)(nil),                  // 21: api.traceability.v1.ListAreasReply
+	(*Area)(nil),                            // 22: api.traceability.v1.Area
+	(*UpdateAreaRequest)(nil),               // 23: api.traceability.v1.UpdateAreaRequest
+	(*UpdateAreaReply)(nil),                 // 24: api.traceability.v1.UpdateAreaReply
+	(*DeleteAreaRequest)(nil),               // 25: api.traceability.v1.DeleteAreaRequest
+	(*DeleteAreaReply)(nil),                 // 26: api.traceability.v1.DeleteAreaReply
+	(*CreateLineRequest)(nil),               // 27: api.traceability.v1.CreateLineRequest
+	(*CreateLineReply)(nil),                 // 28: api.traceability.v1.CreateLineReply
+	(*ListLinesRequest)(nil),                // 29: api.traceability.v1.ListLinesRequest
+	(*ListLinesReply)(nil),                  // 30: api.traceability.v1.ListLinesReply
+	(*Line)(nil),                            // 31: api.traceability.v1.Line
+	(*UpdateLineRequest)(nil),               // 32: api.traceability.v1.UpdateLineRequest
+	(*UpdateLineReply)(nil),                 // 33: api.traceability.v1.UpdateLineReply
+	(*DeleteLineRequest)(nil),               // 34: api.traceability.v1.DeleteLineRequest
+	(*DeleteLineReply)(nil),                 // 35: api.traceability.v1.DeleteLineReply
+	(*CreateProductionUnitRequest)(nil),     // 36: api.traceability.v1.CreateProductionUnitRequest
+	(*CreateProductionUnitReply)(nil),       // 37: api.traceability.v1.CreateProductionUnitReply
+	(*ListProductionUnitsRequest)(nil),      // 38: api.traceability.v1.ListProductionUnitsRequest
+	(*ListProductionUnitsReply)(nil),        // 39: api.traceability.v1.ListProductionUnitsReply
+	(*ProductionUnit)(nil),                  // 40: api.traceability.v1.ProductionUnit
+	(*UpdateProductionUnitRequest)(nil),     // 41: api.traceability.v1.UpdateProductionUnitRequest
+	(*UpdateProductionUnitReply)(nil),       // 42: api.traceability.v1.UpdateProductionUnitReply
+	(*DeleteProductionUnitRequest)(nil),     // 43: api.traceability.v1.DeleteProductionUnitRequest
+	(*DeleteProductionUnitReply)(nil),       // 44: api.traceability.v1.DeleteProductionUnitReply
+	(*CreateEquipmentClassRequest)(nil),     // 45: api.traceability.v1.CreateEquipmentClassRequest
+	(*CreateEquipmentClassReply)(nil),       // 46: api.traceability.v1.CreateEquipmentClassReply
+	(*ListEquipmentClassesRequest)(nil),     // 47: api.traceability.v1.ListEquipmentClassesRequest
+	(*ListEquipmentClassesReply)(nil),       // 48: api.traceability.v1.ListEquipmentClassesReply
+	(*EquipmentClass)(nil),                  // 49: api.traceability.v1.EquipmentClass
+	(*UpdateEquipmentClassRequest)(nil),     // 50: api.traceability.v1.UpdateEquipmentClassRequest
+	(*UpdateEquipmentClassReply)(nil),       // 51: api.traceability.v1.UpdateEquipmentClassReply
+	(*DeleteEquipmentClassRequest)(nil),     // 52: api.traceability.v1.DeleteEquipmentClassRequest
+	(*DeleteEquipmentClassReply)(nil),       // 53: api.traceability.v1.DeleteEquipmentClassReply
+	(*RegisterEquipmentRequest)(nil),        // 54: api.traceability.v1.RegisterEquipmentRequest
+	(*RegisterEquipmentReply)(nil),          // 55: api.traceability.v1.RegisterEquipmentReply
+	(*ListEquipmentRequest)(nil),            // 56: api.traceability.v1.ListEquipmentRequest
+	(*ListEquipmentReply)(nil),              // 57: api.traceability.v1.ListEquipmentReply
+	(*Equipment)(nil),                       // 58: api.traceability.v1.Equipment
+	(*UpdateEquipmentRequest)(nil),          // 59: api.traceability.v1.UpdateEquipmentRequest
+	(*UpdateEquipmentReply)(nil),            // 60: api.traceability.v1.UpdateEquipmentReply
+	(*DeleteEquipmentRequest)(nil),          // 61: api.traceability.v1.DeleteEquipmentRequest
+	(*DeleteEquipmentReply)(nil),            // 62: api.traceability.v1.DeleteEquipmentReply
+	(*AddCapabilityRequest)(nil),            // 63: api.traceability.v1.AddCapabilityRequest
+	(*AddCapabilityReply)(nil),              // 64: api.traceability.v1.AddCapabilityReply
+	(*ListCapabilitiesRequest)(nil),         // 65: api.traceability.v1.ListCapabilitiesRequest
+	(*ListCapabilitiesReply)(nil),           // 66: api.traceability.v1.ListCapabilitiesReply
+	(*Capability)(nil),                      // 67: api.traceability.v1.Capability
+	(*UpdateCapabilityRequest)(nil),         // 68: api.traceability.v1.UpdateCapabilityRequest
+	(*UpdateCapabilityReply)(nil),           // 69: api.traceability.v1.UpdateCapabilityReply
+	(*DeleteCapabilityRequest)(nil),         // 70: api.traceability.v1.DeleteCapabilityRequest
+	(*DeleteCapabilityReply)(nil),           // 71: api.traceability.v1.DeleteCapabilityReply
+	(*SetPropertyRequest)(nil),              // 72: api.traceability.v1.SetPropertyRequest
+	(*SetPropertyReply)(nil),                // 73: api.traceability.v1.SetPropertyReply
+	(*ListPropertiesRequest)(nil),           // 74: api.traceability.v1.ListPropertiesRequest
+	(*ListPropertiesReply)(nil),             // 75: api.traceability.v1.ListPropertiesReply
+	(*Property)(nil),                        // 76: api.traceability.v1.Property
+	(*UpdatePropertyRequest)(nil),           // 77: api.traceability.v1.UpdatePropertyRequest
+	(*UpdatePropertyReply)(nil),             // 78: api.traceability.v1.UpdatePropertyReply
+	(*DeletePropertyRequest)(nil),           // 79: api.traceability.v1.DeletePropertyRequest
+	(*DeletePropertyReply)(nil),             // 80: api.traceability.v1.DeletePropertyReply
+	(*LogEventRequest)(nil),                 // 81: api.traceability.v1.LogEventRequest
+	(*LogEventReply)(nil),                   // 82: api.traceability.v1.LogEventReply
+	(*ListLogsRequest)(nil),                 // 83: api.traceability.v1.ListLogsRequest
+	(*ListLogsReply)(nil),                   // 84: api.traceability.v1.ListLogsReply
+	(*LogEntry)(nil),                        // 85: api.traceability.v1.LogEntry
+	(*CreateMaterialDefinitionRequest)(nil), // 86: api.traceability.v1.CreateMaterialDefinitionRequest
+	(*CreateMaterialDefinitionReply)(nil),   // 87: api.traceability.v1.CreateMaterialDefinitionReply
+	(*ListMaterialDefinitionsRequest)(nil),  // 88: api.traceability.v1.ListMaterialDefinitionsRequest
+	(*ListMaterialDefinitionsReply)(nil),    // 89: api.traceability.v1.ListMaterialDefinitionsReply
+	(*MaterialDefinition)(nil),              // 90: api.traceability.v1.MaterialDefinition
+	(*CreateMaterialLotRequest)(nil),        // 91: api.traceability.v1.CreateMaterialLotRequest
+	(*CreateMaterialLotReply)(nil),          // 92: api.traceability.v1.CreateMaterialLotReply
+	(*GetMaterialLotRequest)(nil),           // 93: api.traceability.v1.GetMaterialLotRequest
+	(*GetMaterialLotReply)(nil),             // 94: api.traceability.v1.GetMaterialLotReply
+	(*ListMaterialLotsRequest)(nil),         // 95: api.traceability.v1.ListMaterialLotsRequest
+	(*ListMaterialLotsReply)(nil),           // 96: api.traceability.v1.ListMaterialLotsReply
+	(*MaterialLotSummary)(nil),              // 97: api.traceability.v1.MaterialLotSummary
+	(*UpdateMaterialLotStatusRequest)(nil),  // 98: api.traceability.v1.UpdateMaterialLotStatusRequest
+	(*UpdateMaterialLotStatusReply)(nil),    // 99: api.traceability.v1.UpdateMaterialLotStatusReply
+	(*CreateOperatorRequest)(nil),           // 100: api.traceability.v1.CreateOperatorRequest
+	(*CreateOperatorReply)(nil),             // 101: api.traceability.v1.CreateOperatorReply
+	(*ListOperatorsRequest)(nil),            // 102: api.traceability.v1.ListOperatorsRequest
+	(*ListOperatorsReply)(nil),              // 103: api.traceability.v1.ListOperatorsReply
+	(*Operator)(nil),                        // 104: api.traceability.v1.Operator
+	(*UpdateOperatorRequest)(nil),           // 105: api.traceability.v1.UpdateOperatorRequest
+	(*UpdateOperatorReply)(nil),             // 106: api.traceability.v1.UpdateOperatorReply
+	(*CreateWorkOrderRequest)(nil),          // 107: api.traceability.v1.CreateWorkOrderRequest
+	(*CreateWorkOrderReply)(nil),            // 108: api.traceability.v1.CreateWorkOrderReply
+	(*GetWorkOrderRequest)(nil),             // 109: api.traceability.v1.GetWorkOrderRequest
+	(*GetWorkOrderReply)(nil),               // 110: api.traceability.v1.GetWorkOrderReply
+	(*WorkOrderInputLot)(nil),               // 111: api.traceability.v1.WorkOrderInputLot
+	(*ListWorkOrdersRequest)(nil),           // 112: api.traceability.v1.ListWorkOrdersRequest
+	(*ListWorkOrdersReply)(nil),             // 113: api.traceability.v1.ListWorkOrdersReply
+	(*WorkOrderSummary)(nil),                // 114: api.traceability.v1.WorkOrderSummary
+	(*UpdateWorkOrderStatusRequest)(nil),    // 115: api.traceability.v1.UpdateWorkOrderStatusRequest
+	(*UpdateWorkOrderStatusReply)(nil),      // 116: api.traceability.v1.UpdateWorkOrderStatusReply
+	(*RegisterGenealogyLinkRequest)(nil),    // 117: api.traceability.v1.RegisterGenealogyLinkRequest
+	(*RegisterGenealogyLinkReply)(nil),      // 118: api.traceability.v1.RegisterGenealogyLinkReply
+	(*TraceRequest)(nil),                    // 119: api.traceability.v1.TraceRequest
+	(*TraceReply)(nil),                      // 120: api.traceability.v1.TraceReply
+	(*TraceNode)(nil),                       // 121: api.traceability.v1.TraceNode
+	(*GenealogyTreeReply)(nil),              // 122: api.traceability.v1.GenealogyTreeReply
+	(*GenealogyNode)(nil),                   // 123: api.traceability.v1.GenealogyNode
+	(*GenealogyEdge)(nil),                   // 124: api.traceability.v1.GenealogyEdge
+	(*EquipmentProcessHistoryReply)(nil),    // 125: api.traceability.v1.EquipmentProcessHistoryReply
+	(*EquipmentParameterSummary)(nil),       // 126: api.traceability.v1.EquipmentParameterSummary
+	(*TelemetryReading)(nil),                // 127: api.traceability.v1.TelemetryReading
 }
 var file_traceability_v1_traceability_proto_depIdxs = []int32{
-	4,  // 0: api.traceability.v1.ListEnterprisesReply.enterprises:type_name -> api.traceability.v1.Enterprise
-	13, // 1: api.traceability.v1.ListSitesReply.sites:type_name -> api.traceability.v1.Site
-	22, // 2: api.traceability.v1.ListAreasReply.areas:type_name -> api.traceability.v1.Area
-	31, // 3: api.traceability.v1.ListLinesReply.lines:type_name -> api.traceability.v1.Line
-	40, // 4: api.traceability.v1.ListProductionUnitsReply.units:type_name -> api.traceability.v1.ProductionUnit
-	49, // 5: api.traceability.v1.ListEquipmentClassesReply.classes:type_name -> api.traceability.v1.EquipmentClass
-	58, // 6: api.traceability.v1.ListEquipmentReply.equipment:type_name -> api.traceability.v1.Equipment
-	67, // 7: api.traceability.v1.ListCapabilitiesReply.capabilities:type_name -> api.traceability.v1.Capability
-	76, // 8: api.traceability.v1.ListPropertiesReply.properties:type_name -> api.traceability.v1.Property
-	85, // 9: api.traceability.v1.ListLogsReply.logs:type_name -> api.traceability.v1.LogEntry
-	0,  // 10: api.traceability.v1.Traceability.CreateEnterprise:input_type -> api.traceability.v1.CreateEnterpriseRequest
-	2,  // 11: api.traceability.v1.Traceability.ListEnterprises:input_type -> api.traceability.v1.ListEnterprisesRequest
-	5,  // 12: api.traceability.v1.Traceability.UpdateEnterprise:input_type -> api.traceability.v1.UpdateEnterpriseRequest
-	7,  // 13: api.traceability.v1.Traceability.DeleteEnterprise:input_type -> api.traceability.v1.DeleteEnterpriseRequest
-	9,  // 14: api.traceability.v1.Traceability.CreateSite:input_type -> api.traceability.v1.CreateSiteRequest
-	11, // 15: api.traceability.v1.Traceability.ListSites:input_type -> api.traceability.v1.ListSitesRequest
-	14, // 16: api.traceability.v1.Traceability.UpdateSite:input_type -> api.traceability.v1.UpdateSiteRequest
-	16, // 17: api.traceability.v1.Traceability.DeleteSite:input_type -> api.traceability.v1.DeleteSiteRequest
-	18, // 18: api.traceability.v1.Traceability.CreateArea:input_type -> api.traceability.v1.CreateAreaRequest
-	20, // 19: api.traceability.v1.Traceability.ListAreas:input_type -> api.traceability.v1.ListAreasRequest
-	23, // 20: api.traceability.v1.Traceability.UpdateArea:input_type -> api.traceability.v1.UpdateAreaRequest
-	25, // 21: api.traceability.v1.Traceability.DeleteArea:input_type -> api.traceability.v1.DeleteAreaRequest
-	27, // 22: api.traceability.v1.Traceability.CreateLine:input_type -> api.traceability.v1.CreateLineRequest
-	29, // 23: api.traceability.v1.Traceability.ListLines:input_type -> api.traceability.v1.ListLinesRequest
-	32, // 24: api.traceability.v1.Traceability.UpdateLine:input_type -> api.traceability.v1.UpdateLineRequest
-	34, // 25: api.traceability.v1.Traceability.DeleteLine:input_type -> api.traceability.v1.DeleteLineRequest
-	36, // 26: api.traceability.v1.Traceability.CreateProductionUnit:input_type -> api.traceability.v1.CreateProductionUnitRequest
-	38, // 27: api.traceability.v1.Traceability.ListProductionUnits:input_type -> api.traceability.v1.ListProductionUnitsRequest
-	41, // 28: api.traceability.v1.Traceability.UpdateProductionUnit:input_type -> api.traceability.v1.UpdateProductionUnitRequest
-	43, // 29: api.traceability.v1.Traceability.DeleteProductionUnit:input_type -> api.traceability.v1.DeleteProductionUnitRequest
-	45, // 30: api.traceability.v1.Traceability.CreateEquipmentClass:input_type -> api.traceability.v1.CreateEquipmentClassRequest
-	47, // 31: api.traceability.v1.Traceability.ListEquipmentClasses:input_type -> api.traceability.v1.ListEquipmentClassesRequest
-	50, // 32: api.traceability.v1.Traceability.UpdateEquipmentClass:input_type -> api.traceability.v1.UpdateEquipmentClassRequest
-	52, // 33: api.traceability.v1.Traceability.DeleteEquipmentClass:input_type -> api.traceability.v1.DeleteEquipmentClassRequest
-	54, // 34: api.traceability.v1.Traceability.RegisterEquipment:input_type -> api.traceability.v1.RegisterEquipmentRequest
-	56, // 35: api.traceability.v1.Traceability.ListEquipment:input_type -> api.traceability.v1.ListEquipmentRequest
-	59, // 36: api.traceability.v1.Traceability.UpdateEquipment:input_type -> api.traceability.v1.UpdateEquipmentRequest
-	61, // 37: api.traceability.v1.Traceability.DeleteEquipment:input_type -> api.traceability.v1.DeleteEquipmentRequest
-	63, // 38: api.traceability.v1.Traceability.AddCapability:input_type -> api.traceability.v1.AddCapabilityRequest
-	65, // 39: api.traceability.v1.Traceability.ListCapabilities:input_type -> api.traceability.v1.ListCapabilitiesRequest
-	68, // 40: api.traceability.v1.Traceability.UpdateCapability:input_type -> api.traceability.v1.UpdateCapabilityRequest
-	70, // 41: api.traceability.v1.Traceability.DeleteCapability:input_type -> api.traceability.v1.DeleteCapabilityRequest
-	72, // 42: api.traceability.v1.Traceability.SetProperty:input_type -> api.traceability.v1.SetPropertyRequest
-	74, // 43: api.traceability.v1.Traceability.ListProperties:input_type -> api.traceability.v1.ListPropertiesRequest
-	77, // 44: api.traceability.v1.Traceability.UpdateProperty:input_type -> api.traceability.v1.UpdatePropertyRequest
-	79, // 45: api.traceability.v1.Traceability.DeleteProperty:input_type -> api.traceability.v1.DeletePropertyRequest
-	81, // 46: api.traceability.v1.Traceability.LogEvent:input_type -> api.traceability.v1.LogEventRequest
-	83, // 47: api.traceability.v1.Traceability.ListLogs:input_type -> api.traceability.v1.ListLogsRequest
-	1,  // 48: api.traceability.v1.Traceability.CreateEnterprise:output_type -> api.traceability.v1.CreateEnterpriseReply
-	3,  // 49: api.traceability.v1.Traceability.ListEnterprises:output_type -> api.traceability.v1.ListEnterprisesReply
-	6,  // 50: api.traceability.v1.Traceability.UpdateEnterprise:output_type -> api.traceability.v1.UpdateEnterpriseReply
-	8,  // 51: api.traceability.v1.Traceability.DeleteEnterprise:output_type -> api.traceability.v1.DeleteEnterpriseReply
-	10, // 52: api.traceability.v1.Traceability.CreateSite:output_type -> api.traceability.v1.CreateSiteReply
-	12, // 53: api.traceability.v1.Traceability.ListSites:output_type -> api.traceability.v1.ListSitesReply
-	15, // 54: api.traceability.v1.Traceability.UpdateSite:output_type -> api.traceability.v1.UpdateSiteReply
-	17, // 55: api.traceability.v1.Traceability.DeleteSite:output_type -> api.traceability.v1.DeleteSiteReply
-	19, // 56: api.traceability.v1.Traceability.CreateArea:output_type -> api.traceability.v1.CreateAreaReply
-	21, // 57: api.traceability.v1.Traceability.ListAreas:output_type -> api.traceability.v1.ListAreasReply
-	24, // 58: api.traceability.v1.Traceability.UpdateArea:output_type -> api.traceability.v1.UpdateAreaReply
-	26, // 59: api.traceability.v1.Traceability.DeleteArea:output_type -> api.traceability.v1.DeleteAreaReply
-	28, // 60: api.traceability.v1.Traceability.CreateLine:output_type -> api.traceability.v1.CreateLineReply
-	30, // 61: api.traceability.v1.Traceability.ListLines:output_type -> api.traceability.v1.ListLinesReply
-	33, // 62: api.traceability.v1.Traceability.UpdateLine:output_type -> api.traceability.v1.UpdateLineReply
-	35, // 63: api.traceability.v1.Traceability.DeleteLine:output_type -> api.traceability.v1.DeleteLineReply
-	37, // 64: api.traceability.v1.Traceability.CreateProductionUnit:output_type -> api.traceability.v1.CreateProductionUnitReply
-	39, // 65: api.traceability.v1.Traceability.ListProductionUnits:output_type -> api.traceability.v1.ListProductionUnitsReply
-	42, // 66: api.traceability.v1.Traceability.UpdateProductionUnit:output_type -> api.traceability.v1.UpdateProductionUnitReply
-	44, // 67: api.traceability.v1.Traceability.DeleteProductionUnit:output_type -> api.traceability.v1.DeleteProductionUnitReply
-	46, // 68: api.traceability.v1.Traceability.CreateEquipmentClass:output_type -> api.traceability.v1.CreateEquipmentClassReply
-	48, // 69: api.traceability.v1.Traceability.ListEquipmentClasses:output_type -> api.traceability.v1.ListEquipmentClassesReply
-	51, // 70: api.traceability.v1.Traceability.UpdateEquipmentClass:output_type -> api.traceability.v1.UpdateEquipmentClassReply
-	53, // 71: api.traceability.v1.Traceability.DeleteEquipmentClass:output_type -> api.traceability.v1.DeleteEquipmentClassReply
-	55, // 72: api.traceability.v1.Traceability.RegisterEquipment:output_type -> api.traceability.v1.RegisterEquipmentReply
-	57, // 73: api.traceability.v1.Traceability.ListEquipment:output_type -> api.traceability.v1.ListEquipmentReply
-	60, // 74: api.traceability.v1.Traceability.UpdateEquipment:output_type -> api.traceability.v1.UpdateEquipmentReply
-	62, // 75: api.traceability.v1.Traceability.DeleteEquipment:output_type -> api.traceability.v1.DeleteEquipmentReply
-	64, // 76: api.traceability.v1.Traceability.AddCapability:output_type -> api.traceability.v1.AddCapabilityReply
-	66, // 77: api.traceability.v1.Traceability.ListCapabilities:output_type -> api.traceability.v1.ListCapabilitiesReply
-	69, // 78: api.traceability.v1.Traceability.UpdateCapability:output_type -> api.traceability.v1.UpdateCapabilityReply
-	71, // 79: api.traceability.v1.Traceability.DeleteCapability:output_type -> api.traceability.v1.DeleteCapabilityReply
-	73, // 80: api.traceability.v1.Traceability.SetProperty:output_type -> api.traceability.v1.SetPropertyReply
-	75, // 81: api.traceability.v1.Traceability.ListProperties:output_type -> api.traceability.v1.ListPropertiesReply
-	78, // 82: api.traceability.v1.Traceability.UpdateProperty:output_type -> api.traceability.v1.UpdatePropertyReply
-	80, // 83: api.traceability.v1.Traceability.DeleteProperty:output_type -> api.traceability.v1.DeletePropertyReply
-	82, // 84: api.traceability.v1.Traceability.LogEvent:output_type -> api.traceability.v1.LogEventReply
-	84, // 85: api.traceability.v1.Traceability.ListLogs:output_type -> api.traceability.v1.ListLogsReply
-	48, // [48:86] is the sub-list for method output_type
-	10, // [10:48] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	4,   // 0: api.traceability.v1.ListEnterprisesReply.enterprises:type_name -> api.traceability.v1.Enterprise
+	13,  // 1: api.traceability.v1.ListSitesReply.sites:type_name -> api.traceability.v1.Site
+	22,  // 2: api.traceability.v1.ListAreasReply.areas:type_name -> api.traceability.v1.Area
+	31,  // 3: api.traceability.v1.ListLinesReply.lines:type_name -> api.traceability.v1.Line
+	40,  // 4: api.traceability.v1.ListProductionUnitsReply.units:type_name -> api.traceability.v1.ProductionUnit
+	49,  // 5: api.traceability.v1.ListEquipmentClassesReply.classes:type_name -> api.traceability.v1.EquipmentClass
+	58,  // 6: api.traceability.v1.ListEquipmentReply.equipment:type_name -> api.traceability.v1.Equipment
+	67,  // 7: api.traceability.v1.ListCapabilitiesReply.capabilities:type_name -> api.traceability.v1.Capability
+	76,  // 8: api.traceability.v1.ListPropertiesReply.properties:type_name -> api.traceability.v1.Property
+	85,  // 9: api.traceability.v1.ListLogsReply.logs:type_name -> api.traceability.v1.LogEntry
+	90,  // 10: api.traceability.v1.ListMaterialDefinitionsReply.definitions:type_name -> api.traceability.v1.MaterialDefinition
+	97,  // 11: api.traceability.v1.ListMaterialLotsReply.lots:type_name -> api.traceability.v1.MaterialLotSummary
+	104, // 12: api.traceability.v1.ListOperatorsReply.operators:type_name -> api.traceability.v1.Operator
+	111, // 13: api.traceability.v1.GetWorkOrderReply.input_lots:type_name -> api.traceability.v1.WorkOrderInputLot
+	114, // 14: api.traceability.v1.ListWorkOrdersReply.work_orders:type_name -> api.traceability.v1.WorkOrderSummary
+	121, // 15: api.traceability.v1.TraceReply.nodes:type_name -> api.traceability.v1.TraceNode
+	123, // 16: api.traceability.v1.GenealogyTreeReply.nodes:type_name -> api.traceability.v1.GenealogyNode
+	124, // 17: api.traceability.v1.GenealogyTreeReply.edges:type_name -> api.traceability.v1.GenealogyEdge
+	126, // 18: api.traceability.v1.EquipmentProcessHistoryReply.parameters:type_name -> api.traceability.v1.EquipmentParameterSummary
+	127, // 19: api.traceability.v1.EquipmentProcessHistoryReply.readings:type_name -> api.traceability.v1.TelemetryReading
+	0,   // 20: api.traceability.v1.Traceability.CreateEnterprise:input_type -> api.traceability.v1.CreateEnterpriseRequest
+	2,   // 21: api.traceability.v1.Traceability.ListEnterprises:input_type -> api.traceability.v1.ListEnterprisesRequest
+	5,   // 22: api.traceability.v1.Traceability.UpdateEnterprise:input_type -> api.traceability.v1.UpdateEnterpriseRequest
+	7,   // 23: api.traceability.v1.Traceability.DeleteEnterprise:input_type -> api.traceability.v1.DeleteEnterpriseRequest
+	9,   // 24: api.traceability.v1.Traceability.CreateSite:input_type -> api.traceability.v1.CreateSiteRequest
+	11,  // 25: api.traceability.v1.Traceability.ListSites:input_type -> api.traceability.v1.ListSitesRequest
+	14,  // 26: api.traceability.v1.Traceability.UpdateSite:input_type -> api.traceability.v1.UpdateSiteRequest
+	16,  // 27: api.traceability.v1.Traceability.DeleteSite:input_type -> api.traceability.v1.DeleteSiteRequest
+	18,  // 28: api.traceability.v1.Traceability.CreateArea:input_type -> api.traceability.v1.CreateAreaRequest
+	20,  // 29: api.traceability.v1.Traceability.ListAreas:input_type -> api.traceability.v1.ListAreasRequest
+	23,  // 30: api.traceability.v1.Traceability.UpdateArea:input_type -> api.traceability.v1.UpdateAreaRequest
+	25,  // 31: api.traceability.v1.Traceability.DeleteArea:input_type -> api.traceability.v1.DeleteAreaRequest
+	27,  // 32: api.traceability.v1.Traceability.CreateLine:input_type -> api.traceability.v1.CreateLineRequest
+	29,  // 33: api.traceability.v1.Traceability.ListLines:input_type -> api.traceability.v1.ListLinesRequest
+	32,  // 34: api.traceability.v1.Traceability.UpdateLine:input_type -> api.traceability.v1.UpdateLineRequest
+	34,  // 35: api.traceability.v1.Traceability.DeleteLine:input_type -> api.traceability.v1.DeleteLineRequest
+	36,  // 36: api.traceability.v1.Traceability.CreateProductionUnit:input_type -> api.traceability.v1.CreateProductionUnitRequest
+	38,  // 37: api.traceability.v1.Traceability.ListProductionUnits:input_type -> api.traceability.v1.ListProductionUnitsRequest
+	41,  // 38: api.traceability.v1.Traceability.UpdateProductionUnit:input_type -> api.traceability.v1.UpdateProductionUnitRequest
+	43,  // 39: api.traceability.v1.Traceability.DeleteProductionUnit:input_type -> api.traceability.v1.DeleteProductionUnitRequest
+	45,  // 40: api.traceability.v1.Traceability.CreateEquipmentClass:input_type -> api.traceability.v1.CreateEquipmentClassRequest
+	47,  // 41: api.traceability.v1.Traceability.ListEquipmentClasses:input_type -> api.traceability.v1.ListEquipmentClassesRequest
+	50,  // 42: api.traceability.v1.Traceability.UpdateEquipmentClass:input_type -> api.traceability.v1.UpdateEquipmentClassRequest
+	52,  // 43: api.traceability.v1.Traceability.DeleteEquipmentClass:input_type -> api.traceability.v1.DeleteEquipmentClassRequest
+	54,  // 44: api.traceability.v1.Traceability.RegisterEquipment:input_type -> api.traceability.v1.RegisterEquipmentRequest
+	56,  // 45: api.traceability.v1.Traceability.ListEquipment:input_type -> api.traceability.v1.ListEquipmentRequest
+	59,  // 46: api.traceability.v1.Traceability.UpdateEquipment:input_type -> api.traceability.v1.UpdateEquipmentRequest
+	61,  // 47: api.traceability.v1.Traceability.DeleteEquipment:input_type -> api.traceability.v1.DeleteEquipmentRequest
+	63,  // 48: api.traceability.v1.Traceability.AddCapability:input_type -> api.traceability.v1.AddCapabilityRequest
+	65,  // 49: api.traceability.v1.Traceability.ListCapabilities:input_type -> api.traceability.v1.ListCapabilitiesRequest
+	68,  // 50: api.traceability.v1.Traceability.UpdateCapability:input_type -> api.traceability.v1.UpdateCapabilityRequest
+	70,  // 51: api.traceability.v1.Traceability.DeleteCapability:input_type -> api.traceability.v1.DeleteCapabilityRequest
+	72,  // 52: api.traceability.v1.Traceability.SetProperty:input_type -> api.traceability.v1.SetPropertyRequest
+	74,  // 53: api.traceability.v1.Traceability.ListProperties:input_type -> api.traceability.v1.ListPropertiesRequest
+	77,  // 54: api.traceability.v1.Traceability.UpdateProperty:input_type -> api.traceability.v1.UpdatePropertyRequest
+	79,  // 55: api.traceability.v1.Traceability.DeleteProperty:input_type -> api.traceability.v1.DeletePropertyRequest
+	81,  // 56: api.traceability.v1.Traceability.LogEvent:input_type -> api.traceability.v1.LogEventRequest
+	83,  // 57: api.traceability.v1.Traceability.ListLogs:input_type -> api.traceability.v1.ListLogsRequest
+	86,  // 58: api.traceability.v1.Traceability.CreateMaterialDefinition:input_type -> api.traceability.v1.CreateMaterialDefinitionRequest
+	88,  // 59: api.traceability.v1.Traceability.ListMaterialDefinitions:input_type -> api.traceability.v1.ListMaterialDefinitionsRequest
+	91,  // 60: api.traceability.v1.Traceability.CreateMaterialLot:input_type -> api.traceability.v1.CreateMaterialLotRequest
+	93,  // 61: api.traceability.v1.Traceability.GetMaterialLot:input_type -> api.traceability.v1.GetMaterialLotRequest
+	95,  // 62: api.traceability.v1.Traceability.ListMaterialLots:input_type -> api.traceability.v1.ListMaterialLotsRequest
+	98,  // 63: api.traceability.v1.Traceability.UpdateMaterialLotStatus:input_type -> api.traceability.v1.UpdateMaterialLotStatusRequest
+	100, // 64: api.traceability.v1.Traceability.CreateOperator:input_type -> api.traceability.v1.CreateOperatorRequest
+	102, // 65: api.traceability.v1.Traceability.ListOperators:input_type -> api.traceability.v1.ListOperatorsRequest
+	105, // 66: api.traceability.v1.Traceability.UpdateOperator:input_type -> api.traceability.v1.UpdateOperatorRequest
+	107, // 67: api.traceability.v1.Traceability.CreateWorkOrder:input_type -> api.traceability.v1.CreateWorkOrderRequest
+	109, // 68: api.traceability.v1.Traceability.GetWorkOrder:input_type -> api.traceability.v1.GetWorkOrderRequest
+	112, // 69: api.traceability.v1.Traceability.ListWorkOrders:input_type -> api.traceability.v1.ListWorkOrdersRequest
+	115, // 70: api.traceability.v1.Traceability.UpdateWorkOrderStatus:input_type -> api.traceability.v1.UpdateWorkOrderStatusRequest
+	117, // 71: api.traceability.v1.Traceability.RegisterGenealogyLink:input_type -> api.traceability.v1.RegisterGenealogyLinkRequest
+	119, // 72: api.traceability.v1.Traceability.TraceBackward:input_type -> api.traceability.v1.TraceRequest
+	119, // 73: api.traceability.v1.Traceability.TraceForward:input_type -> api.traceability.v1.TraceRequest
+	119, // 74: api.traceability.v1.Traceability.TraceFullGenealogy:input_type -> api.traceability.v1.TraceRequest
+	119, // 75: api.traceability.v1.Traceability.GetEquipmentProcessHistory:input_type -> api.traceability.v1.TraceRequest
+	1,   // 76: api.traceability.v1.Traceability.CreateEnterprise:output_type -> api.traceability.v1.CreateEnterpriseReply
+	3,   // 77: api.traceability.v1.Traceability.ListEnterprises:output_type -> api.traceability.v1.ListEnterprisesReply
+	6,   // 78: api.traceability.v1.Traceability.UpdateEnterprise:output_type -> api.traceability.v1.UpdateEnterpriseReply
+	8,   // 79: api.traceability.v1.Traceability.DeleteEnterprise:output_type -> api.traceability.v1.DeleteEnterpriseReply
+	10,  // 80: api.traceability.v1.Traceability.CreateSite:output_type -> api.traceability.v1.CreateSiteReply
+	12,  // 81: api.traceability.v1.Traceability.ListSites:output_type -> api.traceability.v1.ListSitesReply
+	15,  // 82: api.traceability.v1.Traceability.UpdateSite:output_type -> api.traceability.v1.UpdateSiteReply
+	17,  // 83: api.traceability.v1.Traceability.DeleteSite:output_type -> api.traceability.v1.DeleteSiteReply
+	19,  // 84: api.traceability.v1.Traceability.CreateArea:output_type -> api.traceability.v1.CreateAreaReply
+	21,  // 85: api.traceability.v1.Traceability.ListAreas:output_type -> api.traceability.v1.ListAreasReply
+	24,  // 86: api.traceability.v1.Traceability.UpdateArea:output_type -> api.traceability.v1.UpdateAreaReply
+	26,  // 87: api.traceability.v1.Traceability.DeleteArea:output_type -> api.traceability.v1.DeleteAreaReply
+	28,  // 88: api.traceability.v1.Traceability.CreateLine:output_type -> api.traceability.v1.CreateLineReply
+	30,  // 89: api.traceability.v1.Traceability.ListLines:output_type -> api.traceability.v1.ListLinesReply
+	33,  // 90: api.traceability.v1.Traceability.UpdateLine:output_type -> api.traceability.v1.UpdateLineReply
+	35,  // 91: api.traceability.v1.Traceability.DeleteLine:output_type -> api.traceability.v1.DeleteLineReply
+	37,  // 92: api.traceability.v1.Traceability.CreateProductionUnit:output_type -> api.traceability.v1.CreateProductionUnitReply
+	39,  // 93: api.traceability.v1.Traceability.ListProductionUnits:output_type -> api.traceability.v1.ListProductionUnitsReply
+	42,  // 94: api.traceability.v1.Traceability.UpdateProductionUnit:output_type -> api.traceability.v1.UpdateProductionUnitReply
+	44,  // 95: api.traceability.v1.Traceability.DeleteProductionUnit:output_type -> api.traceability.v1.DeleteProductionUnitReply
+	46,  // 96: api.traceability.v1.Traceability.CreateEquipmentClass:output_type -> api.traceability.v1.CreateEquipmentClassReply
+	48,  // 97: api.traceability.v1.Traceability.ListEquipmentClasses:output_type -> api.traceability.v1.ListEquipmentClassesReply
+	51,  // 98: api.traceability.v1.Traceability.UpdateEquipmentClass:output_type -> api.traceability.v1.UpdateEquipmentClassReply
+	53,  // 99: api.traceability.v1.Traceability.DeleteEquipmentClass:output_type -> api.traceability.v1.DeleteEquipmentClassReply
+	55,  // 100: api.traceability.v1.Traceability.RegisterEquipment:output_type -> api.traceability.v1.RegisterEquipmentReply
+	57,  // 101: api.traceability.v1.Traceability.ListEquipment:output_type -> api.traceability.v1.ListEquipmentReply
+	60,  // 102: api.traceability.v1.Traceability.UpdateEquipment:output_type -> api.traceability.v1.UpdateEquipmentReply
+	62,  // 103: api.traceability.v1.Traceability.DeleteEquipment:output_type -> api.traceability.v1.DeleteEquipmentReply
+	64,  // 104: api.traceability.v1.Traceability.AddCapability:output_type -> api.traceability.v1.AddCapabilityReply
+	66,  // 105: api.traceability.v1.Traceability.ListCapabilities:output_type -> api.traceability.v1.ListCapabilitiesReply
+	69,  // 106: api.traceability.v1.Traceability.UpdateCapability:output_type -> api.traceability.v1.UpdateCapabilityReply
+	71,  // 107: api.traceability.v1.Traceability.DeleteCapability:output_type -> api.traceability.v1.DeleteCapabilityReply
+	73,  // 108: api.traceability.v1.Traceability.SetProperty:output_type -> api.traceability.v1.SetPropertyReply
+	75,  // 109: api.traceability.v1.Traceability.ListProperties:output_type -> api.traceability.v1.ListPropertiesReply
+	78,  // 110: api.traceability.v1.Traceability.UpdateProperty:output_type -> api.traceability.v1.UpdatePropertyReply
+	80,  // 111: api.traceability.v1.Traceability.DeleteProperty:output_type -> api.traceability.v1.DeletePropertyReply
+	82,  // 112: api.traceability.v1.Traceability.LogEvent:output_type -> api.traceability.v1.LogEventReply
+	84,  // 113: api.traceability.v1.Traceability.ListLogs:output_type -> api.traceability.v1.ListLogsReply
+	87,  // 114: api.traceability.v1.Traceability.CreateMaterialDefinition:output_type -> api.traceability.v1.CreateMaterialDefinitionReply
+	89,  // 115: api.traceability.v1.Traceability.ListMaterialDefinitions:output_type -> api.traceability.v1.ListMaterialDefinitionsReply
+	92,  // 116: api.traceability.v1.Traceability.CreateMaterialLot:output_type -> api.traceability.v1.CreateMaterialLotReply
+	94,  // 117: api.traceability.v1.Traceability.GetMaterialLot:output_type -> api.traceability.v1.GetMaterialLotReply
+	96,  // 118: api.traceability.v1.Traceability.ListMaterialLots:output_type -> api.traceability.v1.ListMaterialLotsReply
+	99,  // 119: api.traceability.v1.Traceability.UpdateMaterialLotStatus:output_type -> api.traceability.v1.UpdateMaterialLotStatusReply
+	101, // 120: api.traceability.v1.Traceability.CreateOperator:output_type -> api.traceability.v1.CreateOperatorReply
+	103, // 121: api.traceability.v1.Traceability.ListOperators:output_type -> api.traceability.v1.ListOperatorsReply
+	106, // 122: api.traceability.v1.Traceability.UpdateOperator:output_type -> api.traceability.v1.UpdateOperatorReply
+	108, // 123: api.traceability.v1.Traceability.CreateWorkOrder:output_type -> api.traceability.v1.CreateWorkOrderReply
+	110, // 124: api.traceability.v1.Traceability.GetWorkOrder:output_type -> api.traceability.v1.GetWorkOrderReply
+	113, // 125: api.traceability.v1.Traceability.ListWorkOrders:output_type -> api.traceability.v1.ListWorkOrdersReply
+	116, // 126: api.traceability.v1.Traceability.UpdateWorkOrderStatus:output_type -> api.traceability.v1.UpdateWorkOrderStatusReply
+	118, // 127: api.traceability.v1.Traceability.RegisterGenealogyLink:output_type -> api.traceability.v1.RegisterGenealogyLinkReply
+	120, // 128: api.traceability.v1.Traceability.TraceBackward:output_type -> api.traceability.v1.TraceReply
+	120, // 129: api.traceability.v1.Traceability.TraceForward:output_type -> api.traceability.v1.TraceReply
+	122, // 130: api.traceability.v1.Traceability.TraceFullGenealogy:output_type -> api.traceability.v1.GenealogyTreeReply
+	125, // 131: api.traceability.v1.Traceability.GetEquipmentProcessHistory:output_type -> api.traceability.v1.EquipmentProcessHistoryReply
+	76,  // [76:132] is the sub-list for method output_type
+	20,  // [20:76] is the sub-list for method input_type
+	20,  // [20:20] is the sub-list for extension type_name
+	20,  // [20:20] is the sub-list for extension extendee
+	0,   // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_traceability_v1_traceability_proto_init() }
@@ -4916,7 +8141,7 @@ func file_traceability_v1_traceability_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_traceability_v1_traceability_proto_rawDesc), len(file_traceability_v1_traceability_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   86,
+			NumMessages:   128,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

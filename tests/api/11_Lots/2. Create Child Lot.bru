@@ -1,0 +1,24 @@
+meta {
+  name: 2. Create Child Lot
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/lots
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "lot_id": "WIP-1773046348",
+    "material_definition_id": {{wipDefId}},
+    "quantity": 0,
+    "unit_of_measure": "liters"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

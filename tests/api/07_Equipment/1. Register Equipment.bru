@@ -1,0 +1,25 @@
+meta {
+  name: 1. Register Equipment
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/equipment
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "id": "ROBOT-1773046348",
+    "physical_asset_id": "SN-1773046348",
+    "production_unit_id": {{unitId}},
+    "equipment_class_id": {{classId}},
+    "operational_status": "active"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

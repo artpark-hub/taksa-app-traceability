@@ -8,7 +8,7 @@ server:
 data:
   database:
     driver: postgres
-    source: ${DB_SOURCE:-postgres://taksa:taksa_123@127.0.0.1:5433/traceability_db?sslmode=disable}
+    source: postgres://taksa:taksa_123@127.0.0.1:5433/taksa?sslmode=disable  
   redis:
     addr: 127.0.0.1:6379
     read_timeout: 0.2s

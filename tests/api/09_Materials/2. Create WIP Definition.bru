@@ -1,0 +1,28 @@
+meta {
+  name: 2. Create WIP Definition
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/material-definitions
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "name": "Silicon Slurry",
+    "material_type": "WORK_IN_PROGRESS",
+    "unit_of_measure": "liters"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNumber
+}
+
+script:post-response {
+  bru.setVar("wipDefId", res.body.id);
+}

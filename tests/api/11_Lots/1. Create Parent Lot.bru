@@ -1,0 +1,24 @@
+meta {
+  name: 1. Create Parent Lot
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/lots
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "lot_id": "LOT-SIL-1773046348",
+    "material_definition_id": {{defId}},
+    "quantity": 100,
+    "unit_of_measure": "kg"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

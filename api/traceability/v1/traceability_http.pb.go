@@ -24,8 +24,12 @@ const OperationTraceabilityCreateArea = "/api.traceability.v1.Traceability/Creat
 const OperationTraceabilityCreateEnterprise = "/api.traceability.v1.Traceability/CreateEnterprise"
 const OperationTraceabilityCreateEquipmentClass = "/api.traceability.v1.Traceability/CreateEquipmentClass"
 const OperationTraceabilityCreateLine = "/api.traceability.v1.Traceability/CreateLine"
+const OperationTraceabilityCreateMaterialDefinition = "/api.traceability.v1.Traceability/CreateMaterialDefinition"
+const OperationTraceabilityCreateMaterialLot = "/api.traceability.v1.Traceability/CreateMaterialLot"
+const OperationTraceabilityCreateOperator = "/api.traceability.v1.Traceability/CreateOperator"
 const OperationTraceabilityCreateProductionUnit = "/api.traceability.v1.Traceability/CreateProductionUnit"
 const OperationTraceabilityCreateSite = "/api.traceability.v1.Traceability/CreateSite"
+const OperationTraceabilityCreateWorkOrder = "/api.traceability.v1.Traceability/CreateWorkOrder"
 const OperationTraceabilityDeleteArea = "/api.traceability.v1.Traceability/DeleteArea"
 const OperationTraceabilityDeleteCapability = "/api.traceability.v1.Traceability/DeleteCapability"
 const OperationTraceabilityDeleteEnterprise = "/api.traceability.v1.Traceability/DeleteEnterprise"
@@ -35,6 +39,9 @@ const OperationTraceabilityDeleteLine = "/api.traceability.v1.Traceability/Delet
 const OperationTraceabilityDeleteProductionUnit = "/api.traceability.v1.Traceability/DeleteProductionUnit"
 const OperationTraceabilityDeleteProperty = "/api.traceability.v1.Traceability/DeleteProperty"
 const OperationTraceabilityDeleteSite = "/api.traceability.v1.Traceability/DeleteSite"
+const OperationTraceabilityGetEquipmentProcessHistory = "/api.traceability.v1.Traceability/GetEquipmentProcessHistory"
+const OperationTraceabilityGetMaterialLot = "/api.traceability.v1.Traceability/GetMaterialLot"
+const OperationTraceabilityGetWorkOrder = "/api.traceability.v1.Traceability/GetWorkOrder"
 const OperationTraceabilityListAreas = "/api.traceability.v1.Traceability/ListAreas"
 const OperationTraceabilityListCapabilities = "/api.traceability.v1.Traceability/ListCapabilities"
 const OperationTraceabilityListEnterprises = "/api.traceability.v1.Traceability/ListEnterprises"
@@ -42,21 +49,32 @@ const OperationTraceabilityListEquipment = "/api.traceability.v1.Traceability/Li
 const OperationTraceabilityListEquipmentClasses = "/api.traceability.v1.Traceability/ListEquipmentClasses"
 const OperationTraceabilityListLines = "/api.traceability.v1.Traceability/ListLines"
 const OperationTraceabilityListLogs = "/api.traceability.v1.Traceability/ListLogs"
+const OperationTraceabilityListMaterialDefinitions = "/api.traceability.v1.Traceability/ListMaterialDefinitions"
+const OperationTraceabilityListMaterialLots = "/api.traceability.v1.Traceability/ListMaterialLots"
+const OperationTraceabilityListOperators = "/api.traceability.v1.Traceability/ListOperators"
 const OperationTraceabilityListProductionUnits = "/api.traceability.v1.Traceability/ListProductionUnits"
 const OperationTraceabilityListProperties = "/api.traceability.v1.Traceability/ListProperties"
 const OperationTraceabilityListSites = "/api.traceability.v1.Traceability/ListSites"
+const OperationTraceabilityListWorkOrders = "/api.traceability.v1.Traceability/ListWorkOrders"
 const OperationTraceabilityLogEvent = "/api.traceability.v1.Traceability/LogEvent"
 const OperationTraceabilityRegisterEquipment = "/api.traceability.v1.Traceability/RegisterEquipment"
+const OperationTraceabilityRegisterGenealogyLink = "/api.traceability.v1.Traceability/RegisterGenealogyLink"
 const OperationTraceabilitySetProperty = "/api.traceability.v1.Traceability/SetProperty"
+const OperationTraceabilityTraceBackward = "/api.traceability.v1.Traceability/TraceBackward"
+const OperationTraceabilityTraceForward = "/api.traceability.v1.Traceability/TraceForward"
+const OperationTraceabilityTraceFullGenealogy = "/api.traceability.v1.Traceability/TraceFullGenealogy"
 const OperationTraceabilityUpdateArea = "/api.traceability.v1.Traceability/UpdateArea"
 const OperationTraceabilityUpdateCapability = "/api.traceability.v1.Traceability/UpdateCapability"
 const OperationTraceabilityUpdateEnterprise = "/api.traceability.v1.Traceability/UpdateEnterprise"
 const OperationTraceabilityUpdateEquipment = "/api.traceability.v1.Traceability/UpdateEquipment"
 const OperationTraceabilityUpdateEquipmentClass = "/api.traceability.v1.Traceability/UpdateEquipmentClass"
 const OperationTraceabilityUpdateLine = "/api.traceability.v1.Traceability/UpdateLine"
+const OperationTraceabilityUpdateMaterialLotStatus = "/api.traceability.v1.Traceability/UpdateMaterialLotStatus"
+const OperationTraceabilityUpdateOperator = "/api.traceability.v1.Traceability/UpdateOperator"
 const OperationTraceabilityUpdateProductionUnit = "/api.traceability.v1.Traceability/UpdateProductionUnit"
 const OperationTraceabilityUpdateProperty = "/api.traceability.v1.Traceability/UpdateProperty"
 const OperationTraceabilityUpdateSite = "/api.traceability.v1.Traceability/UpdateSite"
+const OperationTraceabilityUpdateWorkOrderStatus = "/api.traceability.v1.Traceability/UpdateWorkOrderStatus"
 
 type TraceabilityHTTPServer interface {
 	// AddCapability 8. Equipment Capability Management
@@ -69,10 +87,26 @@ type TraceabilityHTTPServer interface {
 	CreateEquipmentClass(context.Context, *CreateEquipmentClassRequest) (*CreateEquipmentClassReply, error)
 	// CreateLine 4. Production Line Management
 	CreateLine(context.Context, *CreateLineRequest) (*CreateLineReply, error)
+	// CreateMaterialDefinition =====================================================================
+	// 11. Material Definition Management
+	// =====================================================================
+	CreateMaterialDefinition(context.Context, *CreateMaterialDefinitionRequest) (*CreateMaterialDefinitionReply, error)
+	// CreateMaterialLot =====================================================================
+	// 12. Material Lot Management
+	// =====================================================================
+	CreateMaterialLot(context.Context, *CreateMaterialLotRequest) (*CreateMaterialLotReply, error)
+	// CreateOperator =====================================================================
+	// 13. Operator Management
+	// =====================================================================
+	CreateOperator(context.Context, *CreateOperatorRequest) (*CreateOperatorReply, error)
 	// CreateProductionUnit 5. Production Unit Management
 	CreateProductionUnit(context.Context, *CreateProductionUnitRequest) (*CreateProductionUnitReply, error)
 	// CreateSite 2. Site Management
 	CreateSite(context.Context, *CreateSiteRequest) (*CreateSiteReply, error)
+	// CreateWorkOrder =====================================================================
+	// 14. Work Order Management
+	// =====================================================================
+	CreateWorkOrder(context.Context, *CreateWorkOrderRequest) (*CreateWorkOrderReply, error)
 	DeleteArea(context.Context, *DeleteAreaRequest) (*DeleteAreaReply, error)
 	DeleteCapability(context.Context, *DeleteCapabilityRequest) (*DeleteCapabilityReply, error)
 	DeleteEnterprise(context.Context, *DeleteEnterpriseRequest) (*DeleteEnterpriseReply, error)
@@ -82,6 +116,9 @@ type TraceabilityHTTPServer interface {
 	DeleteProductionUnit(context.Context, *DeleteProductionUnitRequest) (*DeleteProductionUnitReply, error)
 	DeleteProperty(context.Context, *DeletePropertyRequest) (*DeletePropertyReply, error)
 	DeleteSite(context.Context, *DeleteSiteRequest) (*DeleteSiteReply, error)
+	GetEquipmentProcessHistory(context.Context, *TraceRequest) (*EquipmentProcessHistoryReply, error)
+	GetMaterialLot(context.Context, *GetMaterialLotRequest) (*GetMaterialLotReply, error)
+	GetWorkOrder(context.Context, *GetWorkOrderRequest) (*GetWorkOrderReply, error)
 	ListAreas(context.Context, *ListAreasRequest) (*ListAreasReply, error)
 	ListCapabilities(context.Context, *ListCapabilitiesRequest) (*ListCapabilitiesReply, error)
 	ListEnterprises(context.Context, *ListEnterprisesRequest) (*ListEnterprisesReply, error)
@@ -89,24 +126,41 @@ type TraceabilityHTTPServer interface {
 	ListEquipmentClasses(context.Context, *ListEquipmentClassesRequest) (*ListEquipmentClassesReply, error)
 	ListLines(context.Context, *ListLinesRequest) (*ListLinesReply, error)
 	ListLogs(context.Context, *ListLogsRequest) (*ListLogsReply, error)
+	ListMaterialDefinitions(context.Context, *ListMaterialDefinitionsRequest) (*ListMaterialDefinitionsReply, error)
+	ListMaterialLots(context.Context, *ListMaterialLotsRequest) (*ListMaterialLotsReply, error)
+	ListOperators(context.Context, *ListOperatorsRequest) (*ListOperatorsReply, error)
 	ListProductionUnits(context.Context, *ListProductionUnitsRequest) (*ListProductionUnitsReply, error)
 	ListProperties(context.Context, *ListPropertiesRequest) (*ListPropertiesReply, error)
 	ListSites(context.Context, *ListSitesRequest) (*ListSitesReply, error)
+	ListWorkOrders(context.Context, *ListWorkOrdersRequest) (*ListWorkOrdersReply, error)
 	// LogEvent 10. Traceability Logs
 	LogEvent(context.Context, *LogEventRequest) (*LogEventReply, error)
 	// RegisterEquipment 7. Equipment Master Management
 	RegisterEquipment(context.Context, *RegisterEquipmentRequest) (*RegisterEquipmentReply, error)
+	// RegisterGenealogyLink =====================================================================
+	// 15. Lot Genealogy Registration
+	// =====================================================================
+	RegisterGenealogyLink(context.Context, *RegisterGenealogyLinkRequest) (*RegisterGenealogyLinkReply, error)
 	// SetProperty 9. Equipment Property Management
 	SetProperty(context.Context, *SetPropertyRequest) (*SetPropertyReply, error)
+	// TraceBackward =====================================================================
+	// 16. Traceability Queries (THE CORE FEATURES)
+	// =====================================================================
+	TraceBackward(context.Context, *TraceRequest) (*TraceReply, error)
+	TraceForward(context.Context, *TraceRequest) (*TraceReply, error)
+	TraceFullGenealogy(context.Context, *TraceRequest) (*GenealogyTreeReply, error)
 	UpdateArea(context.Context, *UpdateAreaRequest) (*UpdateAreaReply, error)
 	UpdateCapability(context.Context, *UpdateCapabilityRequest) (*UpdateCapabilityReply, error)
 	UpdateEnterprise(context.Context, *UpdateEnterpriseRequest) (*UpdateEnterpriseReply, error)
 	UpdateEquipment(context.Context, *UpdateEquipmentRequest) (*UpdateEquipmentReply, error)
 	UpdateEquipmentClass(context.Context, *UpdateEquipmentClassRequest) (*UpdateEquipmentClassReply, error)
 	UpdateLine(context.Context, *UpdateLineRequest) (*UpdateLineReply, error)
+	UpdateMaterialLotStatus(context.Context, *UpdateMaterialLotStatusRequest) (*UpdateMaterialLotStatusReply, error)
+	UpdateOperator(context.Context, *UpdateOperatorRequest) (*UpdateOperatorReply, error)
 	UpdateProductionUnit(context.Context, *UpdateProductionUnitRequest) (*UpdateProductionUnitReply, error)
 	UpdateProperty(context.Context, *UpdatePropertyRequest) (*UpdatePropertyReply, error)
 	UpdateSite(context.Context, *UpdateSiteRequest) (*UpdateSiteReply, error)
+	UpdateWorkOrderStatus(context.Context, *UpdateWorkOrderStatusRequest) (*UpdateWorkOrderStatusReply, error)
 }
 
 func RegisterTraceabilityHTTPServer(s *http.Server, srv TraceabilityHTTPServer) {
@@ -149,6 +203,24 @@ func RegisterTraceabilityHTTPServer(s *http.Server, srv TraceabilityHTTPServer) 
 	r.DELETE("/api/v1/traceability/equipment/{equipment_id}/properties/{id}", _Traceability_DeleteProperty0_HTTP_Handler(srv))
 	r.POST("/api/v1/traceability/logs", _Traceability_LogEvent0_HTTP_Handler(srv))
 	r.GET("/api/v1/traceability/logs", _Traceability_ListLogs0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/material-definitions", _Traceability_CreateMaterialDefinition0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/material-definitions", _Traceability_ListMaterialDefinitions0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/lots", _Traceability_CreateMaterialLot0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/lots/{lot_id}", _Traceability_GetMaterialLot0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/lots", _Traceability_ListMaterialLots0_HTTP_Handler(srv))
+	r.PATCH("/api/v1/traceability/lots/{lot_id}/status", _Traceability_UpdateMaterialLotStatus0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/operators", _Traceability_CreateOperator0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/operators", _Traceability_ListOperators0_HTTP_Handler(srv))
+	r.PATCH("/api/v1/traceability/operators/{operator_id}", _Traceability_UpdateOperator0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/work-orders", _Traceability_CreateWorkOrder0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/work-orders/{work_order_id}", _Traceability_GetWorkOrder0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/work-orders", _Traceability_ListWorkOrders0_HTTP_Handler(srv))
+	r.PATCH("/api/v1/traceability/work-orders/{work_order_id}/status", _Traceability_UpdateWorkOrderStatus0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/genealogy", _Traceability_RegisterGenealogyLink0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/trace/backward/{lot_id}", _Traceability_TraceBackward0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/trace/forward/{lot_id}", _Traceability_TraceForward0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/trace/full/{lot_id}", _Traceability_TraceFullGenealogy0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/trace/equipment-history/{lot_id}", _Traceability_GetEquipmentProcessHistory0_HTTP_Handler(srv))
 }
 
 func _Traceability_CreateEnterprise0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
@@ -996,6 +1068,399 @@ func _Traceability_ListLogs0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx h
 	}
 }
 
+func _Traceability_CreateMaterialDefinition0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateMaterialDefinitionRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityCreateMaterialDefinition)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateMaterialDefinition(ctx, req.(*CreateMaterialDefinitionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateMaterialDefinitionReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_ListMaterialDefinitions0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListMaterialDefinitionsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityListMaterialDefinitions)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListMaterialDefinitions(ctx, req.(*ListMaterialDefinitionsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListMaterialDefinitionsReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_CreateMaterialLot0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateMaterialLotRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityCreateMaterialLot)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateMaterialLot(ctx, req.(*CreateMaterialLotRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateMaterialLotReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_GetMaterialLot0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetMaterialLotRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityGetMaterialLot)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetMaterialLot(ctx, req.(*GetMaterialLotRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetMaterialLotReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_ListMaterialLots0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListMaterialLotsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityListMaterialLots)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListMaterialLots(ctx, req.(*ListMaterialLotsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListMaterialLotsReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_UpdateMaterialLotStatus0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateMaterialLotStatusRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityUpdateMaterialLotStatus)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateMaterialLotStatus(ctx, req.(*UpdateMaterialLotStatusRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateMaterialLotStatusReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_CreateOperator0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateOperatorRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityCreateOperator)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateOperator(ctx, req.(*CreateOperatorRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateOperatorReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_ListOperators0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListOperatorsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityListOperators)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListOperators(ctx, req.(*ListOperatorsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListOperatorsReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_UpdateOperator0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateOperatorRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityUpdateOperator)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateOperator(ctx, req.(*UpdateOperatorRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateOperatorReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_CreateWorkOrder0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateWorkOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityCreateWorkOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateWorkOrder(ctx, req.(*CreateWorkOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateWorkOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_GetWorkOrder0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetWorkOrderRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityGetWorkOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetWorkOrder(ctx, req.(*GetWorkOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetWorkOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_ListWorkOrders0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListWorkOrdersRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityListWorkOrders)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListWorkOrders(ctx, req.(*ListWorkOrdersRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListWorkOrdersReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_UpdateWorkOrderStatus0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateWorkOrderStatusRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityUpdateWorkOrderStatus)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateWorkOrderStatus(ctx, req.(*UpdateWorkOrderStatusRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateWorkOrderStatusReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_RegisterGenealogyLink0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RegisterGenealogyLinkRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityRegisterGenealogyLink)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RegisterGenealogyLink(ctx, req.(*RegisterGenealogyLinkRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RegisterGenealogyLinkReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_TraceBackward0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in TraceRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityTraceBackward)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.TraceBackward(ctx, req.(*TraceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*TraceReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_TraceForward0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in TraceRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityTraceForward)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.TraceForward(ctx, req.(*TraceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*TraceReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_TraceFullGenealogy0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in TraceRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityTraceFullGenealogy)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.TraceFullGenealogy(ctx, req.(*TraceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GenealogyTreeReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_GetEquipmentProcessHistory0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in TraceRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityGetEquipmentProcessHistory)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetEquipmentProcessHistory(ctx, req.(*TraceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*EquipmentProcessHistoryReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type TraceabilityHTTPClient interface {
 	// AddCapability 8. Equipment Capability Management
 	AddCapability(ctx context.Context, req *AddCapabilityRequest, opts ...http.CallOption) (rsp *AddCapabilityReply, err error)
@@ -1007,10 +1472,26 @@ type TraceabilityHTTPClient interface {
 	CreateEquipmentClass(ctx context.Context, req *CreateEquipmentClassRequest, opts ...http.CallOption) (rsp *CreateEquipmentClassReply, err error)
 	// CreateLine 4. Production Line Management
 	CreateLine(ctx context.Context, req *CreateLineRequest, opts ...http.CallOption) (rsp *CreateLineReply, err error)
+	// CreateMaterialDefinition =====================================================================
+	// 11. Material Definition Management
+	// =====================================================================
+	CreateMaterialDefinition(ctx context.Context, req *CreateMaterialDefinitionRequest, opts ...http.CallOption) (rsp *CreateMaterialDefinitionReply, err error)
+	// CreateMaterialLot =====================================================================
+	// 12. Material Lot Management
+	// =====================================================================
+	CreateMaterialLot(ctx context.Context, req *CreateMaterialLotRequest, opts ...http.CallOption) (rsp *CreateMaterialLotReply, err error)
+	// CreateOperator =====================================================================
+	// 13. Operator Management
+	// =====================================================================
+	CreateOperator(ctx context.Context, req *CreateOperatorRequest, opts ...http.CallOption) (rsp *CreateOperatorReply, err error)
 	// CreateProductionUnit 5. Production Unit Management
 	CreateProductionUnit(ctx context.Context, req *CreateProductionUnitRequest, opts ...http.CallOption) (rsp *CreateProductionUnitReply, err error)
 	// CreateSite 2. Site Management
 	CreateSite(ctx context.Context, req *CreateSiteRequest, opts ...http.CallOption) (rsp *CreateSiteReply, err error)
+	// CreateWorkOrder =====================================================================
+	// 14. Work Order Management
+	// =====================================================================
+	CreateWorkOrder(ctx context.Context, req *CreateWorkOrderRequest, opts ...http.CallOption) (rsp *CreateWorkOrderReply, err error)
 	DeleteArea(ctx context.Context, req *DeleteAreaRequest, opts ...http.CallOption) (rsp *DeleteAreaReply, err error)
 	DeleteCapability(ctx context.Context, req *DeleteCapabilityRequest, opts ...http.CallOption) (rsp *DeleteCapabilityReply, err error)
 	DeleteEnterprise(ctx context.Context, req *DeleteEnterpriseRequest, opts ...http.CallOption) (rsp *DeleteEnterpriseReply, err error)
@@ -1020,6 +1501,9 @@ type TraceabilityHTTPClient interface {
 	DeleteProductionUnit(ctx context.Context, req *DeleteProductionUnitRequest, opts ...http.CallOption) (rsp *DeleteProductionUnitReply, err error)
 	DeleteProperty(ctx context.Context, req *DeletePropertyRequest, opts ...http.CallOption) (rsp *DeletePropertyReply, err error)
 	DeleteSite(ctx context.Context, req *DeleteSiteRequest, opts ...http.CallOption) (rsp *DeleteSiteReply, err error)
+	GetEquipmentProcessHistory(ctx context.Context, req *TraceRequest, opts ...http.CallOption) (rsp *EquipmentProcessHistoryReply, err error)
+	GetMaterialLot(ctx context.Context, req *GetMaterialLotRequest, opts ...http.CallOption) (rsp *GetMaterialLotReply, err error)
+	GetWorkOrder(ctx context.Context, req *GetWorkOrderRequest, opts ...http.CallOption) (rsp *GetWorkOrderReply, err error)
 	ListAreas(ctx context.Context, req *ListAreasRequest, opts ...http.CallOption) (rsp *ListAreasReply, err error)
 	ListCapabilities(ctx context.Context, req *ListCapabilitiesRequest, opts ...http.CallOption) (rsp *ListCapabilitiesReply, err error)
 	ListEnterprises(ctx context.Context, req *ListEnterprisesRequest, opts ...http.CallOption) (rsp *ListEnterprisesReply, err error)
@@ -1027,24 +1511,41 @@ type TraceabilityHTTPClient interface {
 	ListEquipmentClasses(ctx context.Context, req *ListEquipmentClassesRequest, opts ...http.CallOption) (rsp *ListEquipmentClassesReply, err error)
 	ListLines(ctx context.Context, req *ListLinesRequest, opts ...http.CallOption) (rsp *ListLinesReply, err error)
 	ListLogs(ctx context.Context, req *ListLogsRequest, opts ...http.CallOption) (rsp *ListLogsReply, err error)
+	ListMaterialDefinitions(ctx context.Context, req *ListMaterialDefinitionsRequest, opts ...http.CallOption) (rsp *ListMaterialDefinitionsReply, err error)
+	ListMaterialLots(ctx context.Context, req *ListMaterialLotsRequest, opts ...http.CallOption) (rsp *ListMaterialLotsReply, err error)
+	ListOperators(ctx context.Context, req *ListOperatorsRequest, opts ...http.CallOption) (rsp *ListOperatorsReply, err error)
 	ListProductionUnits(ctx context.Context, req *ListProductionUnitsRequest, opts ...http.CallOption) (rsp *ListProductionUnitsReply, err error)
 	ListProperties(ctx context.Context, req *ListPropertiesRequest, opts ...http.CallOption) (rsp *ListPropertiesReply, err error)
 	ListSites(ctx context.Context, req *ListSitesRequest, opts ...http.CallOption) (rsp *ListSitesReply, err error)
+	ListWorkOrders(ctx context.Context, req *ListWorkOrdersRequest, opts ...http.CallOption) (rsp *ListWorkOrdersReply, err error)
 	// LogEvent 10. Traceability Logs
 	LogEvent(ctx context.Context, req *LogEventRequest, opts ...http.CallOption) (rsp *LogEventReply, err error)
 	// RegisterEquipment 7. Equipment Master Management
 	RegisterEquipment(ctx context.Context, req *RegisterEquipmentRequest, opts ...http.CallOption) (rsp *RegisterEquipmentReply, err error)
+	// RegisterGenealogyLink =====================================================================
+	// 15. Lot Genealogy Registration
+	// =====================================================================
+	RegisterGenealogyLink(ctx context.Context, req *RegisterGenealogyLinkRequest, opts ...http.CallOption) (rsp *RegisterGenealogyLinkReply, err error)
 	// SetProperty 9. Equipment Property Management
 	SetProperty(ctx context.Context, req *SetPropertyRequest, opts ...http.CallOption) (rsp *SetPropertyReply, err error)
+	// TraceBackward =====================================================================
+	// 16. Traceability Queries (THE CORE FEATURES)
+	// =====================================================================
+	TraceBackward(ctx context.Context, req *TraceRequest, opts ...http.CallOption) (rsp *TraceReply, err error)
+	TraceForward(ctx context.Context, req *TraceRequest, opts ...http.CallOption) (rsp *TraceReply, err error)
+	TraceFullGenealogy(ctx context.Context, req *TraceRequest, opts ...http.CallOption) (rsp *GenealogyTreeReply, err error)
 	UpdateArea(ctx context.Context, req *UpdateAreaRequest, opts ...http.CallOption) (rsp *UpdateAreaReply, err error)
 	UpdateCapability(ctx context.Context, req *UpdateCapabilityRequest, opts ...http.CallOption) (rsp *UpdateCapabilityReply, err error)
 	UpdateEnterprise(ctx context.Context, req *UpdateEnterpriseRequest, opts ...http.CallOption) (rsp *UpdateEnterpriseReply, err error)
 	UpdateEquipment(ctx context.Context, req *UpdateEquipmentRequest, opts ...http.CallOption) (rsp *UpdateEquipmentReply, err error)
 	UpdateEquipmentClass(ctx context.Context, req *UpdateEquipmentClassRequest, opts ...http.CallOption) (rsp *UpdateEquipmentClassReply, err error)
 	UpdateLine(ctx context.Context, req *UpdateLineRequest, opts ...http.CallOption) (rsp *UpdateLineReply, err error)
+	UpdateMaterialLotStatus(ctx context.Context, req *UpdateMaterialLotStatusRequest, opts ...http.CallOption) (rsp *UpdateMaterialLotStatusReply, err error)
+	UpdateOperator(ctx context.Context, req *UpdateOperatorRequest, opts ...http.CallOption) (rsp *UpdateOperatorReply, err error)
 	UpdateProductionUnit(ctx context.Context, req *UpdateProductionUnitRequest, opts ...http.CallOption) (rsp *UpdateProductionUnitReply, err error)
 	UpdateProperty(ctx context.Context, req *UpdatePropertyRequest, opts ...http.CallOption) (rsp *UpdatePropertyReply, err error)
 	UpdateSite(ctx context.Context, req *UpdateSiteRequest, opts ...http.CallOption) (rsp *UpdateSiteReply, err error)
+	UpdateWorkOrderStatus(ctx context.Context, req *UpdateWorkOrderStatusRequest, opts ...http.CallOption) (rsp *UpdateWorkOrderStatusReply, err error)
 }
 
 type TraceabilityHTTPClientImpl struct {
@@ -1125,6 +1626,54 @@ func (c *TraceabilityHTTPClientImpl) CreateLine(ctx context.Context, in *CreateL
 	return &out, nil
 }
 
+// CreateMaterialDefinition =====================================================================
+// 11. Material Definition Management
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) CreateMaterialDefinition(ctx context.Context, in *CreateMaterialDefinitionRequest, opts ...http.CallOption) (*CreateMaterialDefinitionReply, error) {
+	var out CreateMaterialDefinitionReply
+	pattern := "/api/v1/traceability/material-definitions"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityCreateMaterialDefinition))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// CreateMaterialLot =====================================================================
+// 12. Material Lot Management
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) CreateMaterialLot(ctx context.Context, in *CreateMaterialLotRequest, opts ...http.CallOption) (*CreateMaterialLotReply, error) {
+	var out CreateMaterialLotReply
+	pattern := "/api/v1/traceability/lots"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityCreateMaterialLot))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// CreateOperator =====================================================================
+// 13. Operator Management
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) CreateOperator(ctx context.Context, in *CreateOperatorRequest, opts ...http.CallOption) (*CreateOperatorReply, error) {
+	var out CreateOperatorReply
+	pattern := "/api/v1/traceability/operators"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityCreateOperator))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // CreateProductionUnit 5. Production Unit Management
 func (c *TraceabilityHTTPClientImpl) CreateProductionUnit(ctx context.Context, in *CreateProductionUnitRequest, opts ...http.CallOption) (*CreateProductionUnitReply, error) {
 	var out CreateProductionUnitReply
@@ -1145,6 +1694,22 @@ func (c *TraceabilityHTTPClientImpl) CreateSite(ctx context.Context, in *CreateS
 	pattern := "/api/v1/traceability/sites"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTraceabilityCreateSite))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// CreateWorkOrder =====================================================================
+// 14. Work Order Management
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) CreateWorkOrder(ctx context.Context, in *CreateWorkOrderRequest, opts ...http.CallOption) (*CreateWorkOrderReply, error) {
+	var out CreateWorkOrderReply
+	pattern := "/api/v1/traceability/work-orders"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityCreateWorkOrder))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -1270,6 +1835,45 @@ func (c *TraceabilityHTTPClientImpl) DeleteSite(ctx context.Context, in *DeleteS
 	return &out, nil
 }
 
+func (c *TraceabilityHTTPClientImpl) GetEquipmentProcessHistory(ctx context.Context, in *TraceRequest, opts ...http.CallOption) (*EquipmentProcessHistoryReply, error) {
+	var out EquipmentProcessHistoryReply
+	pattern := "/api/v1/traceability/trace/equipment-history/{lot_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityGetEquipmentProcessHistory))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) GetMaterialLot(ctx context.Context, in *GetMaterialLotRequest, opts ...http.CallOption) (*GetMaterialLotReply, error) {
+	var out GetMaterialLotReply
+	pattern := "/api/v1/traceability/lots/{lot_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityGetMaterialLot))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) GetWorkOrder(ctx context.Context, in *GetWorkOrderRequest, opts ...http.CallOption) (*GetWorkOrderReply, error) {
+	var out GetWorkOrderReply
+	pattern := "/api/v1/traceability/work-orders/{work_order_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityGetWorkOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *TraceabilityHTTPClientImpl) ListAreas(ctx context.Context, in *ListAreasRequest, opts ...http.CallOption) (*ListAreasReply, error) {
 	var out ListAreasReply
 	pattern := "/api/v1/traceability/areas"
@@ -1361,6 +1965,45 @@ func (c *TraceabilityHTTPClientImpl) ListLogs(ctx context.Context, in *ListLogsR
 	return &out, nil
 }
 
+func (c *TraceabilityHTTPClientImpl) ListMaterialDefinitions(ctx context.Context, in *ListMaterialDefinitionsRequest, opts ...http.CallOption) (*ListMaterialDefinitionsReply, error) {
+	var out ListMaterialDefinitionsReply
+	pattern := "/api/v1/traceability/material-definitions"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityListMaterialDefinitions))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) ListMaterialLots(ctx context.Context, in *ListMaterialLotsRequest, opts ...http.CallOption) (*ListMaterialLotsReply, error) {
+	var out ListMaterialLotsReply
+	pattern := "/api/v1/traceability/lots"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityListMaterialLots))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) ListOperators(ctx context.Context, in *ListOperatorsRequest, opts ...http.CallOption) (*ListOperatorsReply, error) {
+	var out ListOperatorsReply
+	pattern := "/api/v1/traceability/operators"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityListOperators))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *TraceabilityHTTPClientImpl) ListProductionUnits(ctx context.Context, in *ListProductionUnitsRequest, opts ...http.CallOption) (*ListProductionUnitsReply, error) {
 	var out ListProductionUnitsReply
 	pattern := "/api/v1/traceability/production-units"
@@ -1400,6 +2043,19 @@ func (c *TraceabilityHTTPClientImpl) ListSites(ctx context.Context, in *ListSite
 	return &out, nil
 }
 
+func (c *TraceabilityHTTPClientImpl) ListWorkOrders(ctx context.Context, in *ListWorkOrdersRequest, opts ...http.CallOption) (*ListWorkOrdersReply, error) {
+	var out ListWorkOrdersReply
+	pattern := "/api/v1/traceability/work-orders"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityListWorkOrders))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // LogEvent 10. Traceability Logs
 func (c *TraceabilityHTTPClientImpl) LogEvent(ctx context.Context, in *LogEventRequest, opts ...http.CallOption) (*LogEventReply, error) {
 	var out LogEventReply
@@ -1428,6 +2084,22 @@ func (c *TraceabilityHTTPClientImpl) RegisterEquipment(ctx context.Context, in *
 	return &out, nil
 }
 
+// RegisterGenealogyLink =====================================================================
+// 15. Lot Genealogy Registration
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) RegisterGenealogyLink(ctx context.Context, in *RegisterGenealogyLinkRequest, opts ...http.CallOption) (*RegisterGenealogyLinkReply, error) {
+	var out RegisterGenealogyLinkReply
+	pattern := "/api/v1/traceability/genealogy"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityRegisterGenealogyLink))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // SetProperty 9. Equipment Property Management
 func (c *TraceabilityHTTPClientImpl) SetProperty(ctx context.Context, in *SetPropertyRequest, opts ...http.CallOption) (*SetPropertyReply, error) {
 	var out SetPropertyReply
@@ -1436,6 +2108,48 @@ func (c *TraceabilityHTTPClientImpl) SetProperty(ctx context.Context, in *SetPro
 	opts = append(opts, http.Operation(OperationTraceabilitySetProperty))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// TraceBackward =====================================================================
+// 16. Traceability Queries (THE CORE FEATURES)
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) TraceBackward(ctx context.Context, in *TraceRequest, opts ...http.CallOption) (*TraceReply, error) {
+	var out TraceReply
+	pattern := "/api/v1/traceability/trace/backward/{lot_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityTraceBackward))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) TraceForward(ctx context.Context, in *TraceRequest, opts ...http.CallOption) (*TraceReply, error) {
+	var out TraceReply
+	pattern := "/api/v1/traceability/trace/forward/{lot_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityTraceForward))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) TraceFullGenealogy(ctx context.Context, in *TraceRequest, opts ...http.CallOption) (*GenealogyTreeReply, error) {
+	var out GenealogyTreeReply
+	pattern := "/api/v1/traceability/trace/full/{lot_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityTraceFullGenealogy))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1520,6 +2234,32 @@ func (c *TraceabilityHTTPClientImpl) UpdateLine(ctx context.Context, in *UpdateL
 	return &out, nil
 }
 
+func (c *TraceabilityHTTPClientImpl) UpdateMaterialLotStatus(ctx context.Context, in *UpdateMaterialLotStatusRequest, opts ...http.CallOption) (*UpdateMaterialLotStatusReply, error) {
+	var out UpdateMaterialLotStatusReply
+	pattern := "/api/v1/traceability/lots/{lot_id}/status"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityUpdateMaterialLotStatus))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PATCH", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) UpdateOperator(ctx context.Context, in *UpdateOperatorRequest, opts ...http.CallOption) (*UpdateOperatorReply, error) {
+	var out UpdateOperatorReply
+	pattern := "/api/v1/traceability/operators/{operator_id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityUpdateOperator))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PATCH", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *TraceabilityHTTPClientImpl) UpdateProductionUnit(ctx context.Context, in *UpdateProductionUnitRequest, opts ...http.CallOption) (*UpdateProductionUnitReply, error) {
 	var out UpdateProductionUnitReply
 	pattern := "/api/v1/traceability/production-units/{id}"
@@ -1551,6 +2291,19 @@ func (c *TraceabilityHTTPClientImpl) UpdateSite(ctx context.Context, in *UpdateS
 	pattern := "/api/v1/traceability/sites/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTraceabilityUpdateSite))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PATCH", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusRequest, opts ...http.CallOption) (*UpdateWorkOrderStatusReply, error) {
+	var out UpdateWorkOrderStatusReply
+	pattern := "/api/v1/traceability/work-orders/{work_order_id}/status"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityUpdateWorkOrderStatus))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PATCH", path, in, &out, opts...)
 	if err != nil {

@@ -1,24 +1,34 @@
 import os
+import time
+import shutil
 
-# Base Directory - Use relative path instead of absolute
 BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tests", "api")
+
+if os.path.exists(BASE_DIR):
+    shutil.rmtree(BASE_DIR)
 os.makedirs(BASE_DIR, exist_ok=True)
 
-# Create bruno.json
+TS = int(time.time())
+
 with open(os.path.join(BASE_DIR, "bruno.json"), "w") as f:
     f.write('{\n  "version": "1",\n  "name": "Taksa Traceability",\n  "type": "collection"\n}\n')
 
-# Create Environment
 env_dir = os.path.join(BASE_DIR, "environments")
 os.makedirs(env_dir, exist_ok=True)
+
 with open(os.path.join(env_dir, "Dev VM.bru"), "w") as f:
     f.write('vars {\n  baseUrl: http://localhost:8000\n}\n')
 
-# Helper to create a .bru file
-def create_bru(folder, filename, name, method, url, body=None, assertions=None, seq=1):
+def create_bru(folder, filename, name, method, url, body=None, assertions=None, seq=1, vars_to_set=None):
     folder_path = os.path.join(BASE_DIR, folder)
     os.makedirs(folder_path, exist_ok=True)
-    
+
+    # Bruno requires a folder.bru metadata file in every directory
+    folder_meta = os.path.join(folder_path, "folder.bru")
+    if not os.path.exists(folder_meta):
+        with open(folder_meta, "w") as fm:
+            fm.write(f"meta {{\n  name: {folder}\n}}\n")
+
     file_content = f"""meta {{
   name: {name}
   type: http
@@ -32,162 +42,122 @@ def create_bru(folder, filename, name, method, url, body=None, assertions=None, 
 }}
 """
     if body:
-        file_content += f"\nbody:json {{\n  {body}\n}}\n"
-    
+        # Wrap the raw JSON payload inside Bruno's body:json { } block
+        file_content += "\nbody:json {\n" + body.strip() + "\n}\n"
+
     if assertions:
         file_content += "\nassert {\n"
         for a in assertions:
             file_content += f"  {a}\n"
         file_content += "}\n"
 
+    if vars_to_set:
+        file_content += "\nscript:post-response {\n"
+        for var, path in vars_to_set.items():
+            file_content += f'  bru.setVar("{var}", res.body.{path});\n'
+        file_content += "}\n"
+
     with open(os.path.join(folder_path, filename), "w") as f:
         f.write(file_content)
 
-# --- 1. Enterprise ---
-create_bru("1_Enterprise", "1. Create Enterprise.bru", "1. Create Enterprise", "post", "{{baseUrl}}/api/v1/traceability/enterprises", 
-           '{\n    "name": "Global Motors",\n    "description": "Global Headquarters"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
+# --- 01. Enterprise ---
+create_bru("01_Enterprise", "1. Create Enterprise.bru", "1. Create Enterprise", "post",
+    "{{baseUrl}}/api/v1/traceability/enterprises",
+    '{\n    "name": "Global Motors",\n    "description": "Global Headquarters"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"enterpriseId": "id"})
 
-create_bru("1_Enterprise", "2. List Enterprises.bru", "2. List Enterprises", "get", "{{baseUrl}}/api/v1/traceability/enterprises", 
-           None, ["res.status: eq 200", "res.body.enterprises: isArray"], 2)
+# --- 02. Site ---
+create_bru("02_Site", "1. Create Site.bru", "1. Create Site", "post",
+    "{{baseUrl}}/api/v1/traceability/sites",
+    '{\n    "enterprise_id": {{enterpriseId}},\n    "name": "Detroit Plant",\n    "location": "Michigan, USA"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"siteId": "id"})
 
-create_bru("1_Enterprise", "3. Update Enterprise.bru", "3. Update Enterprise", "patch", "{{baseUrl}}/api/v1/traceability/enterprises/1", 
-           '{\n    "name": "Global Motors Inc."\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
+# --- 03. Area ---
+create_bru("03_Area", "1. Create Area.bru", "1. Create Area", "post",
+    "{{baseUrl}}/api/v1/traceability/areas",
+    '{\n    "site_id": {{siteId}},\n    "name": "Body Shop",\n    "description": "Welding Area"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"areaId": "id"})
 
-# --- 2. Site ---
-create_bru("2_Site", "1. Create Site.bru", "1. Create Site", "post", "{{baseUrl}}/api/v1/traceability/sites", 
-           '{\n    "enterprise_id": 1,\n    "name": "Detroit Plant",\n    "location": "Michigan, USA"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
+# --- 04. Line ---
+create_bru("04_Line", "1. Create Line.bru", "1. Create Line", "post",
+    "{{baseUrl}}/api/v1/traceability/lines",
+    '{\n    "area_id": {{areaId}},\n    "name": "Line A",\n    "description": "Main Line"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"lineId": "id"})
 
-create_bru("2_Site", "2. List Sites.bru", "2. List Sites", "get", "{{baseUrl}}/api/v1/traceability/sites?enterprise_id=1", 
-           None, ["res.status: eq 200", "res.body.sites: isArray"], 2)
+# --- 05. Unit ---
+create_bru("05_Unit", "1. Create Unit.bru", "1. Create Unit", "post",
+    "{{baseUrl}}/api/v1/traceability/production-units",
+    '{\n    "production_line_id": {{lineId}},\n    "name": "Station-01",\n    "description": "Robot Slot"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"unitId": "id"})
 
-create_bru("2_Site", "3. Update Site.bru", "3. Update Site", "patch", "{{baseUrl}}/api/v1/traceability/sites/1", 
-           '{\n    "location": "Ohio, USA"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
+# --- 06. Equipment Class ---
+create_bru("06_EquipmentClass", "1. Create Class.bru", "1. Create Class", "post",
+    "{{baseUrl}}/api/v1/traceability/equipment-classes",
+    '{\n    "class_name": "Kuka Robot",\n    "version": "v2.0"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"classId": "id"})
 
-# --- 3. Area ---
-create_bru("3_Area", "1. Create Area.bru", "1. Create Area", "post", "{{baseUrl}}/api/v1/traceability/areas", 
-           '{\n    "site_id": 1,\n    "name": "Body Shop",\n    "description": "Welding Area"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
+# --- 07. Equipment Master ---
+create_bru("07_Equipment", "1. Register Equipment.bru", "1. Register Equipment", "post",
+    "{{baseUrl}}/api/v1/traceability/equipment",
+    f'{{\n    "id": "ROBOT-{TS}",\n    "physical_asset_id": "SN-{TS}",\n    "production_unit_id": {{{{unitId}}}},\n    "equipment_class_id": {{{{classId}}}},\n    "operational_status": "active"\n  }}',
+    ["res.status: eq 200"], 1)
 
-create_bru("3_Area", "2. List Areas.bru", "2. List Areas", "get", "{{baseUrl}}/api/v1/traceability/areas?site_id=1", 
-           None, ["res.status: eq 200", "res.body.areas: isArray"], 2)
+# --- 09. Material Definitions ---
+create_bru("09_Materials", "1. Create Definition.bru", "1. Create Definition", "post",
+    "{{baseUrl}}/api/v1/traceability/material-definitions",
+    '{\n    "name": "Raw Silicon",\n    "material_type": "RAW_MATERIAL",\n    "unit_of_measure": "kg"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1, {"defId": "id"})
 
-create_bru("3_Area", "3. Update Area.bru", "3. Update Area", "patch", "{{baseUrl}}/api/v1/traceability/areas/1", 
-           '{\n    "name": "Paint Shop"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
+create_bru("09_Materials", "2. Create WIP Definition.bru", "2. Create WIP Definition", "post",
+    "{{baseUrl}}/api/v1/traceability/material-definitions",
+    '{\n    "name": "Silicon Slurry",\n    "material_type": "WORK_IN_PROGRESS",\n    "unit_of_measure": "liters"\n  }',
+    ["res.status: eq 200", "res.body.id: isNumber"], 2, {"wipDefId": "id"})
 
-# --- 4. Line ---
-create_bru("4_Line", "1. Create Line.bru", "1. Create Line", "post", "{{baseUrl}}/api/v1/traceability/lines", 
-           '{\n    "area_id": 1,\n    "name": "Line A",\n    "description": "Main Line"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
+# --- 10. Operators ---
+create_bru("10_Operators", "1. Create Operator.bru", "1. Create Operator", "post",
+    "{{baseUrl}}/api/v1/traceability/operators",
+    f'{{\n    "operator_id": "OP-TEST-{TS}",\n    "name": "Test Operator",\n    "role": "Quality Control",\n    "shift": "DAY_SHIFT"\n  }}',
+    ["res.status: eq 200"], 1)
 
-create_bru("4_Line", "2. List Lines.bru", "2. List Lines", "get", "{{baseUrl}}/api/v1/traceability/lines?area_id=1", 
-           None, ["res.status: eq 200", "res.body.lines: isArray"], 2)
+# --- 11. Material Lots ---
+create_bru("11_Lots", "1. Create Parent Lot.bru", "1. Create Parent Lot", "post",
+    "{{baseUrl}}/api/v1/traceability/lots",
+    f'{{\n    "lot_id": "LOT-SIL-{TS}",\n    "material_definition_id": {{{{defId}}}},\n    "quantity": 100,\n    "unit_of_measure": "kg"\n  }}',
+    ["res.status: eq 200"], 1)
 
-create_bru("4_Line", "3. Update Line.bru", "3. Update Line", "patch", "{{baseUrl}}/api/v1/traceability/lines/1", 
-           '{\n    "name": "Line B"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
+create_bru("11_Lots", "2. Create Child Lot.bru", "2. Create Child Lot", "post",
+    "{{baseUrl}}/api/v1/traceability/lots",
+    f'{{\n    "lot_id": "WIP-{TS}",\n    "material_definition_id": {{{{wipDefId}}}},\n    "quantity": 0,\n    "unit_of_measure": "liters"\n  }}',
+    ["res.status: eq 200"], 2)
 
-# --- 5. Unit ---
-create_bru("5_Unit", "1. Create Unit.bru", "1. Create Unit", "post", "{{baseUrl}}/api/v1/traceability/production-units", 
-           '{\n    "production_line_id": 1,\n    "name": "Station-01",\n    "description": "Robot Slot"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
+# --- 12. Work Orders ---
+create_bru("12_WorkOrders", "1. Create Work Order.bru", "1. Create Work Order", "post",
+    "{{baseUrl}}/api/v1/traceability/work-orders",
+    f'{{\n    "work_order_id": "WO-TEST-{TS}",\n    "description": "Test Production Run",\n    "equipment_id": "ROBOT-{TS}",\n    "operator_id": "OP-TEST-{TS}",\n    "output_lot_id": "WIP-{TS}",\n    "planned_quantity": 10,\n    "unit_of_measure": "units",\n    "planned_start": "2026-02-27T10:00:00Z",\n    "planned_end": "2026-02-27T18:00:00Z"\n  }}',
+    ["res.status: eq 200"], 1)
 
-create_bru("5_Unit", "2. List Units.bru", "2. List Units", "get", "{{baseUrl}}/api/v1/traceability/production-units?line_id=1", 
-           None, ["res.status: eq 200", "res.body.units: isArray"], 2)
+# --- 13. Genealogy ---
+create_bru("13_Genealogy", "1. Register Link.bru", "1. Register Link", "post",
+    "{{baseUrl}}/api/v1/traceability/genealogy",
+    f'{{\n    "parent_lot_id": "LOT-SIL-{TS}",\n    "child_lot_id": "WIP-{TS}",\n    "work_order_id": "WO-TEST-{TS}",\n    "equipment_id": "ROBOT-{TS}",\n    "quantity_consumed": 50,\n    "quantity_produced": 10\n  }}',
+    ["res.status: eq 200", "res.body.id: isNumber"], 1)
 
-create_bru("5_Unit", "3. Update Unit.bru", "3. Update Unit", "patch", "{{baseUrl}}/api/v1/traceability/production-units/1", 
-           '{\n    "name": "Station-01-B"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
+# --- 15. Queries ---
+create_bru("15_Queries", "1. Trace Backward.bru", "1. Trace Backward", "get",
+    f'{{{{baseUrl}}}}/api/v1/traceability/trace/backward/WIP-{TS}',
+    None, ["res.status: eq 200", 'res.body.traceDirection: eq "backward"'], 1)
 
-# --- 6. Equipment ---
-create_bru("6_Equipment", "1. Create Class.bru", "1. Create Class", "post", "{{baseUrl}}/api/v1/traceability/equipment-classes", 
-           '{\n    "class_name": "Kuka Robot",\n    "version": "v2.0"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
-
-create_bru("6_Equipment", "2. Register Equip Main.bru", "2. Register Equip Main", "post", "{{baseUrl}}/api/v1/traceability/equipment", 
-           '{\n    "id": "ROBOT-99",\n    "physical_asset_id": "SN-9988",\n    "production_unit_id": 1,\n    "equipment_class_id": 1,\n    "operational_status": "Idle"\n  }', 
-           ["res.status: eq 200", 'res.body.id: eq "ROBOT-99"'], 2)
-
-create_bru("6_Equipment", "3. Register Equip Child.bru", "3. Register Equip Child", "post", "{{baseUrl}}/api/v1/traceability/equipment", 
-           '{\n    "id": "SENSOR-01",\n    "physical_asset_id": "SN-SENS-001",\n    "production_unit_id": 1,\n    "equipment_class_id": 1,\n    "operational_status": "Running",\n    "parent_equipment_id": "ROBOT-99"\n  }', 
-           ["res.status: eq 200", 'res.body.id: eq "SENSOR-01"'], 3)
-
-create_bru("6_Equipment", "4. List Equip.bru", "4. List Equip", "get", "{{baseUrl}}/api/v1/traceability/equipment?line_id=1", 
-           None, ["res.status: eq 200", "res.body.equipment: isArray"], 4)
-
-create_bru("6_Equipment", "5. Update Equip.bru", "5. Update Equip", "patch", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99", 
-           '{\n    "operational_status": "Maintenance"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 5)
-
-create_bru("6_Equipment", "6. Update Class.bru", "6. Update Class", "patch", "{{baseUrl}}/api/v1/traceability/equipment-classes/1", 
-           '{\n    "version": "v2.1"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 6)
-
-# --- 7. Capabilities ---
-create_bru("7_Capabilities", "1. Add Capability.bru", "1. Add Capability", "post", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/capabilities", 
-           '{\n    "capability_name": "Max Load",\n    "value": "100",\n    "uom": "kg"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
-
-create_bru("7_Capabilities", "2. List Capabilities.bru", "2. List Capabilities", "get", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/capabilities", 
-           None, ["res.status: eq 200", "res.body.capabilities: isArray"], 2)
-
-create_bru("7_Capabilities", "3. Update Capability.bru", "3. Update Capability", "patch", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/capabilities/1", 
-           '{\n    "value": "150"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
-
-# --- 8. Properties ---
-create_bru("8_Properties", "1. Set Property.bru", "1. Set Property", "post", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/properties", 
-           '{\n    "property_name": "Temp Setpoint",\n    "current_value": "200"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
-
-create_bru("8_Properties", "2. List Properties.bru", "2. List Properties", "get", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/properties", 
-           None, ["res.status: eq 200", "res.body.properties: isArray"], 2)
-
-create_bru("8_Properties", "3. Update Property.bru", "3. Update Property", "patch", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/properties/1", 
-           '{\n    "current_value": "210"\n  }', 
-           ["res.status: eq 200", "res.body.success: isTruthy"], 3)
-
-# --- 9. Logs ---
-create_bru("9_Logs", "1. Log Event.bru", "1. Log Event", "post", "{{baseUrl}}/api/v1/traceability/logs", 
-           '{\n    "equipment_id": "ROBOT-99",\n    "event_type": "Production Start",\n    "work_order_id": "WO-2025-001"\n  }', 
-           ["res.status: eq 200", "res.body.id: isNumber"], 1)
-
-create_bru("9_Logs", "2. View Logs.bru", "2. View Logs", "get", "{{baseUrl}}/api/v1/traceability/logs?work_order_id=WO-2025-001", 
-           None, ["res.status: eq 200", "res.body.logs: isArray"], 2)
+create_bru("15_Queries", "2. Full Genealogy.bru", "2. Full Genealogy", "get",
+    f'{{{{baseUrl}}}}/api/v1/traceability/trace/full/WIP-{TS}',
+    None, ["res.status: eq 200", "res.body.nodes: isArray"], 2)
 
 # --- 99. Cleanup ---
-create_bru("99_Cleanup", "1. Delete Property.bru", "1. Delete Property", "delete", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/properties/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 1)
+create_bru("99_Cleanup", "9. Delete Site.bru", "9. Delete Site", "delete",
+    "{{baseUrl}}/api/v1/traceability/sites/{{siteId}}",
+    None, ["res.status: eq 200", "res.body.success: isTruthy"], 9)
 
-create_bru("99_Cleanup", "2. Delete Capability.bru", "2. Delete Capability", "delete", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99/capabilities/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 2)
+create_bru("99_Cleanup", "10. Delete Enterprise.bru", "10. Delete Enterprise", "delete",
+    "{{baseUrl}}/api/v1/traceability/enterprises/{{enterpriseId}}",
+    None, ["res.status: eq 200", "res.body.success: isTruthy"], 10)
 
-create_bru("99_Cleanup", "3. Delete Child Equip.bru", "3. Delete Child Equip", "delete", "{{baseUrl}}/api/v1/traceability/equipment/SENSOR-01", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 3)
-
-create_bru("99_Cleanup", "4. Delete Main Equip.bru", "4. Delete Main Equip", "delete", "{{baseUrl}}/api/v1/traceability/equipment/ROBOT-99", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 4)
-
-create_bru("99_Cleanup", "5. Delete Class.bru", "5. Delete Class", "delete", "{{baseUrl}}/api/v1/traceability/equipment-classes/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 5)
-
-create_bru("99_Cleanup", "6. Delete Unit.bru", "6. Delete Unit", "delete", "{{baseUrl}}/api/v1/traceability/production-units/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 6)
-
-create_bru("99_Cleanup", "7. Delete Line.bru", "7. Delete Line", "delete", "{{baseUrl}}/api/v1/traceability/lines/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 7)
-
-create_bru("99_Cleanup", "8. Delete Area.bru", "8. Delete Area", "delete", "{{baseUrl}}/api/v1/traceability/areas/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 8)
-
-create_bru("99_Cleanup", "9. Delete Site.bru", "9. Delete Site", "delete", "{{baseUrl}}/api/v1/traceability/sites/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 9)
-
-create_bru("99_Cleanup", "10. Delete Enterprise.bru", "10. Delete Enterprise", "delete", "{{baseUrl}}/api/v1/traceability/enterprises/1", 
-           None, ["res.status: eq 200", "res.body.success: isTruthy"], 10)
-
-print("✅ All Bruno files generated successfully with CORRECT syntax!")
+print(f"✅ All Bruno files generated! TS={TS}")
