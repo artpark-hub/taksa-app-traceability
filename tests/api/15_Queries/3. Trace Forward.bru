@@ -1,0 +1,16 @@
+meta {
+  name: 3. Trace Forward
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/trace/forward/LOT-SIL-1773048307
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.traceDirection: eq "forward"
+}

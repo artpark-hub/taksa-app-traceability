@@ -151,6 +151,14 @@ create_bru("15_Queries", "2. Full Genealogy.bru", "2. Full Genealogy", "get",
     f'{{{{baseUrl}}}}/api/v1/traceability/trace/full/WIP-{TS}',
     None, ["res.status: eq 200", "res.body.nodes: isArray"], 2)
 
+create_bru("15_Queries", "3. Trace Forward.bru", "3. Trace Forward", "get",
+    f'{{{{baseUrl}}}}/api/v1/traceability/trace/forward/LOT-SIL-{TS}',
+    None, ["res.status: eq 200", 'res.body.traceDirection: eq "forward"'], 3)
+
+create_bru("15_Queries", "4. Equipment History.bru", "4. Equipment History", "get",
+    f'{{{{baseUrl}}}}/api/v1/traceability/trace/equipment-history/WIP-{TS}',
+    None, ["res.status: eq 200"], 4)
+
 # --- 99. Cleanup ---
 create_bru("99_Cleanup", "9. Delete Site.bru", "9. Delete Site", "delete",
     "{{baseUrl}}/api/v1/traceability/sites/{{siteId}}",

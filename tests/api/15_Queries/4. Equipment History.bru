@@ -1,0 +1,15 @@
+meta {
+  name: 4. Equipment History
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/trace/equipment-history/WIP-1773048307
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
