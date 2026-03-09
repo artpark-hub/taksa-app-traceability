@@ -10,7 +10,6 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 )
 
-// NewGRPCServer new a gRPC server.
 func NewGRPCServer(
 	c *conf.Server,
 	traceability *service.TraceabilityService,

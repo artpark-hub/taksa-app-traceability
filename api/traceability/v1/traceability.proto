@@ -897,24 +897,23 @@ message TraceRequest {
 }
 
 // --- Backward & Forward Trace Response ---
-// Returns a flat list of trace nodes, each with depth for tree reconstruction
 message TraceReply {
     string queried_lot_id = 1;
-    string trace_direction = 2;        // "backward" or "forward"
+    string trace_direction = 2;        
     repeated TraceNode nodes = 3;
 }
 
-// A single node in the trace tree
+
 message TraceNode {
     int32 depth = 1;
     string lot_id = 2;
-    string related_lot_id = 3;          // consumed_by (backward) or produced_from (forward)
+    string related_lot_id = 3;         
     string material_name = 4;
     string material_type = 5;
     string lot_status = 6;
     double quantity = 7;
     string unit_of_measure = 8;
-    double quantity_used = 9;           // consumed (backward) or produced (forward)
+    double quantity_used = 9;           
     string work_order_id = 10;
     string equipment_id = 11;
     string equipment_class_name = 12;
@@ -924,7 +923,7 @@ message TraceNode {
 }
 
 // --- Full Genealogy Tree Response ---
-// Returns nodes + edges for frontend graph rendering (D3.js / vis.js)
+
 message GenealogyTreeReply {
     string center_lot_id = 1;
     repeated GenealogyNode nodes = 2;
@@ -941,8 +940,8 @@ message GenealogyNode {
 }
 
 message GenealogyEdge {
-    string source_lot_id = 1;           // parent (input)
-    string target_lot_id = 2;           // child (output)
+    string source_lot_id = 1;           
+    string target_lot_id = 2;           
     string work_order_id = 3;
     string equipment_id = 4;
     double quantity_consumed = 5;

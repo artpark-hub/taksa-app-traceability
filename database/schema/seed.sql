@@ -55,7 +55,7 @@ INSERT INTO site (enterprise_id, name, location, description) VALUES
 (1, 'Pune Facility', 'Chakan MIDC, Pune, MH', 'Component fabrication and sub-assembly'),
 (2, 'Innovation Lab', 'IISc Campus, Bengaluru', 'R&D testing ground for new manufacturing processes');
 
--- Areas (within Bengaluru Plant)
+-- Areas 
 INSERT INTO area (site_id, name, description) VALUES
 (1, 'Cell Preparation', 'Raw material receiving and cell preparation zone'),
 (1, 'Main Assembly', 'Battery module and pack assembly'),

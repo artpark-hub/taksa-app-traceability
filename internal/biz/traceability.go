@@ -54,12 +54,12 @@ type EquipmentClass struct {
 }
 
 type EquipmentMaster struct {
-	ID                string // String ID like "ROBOT-99"
+	ID                string 
 	PhysicalAssetID   string
 	ProductionUnitID  int32
 	EquipmentClassID  int32
 	OperationalStatus string
-	ParentEquipmentID string // For Sub-Components
+	ParentEquipmentID string 
 }
 
 type EquipmentCapability struct {

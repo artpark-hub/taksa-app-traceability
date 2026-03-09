@@ -1,16 +1,7 @@
 -- ============================================================================
--- PHASE 4: Core Traceability SQL Queries
--- ============================================================================
--- These queries power the 7 traceability features.
--- Each query is parameterized with $1 placeholders for Go's gorm.Raw().
+--  Core Traceability SQL Queries
 -- ============================================================================
 
--- ============================================================================
--- QUERY 1: GET LOT DETAILS
--- Feature 1: Material Lot Lifecycle
--- Usage: Look up a lot by ID with its material definition
--- Param: $1 = lot_id (e.g., 'FG-BP-2026-001')
--- ============================================================================
 SELECT
     ml.lot_id,
     ml.status,
@@ -27,11 +18,6 @@ JOIN material_definition md ON md.id = ml.material_definition_id
 WHERE ml.lot_id = $1;
 
 
--- ============================================================================
--- QUERY 2: LIST LOTS (with filtering)
--- Feature 1: Material Lot Lifecycle
--- Params: $1 = status (or '' for all), $2 = material_type (or '' for all)
--- ============================================================================
 SELECT
     ml.lot_id,
     ml.status,
@@ -47,12 +33,6 @@ WHERE ($1 = '' OR ml.status = $1)
 ORDER BY ml.created_at DESC;
 
 
--- ============================================================================
--- QUERY 3: GET WORK ORDER DETAILS
--- Feature 2: Work Order Execution
--- Param: $1 = work_order_id (e.g., 'WO-2026-0001')
--- Returns: WO details + input lots consumed + output lot produced
--- ============================================================================
 SELECT
     wo.work_order_id,
     wo.description,
@@ -65,10 +45,8 @@ SELECT
     wo.actual_start,
     wo.actual_end,
     wo.output_lot_id,
-    -- Equipment info
     wo.equipment_id,
     ec.class_name       AS equipment_class_name,
-    -- Operator info
     wo.operator_id,
     op.name             AS operator_name,
     op.shift            AS operator_shift
@@ -79,11 +57,6 @@ LEFT JOIN operator op ON op.operator_id = wo.operator_id
 WHERE wo.work_order_id = $1;
 
 
--- ============================================================================
--- QUERY 4: WORK ORDER INPUT LOTS
--- Feature 2: Work Order Execution — what was consumed
--- Param: $1 = work_order_id
--- ============================================================================
 SELECT
     lg.parent_lot_id    AS input_lot_id,
     md.name             AS material_name,
@@ -96,15 +69,7 @@ JOIN material_definition md ON md.id = ml.material_definition_id
 WHERE lg.work_order_id = $1;
 
 
--- ============================================================================
--- QUERY 5: BACKWARD TRACE (Recursive CTE — walk UP the genealogy tree)
--- Feature 4: "FG-BP-2026-001 failed QC. What raw materials went into it?"
--- Param: $1 = lot_id to trace backward from
---
--- Returns: Every ancestor lot with depth, material info, equipment, operator
--- ============================================================================
 WITH RECURSIVE backward_trace AS (
-    -- Base case: direct parents of the target lot
     SELECT
         lg.parent_lot_id,
         lg.child_lot_id,
@@ -119,7 +84,6 @@ WITH RECURSIVE backward_trace AS (
 
     UNION ALL
 
-    -- Recursive: parents of parents
     SELECT
         lg.parent_lot_id,
         lg.child_lot_id,
@@ -158,15 +122,7 @@ LEFT JOIN operator op ON op.operator_id = wo.operator_id
 ORDER BY bt.depth, bt.parent_lot_id;
 
 
--- ============================================================================
--- QUERY 6: FORWARD TRACE (Recursive CTE — walk DOWN the genealogy tree)
--- Feature 5: "Supplier recalled RM-CELL-2026-001. Which finished goods are affected?"
--- Param: $1 = lot_id to trace forward from
---
--- Returns: Every descendant lot with depth, material info, equipment, operator
--- ============================================================================
 WITH RECURSIVE forward_trace AS (
-    -- Base case: direct children of the target lot
     SELECT
         lg.parent_lot_id,
         lg.child_lot_id,
@@ -181,7 +137,6 @@ WITH RECURSIVE forward_trace AS (
 
     UNION ALL
 
-    -- Recursive: children of children
     SELECT
         lg.parent_lot_id,
         lg.child_lot_id,
@@ -220,18 +175,6 @@ LEFT JOIN operator op ON op.operator_id = wo.operator_id
 ORDER BY ft.depth, ft.child_lot_id;
 
 
--- ============================================================================
--- QUERY 7: FULL GENEALOGY TREE (Bidirectional CTE — nodes + edges)
--- Feature 6: "Show me the ENTIRE family tree for Lot X"
--- Param: $1 = lot_id (the center of the tree)
---
--- Returns TWO result sets:
---   Part A: All unique nodes (lots) in the tree
---   Part B: All edges (genealogy links) in the tree
--- For Go, we run both and combine into { nodes: [...], edges: [...] }
--- ============================================================================
-
--- Part A: NODES — all lots in the tree (backward + forward from target)
 WITH RECURSIVE
 backward AS (
     SELECT lg.parent_lot_id AS lot_id FROM lot_genealogy lg WHERE lg.child_lot_id = $1
@@ -261,7 +204,6 @@ JOIN material_definition md ON md.id = ml.material_definition_id
 ORDER BY ml.created_at;
 
 
--- Part B: EDGES — all genealogy links in the tree
 WITH RECURSIVE
 backward AS (
     SELECT lg.parent_lot_id AS lot_id FROM lot_genealogy lg WHERE lg.child_lot_id = $1
@@ -292,17 +234,7 @@ WHERE lg.parent_lot_id IN (SELECT lot_id FROM all_lot_ids)
 ORDER BY lg.event_time;
 
 
--- ============================================================================
--- QUERY 8: EQUIPMENT PROCESS HISTORY FOR A LOT
--- Feature 7: "What were the machine conditions when Lot WIP-STACK-2026-001 was processed?"
--- Param: $1 = lot_id
---
--- Step 1: Find the time window when this lot was being processed (from traceability_log)
--- Step 2: Get all telemetry readings for those equipment during that window
--- Step 3: Aggregate with TimescaleDB time_bucket
--- ============================================================================
 WITH lot_processing_window AS (
-    -- Find which equipment processed this lot and the time window
     SELECT
         tl.equipment_id,
         MIN(tl.event_time) AS process_start,
@@ -333,11 +265,6 @@ GROUP BY et.equipment_id, ec.class_name, et.parameter_name, et.unit_of_measure, 
 ORDER BY et.equipment_id, et.parameter_name;
 
 
--- ============================================================================
--- QUERY 9: EQUIPMENT PROCESS HISTORY — RAW READINGS (detailed time-series)
--- Feature 7 (detailed): Raw telemetry data points for a lot's processing window
--- Param: $1 = lot_id
--- ============================================================================
 WITH lot_processing_window AS (
     SELECT
         tl.equipment_id,

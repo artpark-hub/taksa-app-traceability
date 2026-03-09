@@ -23,7 +23,6 @@ def create_bru(folder, filename, name, method, url, body=None, assertions=None, 
     folder_path = os.path.join(BASE_DIR, folder)
     os.makedirs(folder_path, exist_ok=True)
 
-    # Bruno requires a folder.bru metadata file in every directory
     folder_meta = os.path.join(folder_path, "folder.bru")
     if not os.path.exists(folder_meta):
         with open(folder_meta, "w") as fm:
@@ -42,7 +41,6 @@ def create_bru(folder, filename, name, method, url, body=None, assertions=None, 
 }}
 """
     if body:
-        # Wrap the raw JSON payload inside Bruno's body:json { } block
         file_content += "\nbody:json {\n" + body.strip() + "\n}\n"
 
     if assertions:

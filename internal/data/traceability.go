@@ -364,7 +364,6 @@ func (r *traceabilityRepo) DeleteEquipmentClass(ctx context.Context, id int32) e
 
 // Equipment
 func (r *traceabilityRepo) RegisterEquipment(ctx context.Context, e *biz.EquipmentMaster) (string, error) {
-	// Handle nil parent ID logic
 	var parentID *string
 	if e.ParentEquipmentID != "" {
 		parentID = &e.ParentEquipmentID
@@ -385,12 +384,10 @@ func (r *traceabilityRepo) ListEquipment(ctx context.Context, lid int32, pid str
 	var dbList []EquipmentORM
 	query := r.data.db.WithContext(ctx)
 
-	// Join with ProductionUnit to filter by LineID if provided
 	if lid > 0 {
 		query = query.Joins("JOIN production_unit ON production_unit.id = equipment_master.production_unit_id").
 			Where("production_unit.production_line_id = ?", lid)
 	}
-	// Filter by Parent ID
 	if pid != "" {
 		query = query.Where("parent_equipment_id = ?", pid)
 	}
@@ -400,7 +397,6 @@ func (r *traceabilityRepo) ListEquipment(ctx context.Context, lid int32, pid str
 	}
 	var list []*biz.EquipmentMaster
 	for _, x := range dbList {
-		// Handle potential nil ParentID
 		parentID := ""
 		if x.ParentEquipmentID != nil {
 			parentID = *x.ParentEquipmentID

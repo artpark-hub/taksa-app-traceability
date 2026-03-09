@@ -23,4 +23,4 @@ npx @usebruno/cli run --env "Dev VM"
 echo "🎉 All done! Server is still running in the background. Check server.log for details."
 
 echo "🧹 Cleaning up temporary files..."
-rm -f traceability server.log
+rm -f traceability
