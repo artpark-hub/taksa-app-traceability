@@ -75,6 +75,10 @@ const (
 	Traceability_TraceForward_FullMethodName               = "/api.traceability.v1.Traceability/TraceForward"
 	Traceability_TraceFullGenealogy_FullMethodName         = "/api.traceability.v1.Traceability/TraceFullGenealogy"
 	Traceability_GetEquipmentProcessHistory_FullMethodName = "/api.traceability.v1.Traceability/GetEquipmentProcessHistory"
+	Traceability_GetMachinePerformance_FullMethodName      = "/api.traceability.v1.Traceability/GetMachinePerformance"
+	Traceability_CompareMachinePerformance_FullMethodName  = "/api.traceability.v1.Traceability/CompareMachinePerformance"
+	Traceability_GetProductionTrends_FullMethodName        = "/api.traceability.v1.Traceability/GetProductionTrends"
+	Traceability_GetDashboardSummary_FullMethodName        = "/api.traceability.v1.Traceability/GetDashboardSummary"
 )
 
 // TraceabilityClient is the client API for Traceability service.
@@ -165,6 +169,13 @@ type TraceabilityClient interface {
 	TraceForward(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*TraceReply, error)
 	TraceFullGenealogy(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*GenealogyTreeReply, error)
 	GetEquipmentProcessHistory(ctx context.Context, in *TraceRequest, opts ...grpc.CallOption) (*EquipmentProcessHistoryReply, error)
+	// =====================================================================
+	// 17. Historical Analytics (S014)
+	// =====================================================================
+	GetMachinePerformance(ctx context.Context, in *MachinePerformanceRequest, opts ...grpc.CallOption) (*MachinePerformanceReply, error)
+	CompareMachinePerformance(ctx context.Context, in *MachineComparisonRequest, opts ...grpc.CallOption) (*MachineComparisonReply, error)
+	GetProductionTrends(ctx context.Context, in *ProductionTrendsRequest, opts ...grpc.CallOption) (*ProductionTrendsReply, error)
+	GetDashboardSummary(ctx context.Context, in *DashboardSummaryRequest, opts ...grpc.CallOption) (*DashboardSummaryReply, error)
 }
 
 type traceabilityClient struct {
@@ -735,6 +746,46 @@ func (c *traceabilityClient) GetEquipmentProcessHistory(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *traceabilityClient) GetMachinePerformance(ctx context.Context, in *MachinePerformanceRequest, opts ...grpc.CallOption) (*MachinePerformanceReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MachinePerformanceReply)
+	err := c.cc.Invoke(ctx, Traceability_GetMachinePerformance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) CompareMachinePerformance(ctx context.Context, in *MachineComparisonRequest, opts ...grpc.CallOption) (*MachineComparisonReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MachineComparisonReply)
+	err := c.cc.Invoke(ctx, Traceability_CompareMachinePerformance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) GetProductionTrends(ctx context.Context, in *ProductionTrendsRequest, opts ...grpc.CallOption) (*ProductionTrendsReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProductionTrendsReply)
+	err := c.cc.Invoke(ctx, Traceability_GetProductionTrends_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityClient) GetDashboardSummary(ctx context.Context, in *DashboardSummaryRequest, opts ...grpc.CallOption) (*DashboardSummaryReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DashboardSummaryReply)
+	err := c.cc.Invoke(ctx, Traceability_GetDashboardSummary_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TraceabilityServer is the server API for Traceability service.
 // All implementations must embed UnimplementedTraceabilityServer
 // for forward compatibility.
@@ -823,6 +874,13 @@ type TraceabilityServer interface {
 	TraceForward(context.Context, *TraceRequest) (*TraceReply, error)
 	TraceFullGenealogy(context.Context, *TraceRequest) (*GenealogyTreeReply, error)
 	GetEquipmentProcessHistory(context.Context, *TraceRequest) (*EquipmentProcessHistoryReply, error)
+	// =====================================================================
+	// 17. Historical Analytics (S014)
+	// =====================================================================
+	GetMachinePerformance(context.Context, *MachinePerformanceRequest) (*MachinePerformanceReply, error)
+	CompareMachinePerformance(context.Context, *MachineComparisonRequest) (*MachineComparisonReply, error)
+	GetProductionTrends(context.Context, *ProductionTrendsRequest) (*ProductionTrendsReply, error)
+	GetDashboardSummary(context.Context, *DashboardSummaryRequest) (*DashboardSummaryReply, error)
 	mustEmbedUnimplementedTraceabilityServer()
 }
 
@@ -1000,6 +1058,18 @@ func (UnimplementedTraceabilityServer) TraceFullGenealogy(context.Context, *Trac
 }
 func (UnimplementedTraceabilityServer) GetEquipmentProcessHistory(context.Context, *TraceRequest) (*EquipmentProcessHistoryReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetEquipmentProcessHistory not implemented")
+}
+func (UnimplementedTraceabilityServer) GetMachinePerformance(context.Context, *MachinePerformanceRequest) (*MachinePerformanceReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMachinePerformance not implemented")
+}
+func (UnimplementedTraceabilityServer) CompareMachinePerformance(context.Context, *MachineComparisonRequest) (*MachineComparisonReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method CompareMachinePerformance not implemented")
+}
+func (UnimplementedTraceabilityServer) GetProductionTrends(context.Context, *ProductionTrendsRequest) (*ProductionTrendsReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetProductionTrends not implemented")
+}
+func (UnimplementedTraceabilityServer) GetDashboardSummary(context.Context, *DashboardSummaryRequest) (*DashboardSummaryReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetDashboardSummary not implemented")
 }
 func (UnimplementedTraceabilityServer) mustEmbedUnimplementedTraceabilityServer() {}
 func (UnimplementedTraceabilityServer) testEmbeddedByValue()                      {}
@@ -2030,6 +2100,78 @@ func _Traceability_GetEquipmentProcessHistory_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Traceability_GetMachinePerformance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MachinePerformanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).GetMachinePerformance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_GetMachinePerformance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).GetMachinePerformance(ctx, req.(*MachinePerformanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_CompareMachinePerformance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MachineComparisonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).CompareMachinePerformance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_CompareMachinePerformance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).CompareMachinePerformance(ctx, req.(*MachineComparisonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_GetProductionTrends_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProductionTrendsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).GetProductionTrends(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_GetProductionTrends_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).GetProductionTrends(ctx, req.(*ProductionTrendsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Traceability_GetDashboardSummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DashboardSummaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityServer).GetDashboardSummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Traceability_GetDashboardSummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityServer).GetDashboardSummary(ctx, req.(*DashboardSummaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Traceability_ServiceDesc is the grpc.ServiceDesc for Traceability service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2260,6 +2402,22 @@ var Traceability_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetEquipmentProcessHistory",
 			Handler:    _Traceability_GetEquipmentProcessHistory_Handler,
+		},
+		{
+			MethodName: "GetMachinePerformance",
+			Handler:    _Traceability_GetMachinePerformance_Handler,
+		},
+		{
+			MethodName: "CompareMachinePerformance",
+			Handler:    _Traceability_CompareMachinePerformance_Handler,
+		},
+		{
+			MethodName: "GetProductionTrends",
+			Handler:    _Traceability_GetProductionTrends_Handler,
+		},
+		{
+			MethodName: "GetDashboardSummary",
+			Handler:    _Traceability_GetDashboardSummary_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

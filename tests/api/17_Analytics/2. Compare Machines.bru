@@ -1,0 +1,24 @@
+meta {
+  name: 2. Compare Machines
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/analytics/machine-comparison
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "equipment_ids": ["MIXER-001", "OVEN-001", "ROBOT-001"],
+    "from_time": "2026-02-25T00:00:00Z",
+    "to_time": "2026-02-26T00:00:00Z"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.machines: isArray
+}

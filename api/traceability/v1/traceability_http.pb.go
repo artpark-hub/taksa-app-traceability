@@ -20,6 +20,7 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationTraceabilityAddCapability = "/api.traceability.v1.Traceability/AddCapability"
+const OperationTraceabilityCompareMachinePerformance = "/api.traceability.v1.Traceability/CompareMachinePerformance"
 const OperationTraceabilityCreateArea = "/api.traceability.v1.Traceability/CreateArea"
 const OperationTraceabilityCreateEnterprise = "/api.traceability.v1.Traceability/CreateEnterprise"
 const OperationTraceabilityCreateEquipmentClass = "/api.traceability.v1.Traceability/CreateEquipmentClass"
@@ -39,8 +40,11 @@ const OperationTraceabilityDeleteLine = "/api.traceability.v1.Traceability/Delet
 const OperationTraceabilityDeleteProductionUnit = "/api.traceability.v1.Traceability/DeleteProductionUnit"
 const OperationTraceabilityDeleteProperty = "/api.traceability.v1.Traceability/DeleteProperty"
 const OperationTraceabilityDeleteSite = "/api.traceability.v1.Traceability/DeleteSite"
+const OperationTraceabilityGetDashboardSummary = "/api.traceability.v1.Traceability/GetDashboardSummary"
 const OperationTraceabilityGetEquipmentProcessHistory = "/api.traceability.v1.Traceability/GetEquipmentProcessHistory"
+const OperationTraceabilityGetMachinePerformance = "/api.traceability.v1.Traceability/GetMachinePerformance"
 const OperationTraceabilityGetMaterialLot = "/api.traceability.v1.Traceability/GetMaterialLot"
+const OperationTraceabilityGetProductionTrends = "/api.traceability.v1.Traceability/GetProductionTrends"
 const OperationTraceabilityGetWorkOrder = "/api.traceability.v1.Traceability/GetWorkOrder"
 const OperationTraceabilityListAreas = "/api.traceability.v1.Traceability/ListAreas"
 const OperationTraceabilityListCapabilities = "/api.traceability.v1.Traceability/ListCapabilities"
@@ -79,6 +83,7 @@ const OperationTraceabilityUpdateWorkOrderStatus = "/api.traceability.v1.Traceab
 type TraceabilityHTTPServer interface {
 	// AddCapability 8. Equipment Capability Management
 	AddCapability(context.Context, *AddCapabilityRequest) (*AddCapabilityReply, error)
+	CompareMachinePerformance(context.Context, *MachineComparisonRequest) (*MachineComparisonReply, error)
 	// CreateArea 3. Area Management
 	CreateArea(context.Context, *CreateAreaRequest) (*CreateAreaReply, error)
 	// CreateEnterprise 1. Enterprise Management
@@ -116,8 +121,14 @@ type TraceabilityHTTPServer interface {
 	DeleteProductionUnit(context.Context, *DeleteProductionUnitRequest) (*DeleteProductionUnitReply, error)
 	DeleteProperty(context.Context, *DeletePropertyRequest) (*DeletePropertyReply, error)
 	DeleteSite(context.Context, *DeleteSiteRequest) (*DeleteSiteReply, error)
+	GetDashboardSummary(context.Context, *DashboardSummaryRequest) (*DashboardSummaryReply, error)
 	GetEquipmentProcessHistory(context.Context, *TraceRequest) (*EquipmentProcessHistoryReply, error)
+	// GetMachinePerformance =====================================================================
+	// 17. Historical Analytics (S014)
+	// =====================================================================
+	GetMachinePerformance(context.Context, *MachinePerformanceRequest) (*MachinePerformanceReply, error)
 	GetMaterialLot(context.Context, *GetMaterialLotRequest) (*GetMaterialLotReply, error)
+	GetProductionTrends(context.Context, *ProductionTrendsRequest) (*ProductionTrendsReply, error)
 	GetWorkOrder(context.Context, *GetWorkOrderRequest) (*GetWorkOrderReply, error)
 	ListAreas(context.Context, *ListAreasRequest) (*ListAreasReply, error)
 	ListCapabilities(context.Context, *ListCapabilitiesRequest) (*ListCapabilitiesReply, error)
@@ -221,6 +232,10 @@ func RegisterTraceabilityHTTPServer(s *http.Server, srv TraceabilityHTTPServer) 
 	r.GET("/api/v1/traceability/trace/forward/{lot_id}", _Traceability_TraceForward0_HTTP_Handler(srv))
 	r.GET("/api/v1/traceability/trace/full/{lot_id}", _Traceability_TraceFullGenealogy0_HTTP_Handler(srv))
 	r.GET("/api/v1/traceability/trace/equipment-history/{lot_id}", _Traceability_GetEquipmentProcessHistory0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/analytics/machine-performance", _Traceability_GetMachinePerformance0_HTTP_Handler(srv))
+	r.POST("/api/v1/traceability/analytics/machine-comparison", _Traceability_CompareMachinePerformance0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/analytics/production-trends", _Traceability_GetProductionTrends0_HTTP_Handler(srv))
+	r.GET("/api/v1/traceability/analytics/dashboard", _Traceability_GetDashboardSummary0_HTTP_Handler(srv))
 }
 
 func _Traceability_CreateEnterprise0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
@@ -1461,9 +1476,89 @@ func _Traceability_GetEquipmentProcessHistory0_HTTP_Handler(srv TraceabilityHTTP
 	}
 }
 
+func _Traceability_GetMachinePerformance0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in MachinePerformanceRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityGetMachinePerformance)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetMachinePerformance(ctx, req.(*MachinePerformanceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*MachinePerformanceReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_CompareMachinePerformance0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in MachineComparisonRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityCompareMachinePerformance)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CompareMachinePerformance(ctx, req.(*MachineComparisonRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*MachineComparisonReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_GetProductionTrends0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ProductionTrendsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityGetProductionTrends)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetProductionTrends(ctx, req.(*ProductionTrendsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ProductionTrendsReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Traceability_GetDashboardSummary0_HTTP_Handler(srv TraceabilityHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DashboardSummaryRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTraceabilityGetDashboardSummary)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetDashboardSummary(ctx, req.(*DashboardSummaryRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DashboardSummaryReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type TraceabilityHTTPClient interface {
 	// AddCapability 8. Equipment Capability Management
 	AddCapability(ctx context.Context, req *AddCapabilityRequest, opts ...http.CallOption) (rsp *AddCapabilityReply, err error)
+	CompareMachinePerformance(ctx context.Context, req *MachineComparisonRequest, opts ...http.CallOption) (rsp *MachineComparisonReply, err error)
 	// CreateArea 3. Area Management
 	CreateArea(ctx context.Context, req *CreateAreaRequest, opts ...http.CallOption) (rsp *CreateAreaReply, err error)
 	// CreateEnterprise 1. Enterprise Management
@@ -1501,8 +1596,14 @@ type TraceabilityHTTPClient interface {
 	DeleteProductionUnit(ctx context.Context, req *DeleteProductionUnitRequest, opts ...http.CallOption) (rsp *DeleteProductionUnitReply, err error)
 	DeleteProperty(ctx context.Context, req *DeletePropertyRequest, opts ...http.CallOption) (rsp *DeletePropertyReply, err error)
 	DeleteSite(ctx context.Context, req *DeleteSiteRequest, opts ...http.CallOption) (rsp *DeleteSiteReply, err error)
+	GetDashboardSummary(ctx context.Context, req *DashboardSummaryRequest, opts ...http.CallOption) (rsp *DashboardSummaryReply, err error)
 	GetEquipmentProcessHistory(ctx context.Context, req *TraceRequest, opts ...http.CallOption) (rsp *EquipmentProcessHistoryReply, err error)
+	// GetMachinePerformance =====================================================================
+	// 17. Historical Analytics (S014)
+	// =====================================================================
+	GetMachinePerformance(ctx context.Context, req *MachinePerformanceRequest, opts ...http.CallOption) (rsp *MachinePerformanceReply, err error)
 	GetMaterialLot(ctx context.Context, req *GetMaterialLotRequest, opts ...http.CallOption) (rsp *GetMaterialLotReply, err error)
+	GetProductionTrends(ctx context.Context, req *ProductionTrendsRequest, opts ...http.CallOption) (rsp *ProductionTrendsReply, err error)
 	GetWorkOrder(ctx context.Context, req *GetWorkOrderRequest, opts ...http.CallOption) (rsp *GetWorkOrderReply, err error)
 	ListAreas(ctx context.Context, req *ListAreasRequest, opts ...http.CallOption) (rsp *ListAreasReply, err error)
 	ListCapabilities(ctx context.Context, req *ListCapabilitiesRequest, opts ...http.CallOption) (rsp *ListCapabilitiesReply, err error)
@@ -1562,6 +1663,19 @@ func (c *TraceabilityHTTPClientImpl) AddCapability(ctx context.Context, in *AddC
 	pattern := "/api/v1/traceability/equipment/{equipment_id}/capabilities"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTraceabilityAddCapability))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) CompareMachinePerformance(ctx context.Context, in *MachineComparisonRequest, opts ...http.CallOption) (*MachineComparisonReply, error) {
+	var out MachineComparisonReply
+	pattern := "/api/v1/traceability/analytics/machine-comparison"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTraceabilityCompareMachinePerformance))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -1835,6 +1949,19 @@ func (c *TraceabilityHTTPClientImpl) DeleteSite(ctx context.Context, in *DeleteS
 	return &out, nil
 }
 
+func (c *TraceabilityHTTPClientImpl) GetDashboardSummary(ctx context.Context, in *DashboardSummaryRequest, opts ...http.CallOption) (*DashboardSummaryReply, error) {
+	var out DashboardSummaryReply
+	pattern := "/api/v1/traceability/analytics/dashboard"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityGetDashboardSummary))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *TraceabilityHTTPClientImpl) GetEquipmentProcessHistory(ctx context.Context, in *TraceRequest, opts ...http.CallOption) (*EquipmentProcessHistoryReply, error) {
 	var out EquipmentProcessHistoryReply
 	pattern := "/api/v1/traceability/trace/equipment-history/{lot_id}"
@@ -1848,11 +1975,40 @@ func (c *TraceabilityHTTPClientImpl) GetEquipmentProcessHistory(ctx context.Cont
 	return &out, nil
 }
 
+// GetMachinePerformance =====================================================================
+// 17. Historical Analytics (S014)
+// =====================================================================
+func (c *TraceabilityHTTPClientImpl) GetMachinePerformance(ctx context.Context, in *MachinePerformanceRequest, opts ...http.CallOption) (*MachinePerformanceReply, error) {
+	var out MachinePerformanceReply
+	pattern := "/api/v1/traceability/analytics/machine-performance"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityGetMachinePerformance))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *TraceabilityHTTPClientImpl) GetMaterialLot(ctx context.Context, in *GetMaterialLotRequest, opts ...http.CallOption) (*GetMaterialLotReply, error) {
 	var out GetMaterialLotReply
 	pattern := "/api/v1/traceability/lots/{lot_id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationTraceabilityGetMaterialLot))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *TraceabilityHTTPClientImpl) GetProductionTrends(ctx context.Context, in *ProductionTrendsRequest, opts ...http.CallOption) (*ProductionTrendsReply, error) {
+	var out ProductionTrendsReply
+	pattern := "/api/v1/traceability/analytics/production-trends"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTraceabilityGetProductionTrends))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

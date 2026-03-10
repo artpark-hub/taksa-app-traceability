@@ -157,6 +157,31 @@ create_bru("15_Queries", "4. Equipment History.bru", "4. Equipment History", "ge
     f'{{{{baseUrl}}}}/api/v1/traceability/trace/equipment-history/WIP-{TS}',
     None, ["res.status: eq 200"], 4)
 
+# --- 17. Historical Analytics (S014) ---
+# Use seed data dates for time range (2026-02-25 covers Production Run 1)
+create_bru("17_Analytics", "1. Machine Performance.bru", "1. Machine Performance", "get",
+    "{{baseUrl}}/api/v1/traceability/analytics/machine-performance?equipment_id=MIXER-001&from_time=2026-02-25T00:00:00Z&to_time=2026-02-26T00:00:00Z",
+    None,
+    ["res.status: eq 200", "res.body.equipmentId: eq \"MIXER-001\"",
+     "res.body.totalWorkOrders: isNumber", "res.body.utilizationPct: isNumber"], 1)
+
+create_bru("17_Analytics", "2. Compare Machines.bru", "2. Compare Machines", "post",
+    "{{baseUrl}}/api/v1/traceability/analytics/machine-comparison",
+    '{\n    "equipment_ids": ["MIXER-001", "OVEN-001", "ROBOT-001"],\n    "from_time": "2026-02-25T00:00:00Z",\n    "to_time": "2026-02-26T00:00:00Z"\n  }',
+    ["res.status: eq 200", "res.body.machines: isArray"], 2)
+
+create_bru("17_Analytics", "3. Production Trends.bru", "3. Production Trends", "get",
+    "{{baseUrl}}/api/v1/traceability/analytics/production-trends?from_time=2026-02-25T00:00:00Z&to_time=2026-02-27T00:00:00Z&granularity=daily",
+    None,
+    ["res.status: eq 200", "res.body.dataPoints: isArray",
+     'res.body.granularity: eq "daily"'], 3)
+
+create_bru("17_Analytics", "4. Dashboard Summary.bru", "4. Dashboard Summary", "get",
+    "{{baseUrl}}/api/v1/traceability/analytics/dashboard?from_time=2026-02-24T00:00:00Z&to_time=2026-02-27T00:00:00Z",
+    None,
+    ["res.status: eq 200", "res.body.totalUnitsProduced: isNumber",
+     "res.body.qualityRatePct: isNumber", "res.body.topPerformers: isArray"], 4)
+
 # --- 99. Cleanup ---
 create_bru("99_Cleanup", "9. Delete Site.bru", "9. Delete Site", "delete",
     "{{baseUrl}}/api/v1/traceability/sites/{{siteId}}",

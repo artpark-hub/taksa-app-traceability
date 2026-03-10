@@ -6,6 +6,103 @@ info:
     title: Traceability API
     version: 0.0.1
 paths:
+    /api/v1/traceability/analytics/dashboard:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetDashboardSummary
+            parameters:
+                - name: fromTime
+                  in: query
+                  schema:
+                    type: string
+                - name: toTime
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DashboardSummaryReply'
+    /api/v1/traceability/analytics/machine-comparison:
+        post:
+            tags:
+                - Traceability
+            operationId: Traceability_CompareMachinePerformance
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.MachineComparisonRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.MachineComparisonReply'
+    /api/v1/traceability/analytics/machine-performance:
+        get:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 17. Historical Analytics (S014)
+                 =====================================================================
+            operationId: Traceability_GetMachinePerformance
+            parameters:
+                - name: equipmentId
+                  in: query
+                  schema:
+                    type: string
+                - name: fromTime
+                  in: query
+                  schema:
+                    type: string
+                - name: toTime
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.MachinePerformanceReply'
+    /api/v1/traceability/analytics/production-trends:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetProductionTrends
+            parameters:
+                - name: fromTime
+                  in: query
+                  schema:
+                    type: string
+                - name: toTime
+                  in: query
+                  schema:
+                    type: string
+                - name: granularity
+                  in: query
+                  schema:
+                    type: string
+                - name: equipmentId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ProductionTrendsReply'
     /api/v1/traceability/areas:
         get:
             tags:
@@ -1368,6 +1465,42 @@ components:
                     type: string
                 plannedEnd:
                     type: string
+        api.traceability.v1.DashboardSummaryReply:
+            type: object
+            properties:
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                totalUnitsProduced:
+                    type: number
+                    description: Production KPIs
+                    format: double
+                totalWorkOrdersCompleted:
+                    type: integer
+                    format: int32
+                activeEquipmentCount:
+                    type: integer
+                    format: int32
+                lotsReleased:
+                    type: integer
+                    description: Quality KPIs
+                    format: int32
+                lotsQuarantined:
+                    type: integer
+                    format: int32
+                qualityRatePct:
+                    type: number
+                    format: double
+                totalErrorEvents:
+                    type: integer
+                    description: Total event anomalies
+                    format: int32
+                topPerformers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MachineMetrics'
+                    description: Top performing machines
         api.traceability.v1.DeleteAreaReply:
             type: object
             properties:
@@ -1542,9 +1675,6 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/api.traceability.v1.GenealogyEdge'
-            description: |-
-                --- Full Genealogy Tree Response ---
-                 Returns nodes + edges for frontend graph rendering (D3.js / vis.js)
         api.traceability.v1.GetMaterialLotReply:
             type: object
             properties:
@@ -1754,6 +1884,93 @@ components:
                 operatorId:
                     type: string
             description: 10. Traceability Logs
+        api.traceability.v1.MachineComparisonReply:
+            type: object
+            properties:
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                machines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MachineMetrics'
+        api.traceability.v1.MachineComparisonRequest:
+            type: object
+            properties:
+                equipmentIds:
+                    type: array
+                    items:
+                        type: string
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+            description: '--- Machine Comparison ---'
+        api.traceability.v1.MachineEventSummary:
+            type: object
+            properties:
+                eventType:
+                    type: string
+                count:
+                    type: integer
+                    format: int32
+        api.traceability.v1.MachineMetrics:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                equipmentClassName:
+                    type: string
+                operationalStatus:
+                    type: string
+                totalWorkOrders:
+                    type: integer
+                    format: int32
+                totalUnitsProduced:
+                    type: number
+                    format: double
+                avgCycleTimeHours:
+                    type: number
+                    format: double
+                utilizationPct:
+                    type: number
+                    format: double
+                errorCount:
+                    type: integer
+                    format: int32
+        api.traceability.v1.MachinePerformanceReply:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                equipmentClassName:
+                    type: string
+                operationalStatus:
+                    type: string
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                totalWorkOrders:
+                    type: integer
+                    format: int32
+                totalUnitsProduced:
+                    type: number
+                    format: double
+                avgCycleTimeHours:
+                    type: number
+                    format: double
+                totalActiveHours:
+                    type: number
+                    format: double
+                utilizationPct:
+                    type: number
+                    format: double
+                eventSummary:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MachineEventSummary'
         api.traceability.v1.MaterialDefinition:
             type: object
             properties:
@@ -1799,6 +2016,35 @@ components:
                     type: string
                 status:
                     type: string
+        api.traceability.v1.ProductionTrendPoint:
+            type: object
+            properties:
+                period:
+                    type: string
+                equipmentId:
+                    type: string
+                unitsProduced:
+                    type: number
+                    format: double
+                workOrdersCompleted:
+                    type: integer
+                    format: int32
+                avgCycleTimeHours:
+                    type: number
+                    format: double
+        api.traceability.v1.ProductionTrendsReply:
+            type: object
+            properties:
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                granularity:
+                    type: string
+                dataPoints:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.ProductionTrendPoint'
         api.traceability.v1.ProductionUnit:
             type: object
             properties:
@@ -1944,7 +2190,6 @@ components:
                     type: string
                 eventTime:
                     type: string
-            description: A single node in the trace tree
         api.traceability.v1.TraceReply:
             type: object
             properties:
@@ -1956,9 +2201,7 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/api.traceability.v1.TraceNode'
-            description: |-
-                --- Backward & Forward Trace Response ---
-                 Returns a flat list of trace nodes, each with depth for tree reconstruction
+            description: '--- Backward & Forward Trace Response ---'
         api.traceability.v1.UpdateAreaReply:
             type: object
             properties:

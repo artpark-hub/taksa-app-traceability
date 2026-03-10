@@ -141,9 +141,7 @@ service Traceability {
         option (google.api.http) = { get: "/api/v1/traceability/logs" };
     }
 
-    // =====================================================================
     // 11. Material Definition Management
-    // =====================================================================
     rpc CreateMaterialDefinition (CreateMaterialDefinitionRequest) returns (CreateMaterialDefinitionReply) {
         option (google.api.http) = { post: "/api/v1/traceability/material-definitions", body: "*" };
     }
@@ -151,9 +149,7 @@ service Traceability {
         option (google.api.http) = { get: "/api/v1/traceability/material-definitions" };
     }
 
-    // =====================================================================
     // 12. Material Lot Management
-    // =====================================================================
     rpc CreateMaterialLot (CreateMaterialLotRequest) returns (CreateMaterialLotReply) {
         option (google.api.http) = { post: "/api/v1/traceability/lots", body: "*" };
     }
@@ -167,9 +163,7 @@ service Traceability {
         option (google.api.http) = { patch: "/api/v1/traceability/lots/{lot_id}/status", body: "*" };
     }
 
-    // =====================================================================
     // 13. Operator Management
-    // =====================================================================
     rpc CreateOperator (CreateOperatorRequest) returns (CreateOperatorReply) {
         option (google.api.http) = { post: "/api/v1/traceability/operators", body: "*" };
     }
@@ -180,9 +174,7 @@ service Traceability {
         option (google.api.http) = { patch: "/api/v1/traceability/operators/{operator_id}", body: "*" };
     }
 
-    // =====================================================================
     // 14. Work Order Management
-    // =====================================================================
     rpc CreateWorkOrder (CreateWorkOrderRequest) returns (CreateWorkOrderReply) {
         option (google.api.http) = { post: "/api/v1/traceability/work-orders", body: "*" };
     }
@@ -196,16 +188,12 @@ service Traceability {
         option (google.api.http) = { patch: "/api/v1/traceability/work-orders/{work_order_id}/status", body: "*" };
     }
 
-    // =====================================================================
     // 15. Lot Genealogy Registration
-    // =====================================================================
     rpc RegisterGenealogyLink (RegisterGenealogyLinkRequest) returns (RegisterGenealogyLinkReply) {
         option (google.api.http) = { post: "/api/v1/traceability/genealogy", body: "*" };
     }
 
-    // =====================================================================
-    // 16. Traceability Queries (THE CORE FEATURES)
-    // =====================================================================
+    // 16. Traceability Queries
     rpc TraceBackward (TraceRequest) returns (TraceReply) {
         option (google.api.http) = { get: "/api/v1/traceability/trace/backward/{lot_id}" };
     }
@@ -217,6 +205,20 @@ service Traceability {
     }
     rpc GetEquipmentProcessHistory (TraceRequest) returns (EquipmentProcessHistoryReply) {
         option (google.api.http) = { get: "/api/v1/traceability/trace/equipment-history/{lot_id}" };
+    }
+
+    // 17. Historical Analytics
+    rpc GetMachinePerformance (MachinePerformanceRequest) returns (MachinePerformanceReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/analytics/machine-performance" };
+    }
+    rpc CompareMachinePerformance (MachineComparisonRequest) returns (MachineComparisonReply) {
+        option (google.api.http) = { post: "/api/v1/traceability/analytics/machine-comparison", body: "*" };
+    }
+    rpc GetProductionTrends (ProductionTrendsRequest) returns (ProductionTrendsReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/analytics/production-trends" };
+    }
+    rpc GetDashboardSummary (DashboardSummaryRequest) returns (DashboardSummaryReply) {
+        option (google.api.http) = { get: "/api/v1/traceability/analytics/dashboard" };
     }
 }
 
@@ -648,10 +650,8 @@ message LogEntry {
     string operator_id = 4;
 }
 
-// =====================================================================
-// 11. Material Definition Messages
-// =====================================================================
 
+// 11. Material Definition Messages
 message CreateMaterialDefinitionRequest {
     string name = 1;                // e.g., "Epoxy Resin Grade A"
     string material_type = 2;       // RAW_MATERIAL, WORK_IN_PROGRESS, FINISHED_GOOD, PACKAGING
@@ -977,5 +977,105 @@ message TelemetryReading {
     double value = 3;
     string unit_of_measure = 4;
     string recorded_at = 5;
+}
+
+// =====================================================================
+// 17. Historical Analytics Messages (S014)
+// =====================================================================
+
+// --- Machine Performance ---
+message MachinePerformanceRequest {
+    string equipment_id = 1;
+    string from_time = 2;           // RFC3339 timestamp
+    string to_time = 3;             // RFC3339 timestamp
+}
+
+message MachinePerformanceReply {
+    string equipment_id = 1;
+    string equipment_class_name = 2;
+    string operational_status = 3;
+    string from_time = 4;
+    string to_time = 5;
+    int32  total_work_orders = 6;
+    double total_units_produced = 7;
+    double avg_cycle_time_hours = 8;
+    double total_active_hours = 9;
+    double utilization_pct = 10;    // (active_hours / window_hours) * 100
+    repeated MachineEventSummary event_summary = 11;
+}
+
+message MachineEventSummary {
+    string event_type = 1;
+    int32  count = 2;
+}
+
+// --- Machine Comparison ---
+message MachineComparisonRequest {
+    repeated string equipment_ids = 1;
+    string from_time = 2;
+    string to_time = 3;
+}
+
+message MachineComparisonReply {
+    string from_time = 1;
+    string to_time = 2;
+    repeated MachineMetrics machines = 3;
+}
+
+message MachineMetrics {
+    string equipment_id = 1;
+    string equipment_class_name = 2;
+    string operational_status = 3;
+    int32  total_work_orders = 4;
+    double total_units_produced = 5;
+    double avg_cycle_time_hours = 6;
+    double utilization_pct = 7;
+    int32  error_count = 8;
+}
+
+// --- Production Trends ---
+message ProductionTrendsRequest {
+    string from_time = 1;
+    string to_time = 2;
+    string granularity = 3;         // "daily", "weekly", "monthly"
+    string equipment_id = 4;        // optional: filter by machine
+}
+
+message ProductionTrendsReply {
+    string from_time = 1;
+    string to_time = 2;
+    string granularity = 3;
+    repeated ProductionTrendPoint data_points = 4;
+}
+
+message ProductionTrendPoint {
+    string period = 1;              // truncated timestamp label
+    string equipment_id = 2;
+    double units_produced = 3;
+    int32  work_orders_completed = 4;
+    double avg_cycle_time_hours = 5;
+}
+
+// --- Dashboard Summary ---
+message DashboardSummaryRequest {
+    string from_time = 1;
+    string to_time = 2;
+}
+
+message DashboardSummaryReply {
+    string from_time = 1;
+    string to_time = 2;
+    // Production KPIs
+    double total_units_produced = 3;
+    int32  total_work_orders_completed = 4;
+    int32  active_equipment_count = 5;
+    // Quality KPIs
+    int32  lots_released = 6;
+    int32  lots_quarantined = 7;
+    double quality_rate_pct = 8;    // released / (released + quarantined) * 100
+    // Total event anomalies
+    int32  total_error_events = 9;
+    // Top performing machines
+    repeated MachineMetrics top_performers = 10;
 }
 

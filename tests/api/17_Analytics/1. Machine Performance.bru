@@ -1,0 +1,18 @@
+meta {
+  name: 1. Machine Performance
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/analytics/machine-performance?equipment_id=MIXER-001&from_time=2026-02-25T00:00:00Z&to_time=2026-02-26T00:00:00Z
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.equipmentId: eq "MIXER-001"
+  res.body.totalWorkOrders: isNumber
+  res.body.utilizationPct: isNumber
+}

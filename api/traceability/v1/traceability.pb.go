@@ -6566,11 +6566,10 @@ func (x *TraceRequest) GetLotId() string {
 }
 
 // --- Backward & Forward Trace Response ---
-// Returns a flat list of trace nodes, each with depth for tree reconstruction
 type TraceReply struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	QueriedLotId   string                 `protobuf:"bytes,1,opt,name=queried_lot_id,json=queriedLotId,proto3" json:"queried_lot_id,omitempty"`
-	TraceDirection string                 `protobuf:"bytes,2,opt,name=trace_direction,json=traceDirection,proto3" json:"trace_direction,omitempty"` // "backward" or "forward"
+	TraceDirection string                 `protobuf:"bytes,2,opt,name=trace_direction,json=traceDirection,proto3" json:"trace_direction,omitempty"`
 	Nodes          []*TraceNode           `protobuf:"bytes,3,rep,name=nodes,proto3" json:"nodes,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -6627,18 +6626,17 @@ func (x *TraceReply) GetNodes() []*TraceNode {
 	return nil
 }
 
-// A single node in the trace tree
 type TraceNode struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Depth              int32                  `protobuf:"varint,1,opt,name=depth,proto3" json:"depth,omitempty"`
 	LotId              string                 `protobuf:"bytes,2,opt,name=lot_id,json=lotId,proto3" json:"lot_id,omitempty"`
-	RelatedLotId       string                 `protobuf:"bytes,3,opt,name=related_lot_id,json=relatedLotId,proto3" json:"related_lot_id,omitempty"` // consumed_by (backward) or produced_from (forward)
+	RelatedLotId       string                 `protobuf:"bytes,3,opt,name=related_lot_id,json=relatedLotId,proto3" json:"related_lot_id,omitempty"`
 	MaterialName       string                 `protobuf:"bytes,4,opt,name=material_name,json=materialName,proto3" json:"material_name,omitempty"`
 	MaterialType       string                 `protobuf:"bytes,5,opt,name=material_type,json=materialType,proto3" json:"material_type,omitempty"`
 	LotStatus          string                 `protobuf:"bytes,6,opt,name=lot_status,json=lotStatus,proto3" json:"lot_status,omitempty"`
 	Quantity           float64                `protobuf:"fixed64,7,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	UnitOfMeasure      string                 `protobuf:"bytes,8,opt,name=unit_of_measure,json=unitOfMeasure,proto3" json:"unit_of_measure,omitempty"`
-	QuantityUsed       float64                `protobuf:"fixed64,9,opt,name=quantity_used,json=quantityUsed,proto3" json:"quantity_used,omitempty"` // consumed (backward) or produced (forward)
+	QuantityUsed       float64                `protobuf:"fixed64,9,opt,name=quantity_used,json=quantityUsed,proto3" json:"quantity_used,omitempty"`
 	WorkOrderId        string                 `protobuf:"bytes,10,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
 	EquipmentId        string                 `protobuf:"bytes,11,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	EquipmentClassName string                 `protobuf:"bytes,12,opt,name=equipment_class_name,json=equipmentClassName,proto3" json:"equipment_class_name,omitempty"`
@@ -6784,8 +6782,6 @@ func (x *TraceNode) GetEventTime() string {
 	return ""
 }
 
-// --- Full Genealogy Tree Response ---
-// Returns nodes + edges for frontend graph rendering (D3.js / vis.js)
 type GenealogyTreeReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CenterLotId   string                 `protobuf:"bytes,1,opt,name=center_lot_id,json=centerLotId,proto3" json:"center_lot_id,omitempty"`
@@ -6932,8 +6928,8 @@ func (x *GenealogyNode) GetUnitOfMeasure() string {
 
 type GenealogyEdge struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	SourceLotId      string                 `protobuf:"bytes,1,opt,name=source_lot_id,json=sourceLotId,proto3" json:"source_lot_id,omitempty"` // parent (input)
-	TargetLotId      string                 `protobuf:"bytes,2,opt,name=target_lot_id,json=targetLotId,proto3" json:"target_lot_id,omitempty"` // child (output)
+	SourceLotId      string                 `protobuf:"bytes,1,opt,name=source_lot_id,json=sourceLotId,proto3" json:"source_lot_id,omitempty"`
+	TargetLotId      string                 `protobuf:"bytes,2,opt,name=target_lot_id,json=targetLotId,proto3" json:"target_lot_id,omitempty"`
 	WorkOrderId      string                 `protobuf:"bytes,3,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
 	EquipmentId      string                 `protobuf:"bytes,4,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
 	QuantityConsumed float64                `protobuf:"fixed64,5,opt,name=quantity_consumed,json=quantityConsumed,proto3" json:"quantity_consumed,omitempty"`
@@ -7275,6 +7271,850 @@ func (x *TelemetryReading) GetRecordedAt() string {
 		return x.RecordedAt
 	}
 	return ""
+}
+
+// --- Machine Performance ---
+type MachinePerformanceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EquipmentId   string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	FromTime      string                 `protobuf:"bytes,2,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"` // RFC3339 timestamp
+	ToTime        string                 `protobuf:"bytes,3,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`       // RFC3339 timestamp
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MachinePerformanceRequest) Reset() {
+	*x = MachinePerformanceRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[128]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MachinePerformanceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MachinePerformanceRequest) ProtoMessage() {}
+
+func (x *MachinePerformanceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[128]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MachinePerformanceRequest.ProtoReflect.Descriptor instead.
+func (*MachinePerformanceRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{128}
+}
+
+func (x *MachinePerformanceRequest) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *MachinePerformanceRequest) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *MachinePerformanceRequest) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+type MachinePerformanceReply struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	EquipmentId        string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	EquipmentClassName string                 `protobuf:"bytes,2,opt,name=equipment_class_name,json=equipmentClassName,proto3" json:"equipment_class_name,omitempty"`
+	OperationalStatus  string                 `protobuf:"bytes,3,opt,name=operational_status,json=operationalStatus,proto3" json:"operational_status,omitempty"`
+	FromTime           string                 `protobuf:"bytes,4,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime             string                 `protobuf:"bytes,5,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	TotalWorkOrders    int32                  `protobuf:"varint,6,opt,name=total_work_orders,json=totalWorkOrders,proto3" json:"total_work_orders,omitempty"`
+	TotalUnitsProduced float64                `protobuf:"fixed64,7,opt,name=total_units_produced,json=totalUnitsProduced,proto3" json:"total_units_produced,omitempty"`
+	AvgCycleTimeHours  float64                `protobuf:"fixed64,8,opt,name=avg_cycle_time_hours,json=avgCycleTimeHours,proto3" json:"avg_cycle_time_hours,omitempty"`
+	TotalActiveHours   float64                `protobuf:"fixed64,9,opt,name=total_active_hours,json=totalActiveHours,proto3" json:"total_active_hours,omitempty"`
+	UtilizationPct     float64                `protobuf:"fixed64,10,opt,name=utilization_pct,json=utilizationPct,proto3" json:"utilization_pct,omitempty"` // (active_hours / window_hours) * 100
+	EventSummary       []*MachineEventSummary `protobuf:"bytes,11,rep,name=event_summary,json=eventSummary,proto3" json:"event_summary,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *MachinePerformanceReply) Reset() {
+	*x = MachinePerformanceReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[129]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MachinePerformanceReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MachinePerformanceReply) ProtoMessage() {}
+
+func (x *MachinePerformanceReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[129]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MachinePerformanceReply.ProtoReflect.Descriptor instead.
+func (*MachinePerformanceReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{129}
+}
+
+func (x *MachinePerformanceReply) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *MachinePerformanceReply) GetEquipmentClassName() string {
+	if x != nil {
+		return x.EquipmentClassName
+	}
+	return ""
+}
+
+func (x *MachinePerformanceReply) GetOperationalStatus() string {
+	if x != nil {
+		return x.OperationalStatus
+	}
+	return ""
+}
+
+func (x *MachinePerformanceReply) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *MachinePerformanceReply) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+func (x *MachinePerformanceReply) GetTotalWorkOrders() int32 {
+	if x != nil {
+		return x.TotalWorkOrders
+	}
+	return 0
+}
+
+func (x *MachinePerformanceReply) GetTotalUnitsProduced() float64 {
+	if x != nil {
+		return x.TotalUnitsProduced
+	}
+	return 0
+}
+
+func (x *MachinePerformanceReply) GetAvgCycleTimeHours() float64 {
+	if x != nil {
+		return x.AvgCycleTimeHours
+	}
+	return 0
+}
+
+func (x *MachinePerformanceReply) GetTotalActiveHours() float64 {
+	if x != nil {
+		return x.TotalActiveHours
+	}
+	return 0
+}
+
+func (x *MachinePerformanceReply) GetUtilizationPct() float64 {
+	if x != nil {
+		return x.UtilizationPct
+	}
+	return 0
+}
+
+func (x *MachinePerformanceReply) GetEventSummary() []*MachineEventSummary {
+	if x != nil {
+		return x.EventSummary
+	}
+	return nil
+}
+
+type MachineEventSummary struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EventType     string                 `protobuf:"bytes,1,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	Count         int32                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MachineEventSummary) Reset() {
+	*x = MachineEventSummary{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[130]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MachineEventSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MachineEventSummary) ProtoMessage() {}
+
+func (x *MachineEventSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[130]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MachineEventSummary.ProtoReflect.Descriptor instead.
+func (*MachineEventSummary) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{130}
+}
+
+func (x *MachineEventSummary) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *MachineEventSummary) GetCount() int32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+// --- Machine Comparison ---
+type MachineComparisonRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EquipmentIds  []string               `protobuf:"bytes,1,rep,name=equipment_ids,json=equipmentIds,proto3" json:"equipment_ids,omitempty"`
+	FromTime      string                 `protobuf:"bytes,2,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime        string                 `protobuf:"bytes,3,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MachineComparisonRequest) Reset() {
+	*x = MachineComparisonRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[131]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MachineComparisonRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MachineComparisonRequest) ProtoMessage() {}
+
+func (x *MachineComparisonRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[131]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MachineComparisonRequest.ProtoReflect.Descriptor instead.
+func (*MachineComparisonRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{131}
+}
+
+func (x *MachineComparisonRequest) GetEquipmentIds() []string {
+	if x != nil {
+		return x.EquipmentIds
+	}
+	return nil
+}
+
+func (x *MachineComparisonRequest) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *MachineComparisonRequest) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+type MachineComparisonReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FromTime      string                 `protobuf:"bytes,1,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime        string                 `protobuf:"bytes,2,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	Machines      []*MachineMetrics      `protobuf:"bytes,3,rep,name=machines,proto3" json:"machines,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MachineComparisonReply) Reset() {
+	*x = MachineComparisonReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[132]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MachineComparisonReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MachineComparisonReply) ProtoMessage() {}
+
+func (x *MachineComparisonReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[132]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MachineComparisonReply.ProtoReflect.Descriptor instead.
+func (*MachineComparisonReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{132}
+}
+
+func (x *MachineComparisonReply) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *MachineComparisonReply) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+func (x *MachineComparisonReply) GetMachines() []*MachineMetrics {
+	if x != nil {
+		return x.Machines
+	}
+	return nil
+}
+
+type MachineMetrics struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	EquipmentId        string                 `protobuf:"bytes,1,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	EquipmentClassName string                 `protobuf:"bytes,2,opt,name=equipment_class_name,json=equipmentClassName,proto3" json:"equipment_class_name,omitempty"`
+	OperationalStatus  string                 `protobuf:"bytes,3,opt,name=operational_status,json=operationalStatus,proto3" json:"operational_status,omitempty"`
+	TotalWorkOrders    int32                  `protobuf:"varint,4,opt,name=total_work_orders,json=totalWorkOrders,proto3" json:"total_work_orders,omitempty"`
+	TotalUnitsProduced float64                `protobuf:"fixed64,5,opt,name=total_units_produced,json=totalUnitsProduced,proto3" json:"total_units_produced,omitempty"`
+	AvgCycleTimeHours  float64                `protobuf:"fixed64,6,opt,name=avg_cycle_time_hours,json=avgCycleTimeHours,proto3" json:"avg_cycle_time_hours,omitempty"`
+	UtilizationPct     float64                `protobuf:"fixed64,7,opt,name=utilization_pct,json=utilizationPct,proto3" json:"utilization_pct,omitempty"`
+	ErrorCount         int32                  `protobuf:"varint,8,opt,name=error_count,json=errorCount,proto3" json:"error_count,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *MachineMetrics) Reset() {
+	*x = MachineMetrics{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[133]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MachineMetrics) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MachineMetrics) ProtoMessage() {}
+
+func (x *MachineMetrics) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[133]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MachineMetrics.ProtoReflect.Descriptor instead.
+func (*MachineMetrics) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{133}
+}
+
+func (x *MachineMetrics) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *MachineMetrics) GetEquipmentClassName() string {
+	if x != nil {
+		return x.EquipmentClassName
+	}
+	return ""
+}
+
+func (x *MachineMetrics) GetOperationalStatus() string {
+	if x != nil {
+		return x.OperationalStatus
+	}
+	return ""
+}
+
+func (x *MachineMetrics) GetTotalWorkOrders() int32 {
+	if x != nil {
+		return x.TotalWorkOrders
+	}
+	return 0
+}
+
+func (x *MachineMetrics) GetTotalUnitsProduced() float64 {
+	if x != nil {
+		return x.TotalUnitsProduced
+	}
+	return 0
+}
+
+func (x *MachineMetrics) GetAvgCycleTimeHours() float64 {
+	if x != nil {
+		return x.AvgCycleTimeHours
+	}
+	return 0
+}
+
+func (x *MachineMetrics) GetUtilizationPct() float64 {
+	if x != nil {
+		return x.UtilizationPct
+	}
+	return 0
+}
+
+func (x *MachineMetrics) GetErrorCount() int32 {
+	if x != nil {
+		return x.ErrorCount
+	}
+	return 0
+}
+
+// --- Production Trends ---
+type ProductionTrendsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FromTime      string                 `protobuf:"bytes,1,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime        string                 `protobuf:"bytes,2,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	Granularity   string                 `protobuf:"bytes,3,opt,name=granularity,proto3" json:"granularity,omitempty"`                    // "daily", "weekly", "monthly"
+	EquipmentId   string                 `protobuf:"bytes,4,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"` // optional: filter by machine
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProductionTrendsRequest) Reset() {
+	*x = ProductionTrendsRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[134]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProductionTrendsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProductionTrendsRequest) ProtoMessage() {}
+
+func (x *ProductionTrendsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[134]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProductionTrendsRequest.ProtoReflect.Descriptor instead.
+func (*ProductionTrendsRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{134}
+}
+
+func (x *ProductionTrendsRequest) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *ProductionTrendsRequest) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+func (x *ProductionTrendsRequest) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *ProductionTrendsRequest) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+type ProductionTrendsReply struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	FromTime      string                  `protobuf:"bytes,1,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime        string                  `protobuf:"bytes,2,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	Granularity   string                  `protobuf:"bytes,3,opt,name=granularity,proto3" json:"granularity,omitempty"`
+	DataPoints    []*ProductionTrendPoint `protobuf:"bytes,4,rep,name=data_points,json=dataPoints,proto3" json:"data_points,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProductionTrendsReply) Reset() {
+	*x = ProductionTrendsReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[135]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProductionTrendsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProductionTrendsReply) ProtoMessage() {}
+
+func (x *ProductionTrendsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[135]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProductionTrendsReply.ProtoReflect.Descriptor instead.
+func (*ProductionTrendsReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{135}
+}
+
+func (x *ProductionTrendsReply) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *ProductionTrendsReply) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+func (x *ProductionTrendsReply) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *ProductionTrendsReply) GetDataPoints() []*ProductionTrendPoint {
+	if x != nil {
+		return x.DataPoints
+	}
+	return nil
+}
+
+type ProductionTrendPoint struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Period              string                 `protobuf:"bytes,1,opt,name=period,proto3" json:"period,omitempty"` // truncated timestamp label
+	EquipmentId         string                 `protobuf:"bytes,2,opt,name=equipment_id,json=equipmentId,proto3" json:"equipment_id,omitempty"`
+	UnitsProduced       float64                `protobuf:"fixed64,3,opt,name=units_produced,json=unitsProduced,proto3" json:"units_produced,omitempty"`
+	WorkOrdersCompleted int32                  `protobuf:"varint,4,opt,name=work_orders_completed,json=workOrdersCompleted,proto3" json:"work_orders_completed,omitempty"`
+	AvgCycleTimeHours   float64                `protobuf:"fixed64,5,opt,name=avg_cycle_time_hours,json=avgCycleTimeHours,proto3" json:"avg_cycle_time_hours,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *ProductionTrendPoint) Reset() {
+	*x = ProductionTrendPoint{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[136]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProductionTrendPoint) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProductionTrendPoint) ProtoMessage() {}
+
+func (x *ProductionTrendPoint) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[136]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProductionTrendPoint.ProtoReflect.Descriptor instead.
+func (*ProductionTrendPoint) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{136}
+}
+
+func (x *ProductionTrendPoint) GetPeriod() string {
+	if x != nil {
+		return x.Period
+	}
+	return ""
+}
+
+func (x *ProductionTrendPoint) GetEquipmentId() string {
+	if x != nil {
+		return x.EquipmentId
+	}
+	return ""
+}
+
+func (x *ProductionTrendPoint) GetUnitsProduced() float64 {
+	if x != nil {
+		return x.UnitsProduced
+	}
+	return 0
+}
+
+func (x *ProductionTrendPoint) GetWorkOrdersCompleted() int32 {
+	if x != nil {
+		return x.WorkOrdersCompleted
+	}
+	return 0
+}
+
+func (x *ProductionTrendPoint) GetAvgCycleTimeHours() float64 {
+	if x != nil {
+		return x.AvgCycleTimeHours
+	}
+	return 0
+}
+
+// --- Dashboard Summary ---
+type DashboardSummaryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FromTime      string                 `protobuf:"bytes,1,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime        string                 `protobuf:"bytes,2,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DashboardSummaryRequest) Reset() {
+	*x = DashboardSummaryRequest{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[137]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DashboardSummaryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DashboardSummaryRequest) ProtoMessage() {}
+
+func (x *DashboardSummaryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[137]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DashboardSummaryRequest.ProtoReflect.Descriptor instead.
+func (*DashboardSummaryRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{137}
+}
+
+func (x *DashboardSummaryRequest) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *DashboardSummaryRequest) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+type DashboardSummaryReply struct {
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	FromTime string                 `protobuf:"bytes,1,opt,name=from_time,json=fromTime,proto3" json:"from_time,omitempty"`
+	ToTime   string                 `protobuf:"bytes,2,opt,name=to_time,json=toTime,proto3" json:"to_time,omitempty"`
+	// Production KPIs
+	TotalUnitsProduced       float64 `protobuf:"fixed64,3,opt,name=total_units_produced,json=totalUnitsProduced,proto3" json:"total_units_produced,omitempty"`
+	TotalWorkOrdersCompleted int32   `protobuf:"varint,4,opt,name=total_work_orders_completed,json=totalWorkOrdersCompleted,proto3" json:"total_work_orders_completed,omitempty"`
+	ActiveEquipmentCount     int32   `protobuf:"varint,5,opt,name=active_equipment_count,json=activeEquipmentCount,proto3" json:"active_equipment_count,omitempty"`
+	// Quality KPIs
+	LotsReleased    int32   `protobuf:"varint,6,opt,name=lots_released,json=lotsReleased,proto3" json:"lots_released,omitempty"`
+	LotsQuarantined int32   `protobuf:"varint,7,opt,name=lots_quarantined,json=lotsQuarantined,proto3" json:"lots_quarantined,omitempty"`
+	QualityRatePct  float64 `protobuf:"fixed64,8,opt,name=quality_rate_pct,json=qualityRatePct,proto3" json:"quality_rate_pct,omitempty"` // released / (released + quarantined) * 100
+	// Total event anomalies
+	TotalErrorEvents int32 `protobuf:"varint,9,opt,name=total_error_events,json=totalErrorEvents,proto3" json:"total_error_events,omitempty"`
+	// Top performing machines
+	TopPerformers []*MachineMetrics `protobuf:"bytes,10,rep,name=top_performers,json=topPerformers,proto3" json:"top_performers,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DashboardSummaryReply) Reset() {
+	*x = DashboardSummaryReply{}
+	mi := &file_traceability_v1_traceability_proto_msgTypes[138]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DashboardSummaryReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DashboardSummaryReply) ProtoMessage() {}
+
+func (x *DashboardSummaryReply) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_v1_traceability_proto_msgTypes[138]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DashboardSummaryReply.ProtoReflect.Descriptor instead.
+func (*DashboardSummaryReply) Descriptor() ([]byte, []int) {
+	return file_traceability_v1_traceability_proto_rawDescGZIP(), []int{138}
+}
+
+func (x *DashboardSummaryReply) GetFromTime() string {
+	if x != nil {
+		return x.FromTime
+	}
+	return ""
+}
+
+func (x *DashboardSummaryReply) GetToTime() string {
+	if x != nil {
+		return x.ToTime
+	}
+	return ""
+}
+
+func (x *DashboardSummaryReply) GetTotalUnitsProduced() float64 {
+	if x != nil {
+		return x.TotalUnitsProduced
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetTotalWorkOrdersCompleted() int32 {
+	if x != nil {
+		return x.TotalWorkOrdersCompleted
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetActiveEquipmentCount() int32 {
+	if x != nil {
+		return x.ActiveEquipmentCount
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetLotsReleased() int32 {
+	if x != nil {
+		return x.LotsReleased
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetLotsQuarantined() int32 {
+	if x != nil {
+		return x.LotsQuarantined
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetQualityRatePct() float64 {
+	if x != nil {
+		return x.QualityRatePct
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetTotalErrorEvents() int32 {
+	if x != nil {
+		return x.TotalErrorEvents
+	}
+	return 0
+}
+
+func (x *DashboardSummaryReply) GetTopPerformers() []*MachineMetrics {
+	if x != nil {
+		return x.TopPerformers
+	}
+	return nil
 }
 
 var File_traceability_v1_traceability_proto protoreflect.FileDescriptor
@@ -7779,7 +8619,78 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\x05value\x18\x03 \x01(\x01R\x05value\x12&\n" +
 	"\x0funit_of_measure\x18\x04 \x01(\tR\runitOfMeasure\x12\x1f\n" +
 	"\vrecorded_at\x18\x05 \x01(\tR\n" +
-	"recordedAt2\xbfD\n" +
+	"recordedAt\"t\n" +
+	"\x19MachinePerformanceRequest\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x12\x1b\n" +
+	"\tfrom_time\x18\x02 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x03 \x01(\tR\x06toTime\"\x88\x04\n" +
+	"\x17MachinePerformanceReply\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x120\n" +
+	"\x14equipment_class_name\x18\x02 \x01(\tR\x12equipmentClassName\x12-\n" +
+	"\x12operational_status\x18\x03 \x01(\tR\x11operationalStatus\x12\x1b\n" +
+	"\tfrom_time\x18\x04 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x05 \x01(\tR\x06toTime\x12*\n" +
+	"\x11total_work_orders\x18\x06 \x01(\x05R\x0ftotalWorkOrders\x120\n" +
+	"\x14total_units_produced\x18\a \x01(\x01R\x12totalUnitsProduced\x12/\n" +
+	"\x14avg_cycle_time_hours\x18\b \x01(\x01R\x11avgCycleTimeHours\x12,\n" +
+	"\x12total_active_hours\x18\t \x01(\x01R\x10totalActiveHours\x12'\n" +
+	"\x0futilization_pct\x18\n" +
+	" \x01(\x01R\x0eutilizationPct\x12M\n" +
+	"\revent_summary\x18\v \x03(\v2(.api.traceability.v1.MachineEventSummaryR\feventSummary\"J\n" +
+	"\x13MachineEventSummary\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x01 \x01(\tR\teventType\x12\x14\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count\"u\n" +
+	"\x18MachineComparisonRequest\x12#\n" +
+	"\requipment_ids\x18\x01 \x03(\tR\fequipmentIds\x12\x1b\n" +
+	"\tfrom_time\x18\x02 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x03 \x01(\tR\x06toTime\"\x8f\x01\n" +
+	"\x16MachineComparisonReply\x12\x1b\n" +
+	"\tfrom_time\x18\x01 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x02 \x01(\tR\x06toTime\x12?\n" +
+	"\bmachines\x18\x03 \x03(\v2#.api.traceability.v1.MachineMetricsR\bmachines\"\xed\x02\n" +
+	"\x0eMachineMetrics\x12!\n" +
+	"\fequipment_id\x18\x01 \x01(\tR\vequipmentId\x120\n" +
+	"\x14equipment_class_name\x18\x02 \x01(\tR\x12equipmentClassName\x12-\n" +
+	"\x12operational_status\x18\x03 \x01(\tR\x11operationalStatus\x12*\n" +
+	"\x11total_work_orders\x18\x04 \x01(\x05R\x0ftotalWorkOrders\x120\n" +
+	"\x14total_units_produced\x18\x05 \x01(\x01R\x12totalUnitsProduced\x12/\n" +
+	"\x14avg_cycle_time_hours\x18\x06 \x01(\x01R\x11avgCycleTimeHours\x12'\n" +
+	"\x0futilization_pct\x18\a \x01(\x01R\x0eutilizationPct\x12\x1f\n" +
+	"\verror_count\x18\b \x01(\x05R\n" +
+	"errorCount\"\x94\x01\n" +
+	"\x17ProductionTrendsRequest\x12\x1b\n" +
+	"\tfrom_time\x18\x01 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x02 \x01(\tR\x06toTime\x12 \n" +
+	"\vgranularity\x18\x03 \x01(\tR\vgranularity\x12!\n" +
+	"\fequipment_id\x18\x04 \x01(\tR\vequipmentId\"\xbb\x01\n" +
+	"\x15ProductionTrendsReply\x12\x1b\n" +
+	"\tfrom_time\x18\x01 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x02 \x01(\tR\x06toTime\x12 \n" +
+	"\vgranularity\x18\x03 \x01(\tR\vgranularity\x12J\n" +
+	"\vdata_points\x18\x04 \x03(\v2).api.traceability.v1.ProductionTrendPointR\n" +
+	"dataPoints\"\xdd\x01\n" +
+	"\x14ProductionTrendPoint\x12\x16\n" +
+	"\x06period\x18\x01 \x01(\tR\x06period\x12!\n" +
+	"\fequipment_id\x18\x02 \x01(\tR\vequipmentId\x12%\n" +
+	"\x0eunits_produced\x18\x03 \x01(\x01R\runitsProduced\x122\n" +
+	"\x15work_orders_completed\x18\x04 \x01(\x05R\x13workOrdersCompleted\x12/\n" +
+	"\x14avg_cycle_time_hours\x18\x05 \x01(\x01R\x11avgCycleTimeHours\"O\n" +
+	"\x17DashboardSummaryRequest\x12\x1b\n" +
+	"\tfrom_time\x18\x01 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x02 \x01(\tR\x06toTime\"\xe8\x03\n" +
+	"\x15DashboardSummaryReply\x12\x1b\n" +
+	"\tfrom_time\x18\x01 \x01(\tR\bfromTime\x12\x17\n" +
+	"\ato_time\x18\x02 \x01(\tR\x06toTime\x120\n" +
+	"\x14total_units_produced\x18\x03 \x01(\x01R\x12totalUnitsProduced\x12=\n" +
+	"\x1btotal_work_orders_completed\x18\x04 \x01(\x05R\x18totalWorkOrdersCompleted\x124\n" +
+	"\x16active_equipment_count\x18\x05 \x01(\x05R\x14activeEquipmentCount\x12#\n" +
+	"\rlots_released\x18\x06 \x01(\x05R\flotsReleased\x12)\n" +
+	"\x10lots_quarantined\x18\a \x01(\x05R\x0flotsQuarantined\x12(\n" +
+	"\x10quality_rate_pct\x18\b \x01(\x01R\x0equalityRatePct\x12,\n" +
+	"\x12total_error_events\x18\t \x01(\x05R\x10totalErrorEvents\x12J\n" +
+	"\x0etop_performers\x18\n" +
+	" \x03(\v2#.api.traceability.v1.MachineMetricsR\rtopPerformers2\xfbI\n" +
 	"\fTraceability\x12\x99\x01\n" +
 	"\x10CreateEnterprise\x12,.api.traceability.v1.CreateEnterpriseRequest\x1a*.api.traceability.v1.CreateEnterpriseReply\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/traceability/enterprises\x12\x93\x01\n" +
 	"\x0fListEnterprises\x12+.api.traceability.v1.ListEnterprisesRequest\x1a).api.traceability.v1.ListEnterprisesReply\"(\x82\xd3\xe4\x93\x02\"\x12 /api/v1/traceability/enterprises\x12\x9e\x01\n" +
@@ -7845,7 +8756,11 @@ const file_traceability_v1_traceability_proto_rawDesc = "" +
 	"\rTraceBackward\x12!.api.traceability.v1.TraceRequest\x1a\x1f.api.traceability.v1.TraceReply\"4\x82\xd3\xe4\x93\x02.\x12,/api/v1/traceability/trace/backward/{lot_id}\x12\x87\x01\n" +
 	"\fTraceForward\x12!.api.traceability.v1.TraceRequest\x1a\x1f.api.traceability.v1.TraceReply\"3\x82\xd3\xe4\x93\x02-\x12+/api/v1/traceability/trace/forward/{lot_id}\x12\x92\x01\n" +
 	"\x12TraceFullGenealogy\x12!.api.traceability.v1.TraceRequest\x1a'.api.traceability.v1.GenealogyTreeReply\"0\x82\xd3\xe4\x93\x02*\x12(/api/v1/traceability/trace/full/{lot_id}\x12\xb1\x01\n" +
-	"\x1aGetEquipmentProcessHistory\x12!.api.traceability.v1.TraceRequest\x1a1.api.traceability.v1.EquipmentProcessHistoryReply\"=\x82\xd3\xe4\x93\x027\x125/api/v1/traceability/trace/equipment-history/{lot_id}B%Z#traceability/api/traceability/v1;v1b\x06proto3"
+	"\x1aGetEquipmentProcessHistory\x12!.api.traceability.v1.TraceRequest\x1a1.api.traceability.v1.EquipmentProcessHistoryReply\"=\x82\xd3\xe4\x93\x027\x125/api/v1/traceability/trace/equipment-history/{lot_id}\x12\xb1\x01\n" +
+	"\x15GetMachinePerformance\x12..api.traceability.v1.MachinePerformanceRequest\x1a,.api.traceability.v1.MachinePerformanceReply\":\x82\xd3\xe4\x93\x024\x122/api/v1/traceability/analytics/machine-performance\x12\xb5\x01\n" +
+	"\x19CompareMachinePerformance\x12-.api.traceability.v1.MachineComparisonRequest\x1a+.api.traceability.v1.MachineComparisonReply\"<\x82\xd3\xe4\x93\x026:\x01*\"1/api/v1/traceability/analytics/machine-comparison\x12\xa9\x01\n" +
+	"\x13GetProductionTrends\x12,.api.traceability.v1.ProductionTrendsRequest\x1a*.api.traceability.v1.ProductionTrendsReply\"8\x82\xd3\xe4\x93\x022\x120/api/v1/traceability/analytics/production-trends\x12\xa1\x01\n" +
+	"\x13GetDashboardSummary\x12,.api.traceability.v1.DashboardSummaryRequest\x1a*.api.traceability.v1.DashboardSummaryReply\"0\x82\xd3\xe4\x93\x02*\x12(/api/v1/traceability/analytics/dashboardB%Z#traceability/api/traceability/v1;v1b\x06proto3"
 
 var (
 	file_traceability_v1_traceability_proto_rawDescOnce sync.Once
@@ -7859,7 +8774,7 @@ func file_traceability_v1_traceability_proto_rawDescGZIP() []byte {
 	return file_traceability_v1_traceability_proto_rawDescData
 }
 
-var file_traceability_v1_traceability_proto_msgTypes = make([]protoimpl.MessageInfo, 128)
+var file_traceability_v1_traceability_proto_msgTypes = make([]protoimpl.MessageInfo, 139)
 var file_traceability_v1_traceability_proto_goTypes = []any{
 	(*CreateEnterpriseRequest)(nil),         // 0: api.traceability.v1.CreateEnterpriseRequest
 	(*CreateEnterpriseReply)(nil),           // 1: api.traceability.v1.CreateEnterpriseReply
@@ -7989,6 +8904,17 @@ var file_traceability_v1_traceability_proto_goTypes = []any{
 	(*EquipmentProcessHistoryReply)(nil),    // 125: api.traceability.v1.EquipmentProcessHistoryReply
 	(*EquipmentParameterSummary)(nil),       // 126: api.traceability.v1.EquipmentParameterSummary
 	(*TelemetryReading)(nil),                // 127: api.traceability.v1.TelemetryReading
+	(*MachinePerformanceRequest)(nil),       // 128: api.traceability.v1.MachinePerformanceRequest
+	(*MachinePerformanceReply)(nil),         // 129: api.traceability.v1.MachinePerformanceReply
+	(*MachineEventSummary)(nil),             // 130: api.traceability.v1.MachineEventSummary
+	(*MachineComparisonRequest)(nil),        // 131: api.traceability.v1.MachineComparisonRequest
+	(*MachineComparisonReply)(nil),          // 132: api.traceability.v1.MachineComparisonReply
+	(*MachineMetrics)(nil),                  // 133: api.traceability.v1.MachineMetrics
+	(*ProductionTrendsRequest)(nil),         // 134: api.traceability.v1.ProductionTrendsRequest
+	(*ProductionTrendsReply)(nil),           // 135: api.traceability.v1.ProductionTrendsReply
+	(*ProductionTrendPoint)(nil),            // 136: api.traceability.v1.ProductionTrendPoint
+	(*DashboardSummaryRequest)(nil),         // 137: api.traceability.v1.DashboardSummaryRequest
+	(*DashboardSummaryReply)(nil),           // 138: api.traceability.v1.DashboardSummaryReply
 }
 var file_traceability_v1_traceability_proto_depIdxs = []int32{
 	4,   // 0: api.traceability.v1.ListEnterprisesReply.enterprises:type_name -> api.traceability.v1.Enterprise
@@ -8011,123 +8937,135 @@ var file_traceability_v1_traceability_proto_depIdxs = []int32{
 	124, // 17: api.traceability.v1.GenealogyTreeReply.edges:type_name -> api.traceability.v1.GenealogyEdge
 	126, // 18: api.traceability.v1.EquipmentProcessHistoryReply.parameters:type_name -> api.traceability.v1.EquipmentParameterSummary
 	127, // 19: api.traceability.v1.EquipmentProcessHistoryReply.readings:type_name -> api.traceability.v1.TelemetryReading
-	0,   // 20: api.traceability.v1.Traceability.CreateEnterprise:input_type -> api.traceability.v1.CreateEnterpriseRequest
-	2,   // 21: api.traceability.v1.Traceability.ListEnterprises:input_type -> api.traceability.v1.ListEnterprisesRequest
-	5,   // 22: api.traceability.v1.Traceability.UpdateEnterprise:input_type -> api.traceability.v1.UpdateEnterpriseRequest
-	7,   // 23: api.traceability.v1.Traceability.DeleteEnterprise:input_type -> api.traceability.v1.DeleteEnterpriseRequest
-	9,   // 24: api.traceability.v1.Traceability.CreateSite:input_type -> api.traceability.v1.CreateSiteRequest
-	11,  // 25: api.traceability.v1.Traceability.ListSites:input_type -> api.traceability.v1.ListSitesRequest
-	14,  // 26: api.traceability.v1.Traceability.UpdateSite:input_type -> api.traceability.v1.UpdateSiteRequest
-	16,  // 27: api.traceability.v1.Traceability.DeleteSite:input_type -> api.traceability.v1.DeleteSiteRequest
-	18,  // 28: api.traceability.v1.Traceability.CreateArea:input_type -> api.traceability.v1.CreateAreaRequest
-	20,  // 29: api.traceability.v1.Traceability.ListAreas:input_type -> api.traceability.v1.ListAreasRequest
-	23,  // 30: api.traceability.v1.Traceability.UpdateArea:input_type -> api.traceability.v1.UpdateAreaRequest
-	25,  // 31: api.traceability.v1.Traceability.DeleteArea:input_type -> api.traceability.v1.DeleteAreaRequest
-	27,  // 32: api.traceability.v1.Traceability.CreateLine:input_type -> api.traceability.v1.CreateLineRequest
-	29,  // 33: api.traceability.v1.Traceability.ListLines:input_type -> api.traceability.v1.ListLinesRequest
-	32,  // 34: api.traceability.v1.Traceability.UpdateLine:input_type -> api.traceability.v1.UpdateLineRequest
-	34,  // 35: api.traceability.v1.Traceability.DeleteLine:input_type -> api.traceability.v1.DeleteLineRequest
-	36,  // 36: api.traceability.v1.Traceability.CreateProductionUnit:input_type -> api.traceability.v1.CreateProductionUnitRequest
-	38,  // 37: api.traceability.v1.Traceability.ListProductionUnits:input_type -> api.traceability.v1.ListProductionUnitsRequest
-	41,  // 38: api.traceability.v1.Traceability.UpdateProductionUnit:input_type -> api.traceability.v1.UpdateProductionUnitRequest
-	43,  // 39: api.traceability.v1.Traceability.DeleteProductionUnit:input_type -> api.traceability.v1.DeleteProductionUnitRequest
-	45,  // 40: api.traceability.v1.Traceability.CreateEquipmentClass:input_type -> api.traceability.v1.CreateEquipmentClassRequest
-	47,  // 41: api.traceability.v1.Traceability.ListEquipmentClasses:input_type -> api.traceability.v1.ListEquipmentClassesRequest
-	50,  // 42: api.traceability.v1.Traceability.UpdateEquipmentClass:input_type -> api.traceability.v1.UpdateEquipmentClassRequest
-	52,  // 43: api.traceability.v1.Traceability.DeleteEquipmentClass:input_type -> api.traceability.v1.DeleteEquipmentClassRequest
-	54,  // 44: api.traceability.v1.Traceability.RegisterEquipment:input_type -> api.traceability.v1.RegisterEquipmentRequest
-	56,  // 45: api.traceability.v1.Traceability.ListEquipment:input_type -> api.traceability.v1.ListEquipmentRequest
-	59,  // 46: api.traceability.v1.Traceability.UpdateEquipment:input_type -> api.traceability.v1.UpdateEquipmentRequest
-	61,  // 47: api.traceability.v1.Traceability.DeleteEquipment:input_type -> api.traceability.v1.DeleteEquipmentRequest
-	63,  // 48: api.traceability.v1.Traceability.AddCapability:input_type -> api.traceability.v1.AddCapabilityRequest
-	65,  // 49: api.traceability.v1.Traceability.ListCapabilities:input_type -> api.traceability.v1.ListCapabilitiesRequest
-	68,  // 50: api.traceability.v1.Traceability.UpdateCapability:input_type -> api.traceability.v1.UpdateCapabilityRequest
-	70,  // 51: api.traceability.v1.Traceability.DeleteCapability:input_type -> api.traceability.v1.DeleteCapabilityRequest
-	72,  // 52: api.traceability.v1.Traceability.SetProperty:input_type -> api.traceability.v1.SetPropertyRequest
-	74,  // 53: api.traceability.v1.Traceability.ListProperties:input_type -> api.traceability.v1.ListPropertiesRequest
-	77,  // 54: api.traceability.v1.Traceability.UpdateProperty:input_type -> api.traceability.v1.UpdatePropertyRequest
-	79,  // 55: api.traceability.v1.Traceability.DeleteProperty:input_type -> api.traceability.v1.DeletePropertyRequest
-	81,  // 56: api.traceability.v1.Traceability.LogEvent:input_type -> api.traceability.v1.LogEventRequest
-	83,  // 57: api.traceability.v1.Traceability.ListLogs:input_type -> api.traceability.v1.ListLogsRequest
-	86,  // 58: api.traceability.v1.Traceability.CreateMaterialDefinition:input_type -> api.traceability.v1.CreateMaterialDefinitionRequest
-	88,  // 59: api.traceability.v1.Traceability.ListMaterialDefinitions:input_type -> api.traceability.v1.ListMaterialDefinitionsRequest
-	91,  // 60: api.traceability.v1.Traceability.CreateMaterialLot:input_type -> api.traceability.v1.CreateMaterialLotRequest
-	93,  // 61: api.traceability.v1.Traceability.GetMaterialLot:input_type -> api.traceability.v1.GetMaterialLotRequest
-	95,  // 62: api.traceability.v1.Traceability.ListMaterialLots:input_type -> api.traceability.v1.ListMaterialLotsRequest
-	98,  // 63: api.traceability.v1.Traceability.UpdateMaterialLotStatus:input_type -> api.traceability.v1.UpdateMaterialLotStatusRequest
-	100, // 64: api.traceability.v1.Traceability.CreateOperator:input_type -> api.traceability.v1.CreateOperatorRequest
-	102, // 65: api.traceability.v1.Traceability.ListOperators:input_type -> api.traceability.v1.ListOperatorsRequest
-	105, // 66: api.traceability.v1.Traceability.UpdateOperator:input_type -> api.traceability.v1.UpdateOperatorRequest
-	107, // 67: api.traceability.v1.Traceability.CreateWorkOrder:input_type -> api.traceability.v1.CreateWorkOrderRequest
-	109, // 68: api.traceability.v1.Traceability.GetWorkOrder:input_type -> api.traceability.v1.GetWorkOrderRequest
-	112, // 69: api.traceability.v1.Traceability.ListWorkOrders:input_type -> api.traceability.v1.ListWorkOrdersRequest
-	115, // 70: api.traceability.v1.Traceability.UpdateWorkOrderStatus:input_type -> api.traceability.v1.UpdateWorkOrderStatusRequest
-	117, // 71: api.traceability.v1.Traceability.RegisterGenealogyLink:input_type -> api.traceability.v1.RegisterGenealogyLinkRequest
-	119, // 72: api.traceability.v1.Traceability.TraceBackward:input_type -> api.traceability.v1.TraceRequest
-	119, // 73: api.traceability.v1.Traceability.TraceForward:input_type -> api.traceability.v1.TraceRequest
-	119, // 74: api.traceability.v1.Traceability.TraceFullGenealogy:input_type -> api.traceability.v1.TraceRequest
-	119, // 75: api.traceability.v1.Traceability.GetEquipmentProcessHistory:input_type -> api.traceability.v1.TraceRequest
-	1,   // 76: api.traceability.v1.Traceability.CreateEnterprise:output_type -> api.traceability.v1.CreateEnterpriseReply
-	3,   // 77: api.traceability.v1.Traceability.ListEnterprises:output_type -> api.traceability.v1.ListEnterprisesReply
-	6,   // 78: api.traceability.v1.Traceability.UpdateEnterprise:output_type -> api.traceability.v1.UpdateEnterpriseReply
-	8,   // 79: api.traceability.v1.Traceability.DeleteEnterprise:output_type -> api.traceability.v1.DeleteEnterpriseReply
-	10,  // 80: api.traceability.v1.Traceability.CreateSite:output_type -> api.traceability.v1.CreateSiteReply
-	12,  // 81: api.traceability.v1.Traceability.ListSites:output_type -> api.traceability.v1.ListSitesReply
-	15,  // 82: api.traceability.v1.Traceability.UpdateSite:output_type -> api.traceability.v1.UpdateSiteReply
-	17,  // 83: api.traceability.v1.Traceability.DeleteSite:output_type -> api.traceability.v1.DeleteSiteReply
-	19,  // 84: api.traceability.v1.Traceability.CreateArea:output_type -> api.traceability.v1.CreateAreaReply
-	21,  // 85: api.traceability.v1.Traceability.ListAreas:output_type -> api.traceability.v1.ListAreasReply
-	24,  // 86: api.traceability.v1.Traceability.UpdateArea:output_type -> api.traceability.v1.UpdateAreaReply
-	26,  // 87: api.traceability.v1.Traceability.DeleteArea:output_type -> api.traceability.v1.DeleteAreaReply
-	28,  // 88: api.traceability.v1.Traceability.CreateLine:output_type -> api.traceability.v1.CreateLineReply
-	30,  // 89: api.traceability.v1.Traceability.ListLines:output_type -> api.traceability.v1.ListLinesReply
-	33,  // 90: api.traceability.v1.Traceability.UpdateLine:output_type -> api.traceability.v1.UpdateLineReply
-	35,  // 91: api.traceability.v1.Traceability.DeleteLine:output_type -> api.traceability.v1.DeleteLineReply
-	37,  // 92: api.traceability.v1.Traceability.CreateProductionUnit:output_type -> api.traceability.v1.CreateProductionUnitReply
-	39,  // 93: api.traceability.v1.Traceability.ListProductionUnits:output_type -> api.traceability.v1.ListProductionUnitsReply
-	42,  // 94: api.traceability.v1.Traceability.UpdateProductionUnit:output_type -> api.traceability.v1.UpdateProductionUnitReply
-	44,  // 95: api.traceability.v1.Traceability.DeleteProductionUnit:output_type -> api.traceability.v1.DeleteProductionUnitReply
-	46,  // 96: api.traceability.v1.Traceability.CreateEquipmentClass:output_type -> api.traceability.v1.CreateEquipmentClassReply
-	48,  // 97: api.traceability.v1.Traceability.ListEquipmentClasses:output_type -> api.traceability.v1.ListEquipmentClassesReply
-	51,  // 98: api.traceability.v1.Traceability.UpdateEquipmentClass:output_type -> api.traceability.v1.UpdateEquipmentClassReply
-	53,  // 99: api.traceability.v1.Traceability.DeleteEquipmentClass:output_type -> api.traceability.v1.DeleteEquipmentClassReply
-	55,  // 100: api.traceability.v1.Traceability.RegisterEquipment:output_type -> api.traceability.v1.RegisterEquipmentReply
-	57,  // 101: api.traceability.v1.Traceability.ListEquipment:output_type -> api.traceability.v1.ListEquipmentReply
-	60,  // 102: api.traceability.v1.Traceability.UpdateEquipment:output_type -> api.traceability.v1.UpdateEquipmentReply
-	62,  // 103: api.traceability.v1.Traceability.DeleteEquipment:output_type -> api.traceability.v1.DeleteEquipmentReply
-	64,  // 104: api.traceability.v1.Traceability.AddCapability:output_type -> api.traceability.v1.AddCapabilityReply
-	66,  // 105: api.traceability.v1.Traceability.ListCapabilities:output_type -> api.traceability.v1.ListCapabilitiesReply
-	69,  // 106: api.traceability.v1.Traceability.UpdateCapability:output_type -> api.traceability.v1.UpdateCapabilityReply
-	71,  // 107: api.traceability.v1.Traceability.DeleteCapability:output_type -> api.traceability.v1.DeleteCapabilityReply
-	73,  // 108: api.traceability.v1.Traceability.SetProperty:output_type -> api.traceability.v1.SetPropertyReply
-	75,  // 109: api.traceability.v1.Traceability.ListProperties:output_type -> api.traceability.v1.ListPropertiesReply
-	78,  // 110: api.traceability.v1.Traceability.UpdateProperty:output_type -> api.traceability.v1.UpdatePropertyReply
-	80,  // 111: api.traceability.v1.Traceability.DeleteProperty:output_type -> api.traceability.v1.DeletePropertyReply
-	82,  // 112: api.traceability.v1.Traceability.LogEvent:output_type -> api.traceability.v1.LogEventReply
-	84,  // 113: api.traceability.v1.Traceability.ListLogs:output_type -> api.traceability.v1.ListLogsReply
-	87,  // 114: api.traceability.v1.Traceability.CreateMaterialDefinition:output_type -> api.traceability.v1.CreateMaterialDefinitionReply
-	89,  // 115: api.traceability.v1.Traceability.ListMaterialDefinitions:output_type -> api.traceability.v1.ListMaterialDefinitionsReply
-	92,  // 116: api.traceability.v1.Traceability.CreateMaterialLot:output_type -> api.traceability.v1.CreateMaterialLotReply
-	94,  // 117: api.traceability.v1.Traceability.GetMaterialLot:output_type -> api.traceability.v1.GetMaterialLotReply
-	96,  // 118: api.traceability.v1.Traceability.ListMaterialLots:output_type -> api.traceability.v1.ListMaterialLotsReply
-	99,  // 119: api.traceability.v1.Traceability.UpdateMaterialLotStatus:output_type -> api.traceability.v1.UpdateMaterialLotStatusReply
-	101, // 120: api.traceability.v1.Traceability.CreateOperator:output_type -> api.traceability.v1.CreateOperatorReply
-	103, // 121: api.traceability.v1.Traceability.ListOperators:output_type -> api.traceability.v1.ListOperatorsReply
-	106, // 122: api.traceability.v1.Traceability.UpdateOperator:output_type -> api.traceability.v1.UpdateOperatorReply
-	108, // 123: api.traceability.v1.Traceability.CreateWorkOrder:output_type -> api.traceability.v1.CreateWorkOrderReply
-	110, // 124: api.traceability.v1.Traceability.GetWorkOrder:output_type -> api.traceability.v1.GetWorkOrderReply
-	113, // 125: api.traceability.v1.Traceability.ListWorkOrders:output_type -> api.traceability.v1.ListWorkOrdersReply
-	116, // 126: api.traceability.v1.Traceability.UpdateWorkOrderStatus:output_type -> api.traceability.v1.UpdateWorkOrderStatusReply
-	118, // 127: api.traceability.v1.Traceability.RegisterGenealogyLink:output_type -> api.traceability.v1.RegisterGenealogyLinkReply
-	120, // 128: api.traceability.v1.Traceability.TraceBackward:output_type -> api.traceability.v1.TraceReply
-	120, // 129: api.traceability.v1.Traceability.TraceForward:output_type -> api.traceability.v1.TraceReply
-	122, // 130: api.traceability.v1.Traceability.TraceFullGenealogy:output_type -> api.traceability.v1.GenealogyTreeReply
-	125, // 131: api.traceability.v1.Traceability.GetEquipmentProcessHistory:output_type -> api.traceability.v1.EquipmentProcessHistoryReply
-	76,  // [76:132] is the sub-list for method output_type
-	20,  // [20:76] is the sub-list for method input_type
-	20,  // [20:20] is the sub-list for extension type_name
-	20,  // [20:20] is the sub-list for extension extendee
-	0,   // [0:20] is the sub-list for field type_name
+	130, // 20: api.traceability.v1.MachinePerformanceReply.event_summary:type_name -> api.traceability.v1.MachineEventSummary
+	133, // 21: api.traceability.v1.MachineComparisonReply.machines:type_name -> api.traceability.v1.MachineMetrics
+	136, // 22: api.traceability.v1.ProductionTrendsReply.data_points:type_name -> api.traceability.v1.ProductionTrendPoint
+	133, // 23: api.traceability.v1.DashboardSummaryReply.top_performers:type_name -> api.traceability.v1.MachineMetrics
+	0,   // 24: api.traceability.v1.Traceability.CreateEnterprise:input_type -> api.traceability.v1.CreateEnterpriseRequest
+	2,   // 25: api.traceability.v1.Traceability.ListEnterprises:input_type -> api.traceability.v1.ListEnterprisesRequest
+	5,   // 26: api.traceability.v1.Traceability.UpdateEnterprise:input_type -> api.traceability.v1.UpdateEnterpriseRequest
+	7,   // 27: api.traceability.v1.Traceability.DeleteEnterprise:input_type -> api.traceability.v1.DeleteEnterpriseRequest
+	9,   // 28: api.traceability.v1.Traceability.CreateSite:input_type -> api.traceability.v1.CreateSiteRequest
+	11,  // 29: api.traceability.v1.Traceability.ListSites:input_type -> api.traceability.v1.ListSitesRequest
+	14,  // 30: api.traceability.v1.Traceability.UpdateSite:input_type -> api.traceability.v1.UpdateSiteRequest
+	16,  // 31: api.traceability.v1.Traceability.DeleteSite:input_type -> api.traceability.v1.DeleteSiteRequest
+	18,  // 32: api.traceability.v1.Traceability.CreateArea:input_type -> api.traceability.v1.CreateAreaRequest
+	20,  // 33: api.traceability.v1.Traceability.ListAreas:input_type -> api.traceability.v1.ListAreasRequest
+	23,  // 34: api.traceability.v1.Traceability.UpdateArea:input_type -> api.traceability.v1.UpdateAreaRequest
+	25,  // 35: api.traceability.v1.Traceability.DeleteArea:input_type -> api.traceability.v1.DeleteAreaRequest
+	27,  // 36: api.traceability.v1.Traceability.CreateLine:input_type -> api.traceability.v1.CreateLineRequest
+	29,  // 37: api.traceability.v1.Traceability.ListLines:input_type -> api.traceability.v1.ListLinesRequest
+	32,  // 38: api.traceability.v1.Traceability.UpdateLine:input_type -> api.traceability.v1.UpdateLineRequest
+	34,  // 39: api.traceability.v1.Traceability.DeleteLine:input_type -> api.traceability.v1.DeleteLineRequest
+	36,  // 40: api.traceability.v1.Traceability.CreateProductionUnit:input_type -> api.traceability.v1.CreateProductionUnitRequest
+	38,  // 41: api.traceability.v1.Traceability.ListProductionUnits:input_type -> api.traceability.v1.ListProductionUnitsRequest
+	41,  // 42: api.traceability.v1.Traceability.UpdateProductionUnit:input_type -> api.traceability.v1.UpdateProductionUnitRequest
+	43,  // 43: api.traceability.v1.Traceability.DeleteProductionUnit:input_type -> api.traceability.v1.DeleteProductionUnitRequest
+	45,  // 44: api.traceability.v1.Traceability.CreateEquipmentClass:input_type -> api.traceability.v1.CreateEquipmentClassRequest
+	47,  // 45: api.traceability.v1.Traceability.ListEquipmentClasses:input_type -> api.traceability.v1.ListEquipmentClassesRequest
+	50,  // 46: api.traceability.v1.Traceability.UpdateEquipmentClass:input_type -> api.traceability.v1.UpdateEquipmentClassRequest
+	52,  // 47: api.traceability.v1.Traceability.DeleteEquipmentClass:input_type -> api.traceability.v1.DeleteEquipmentClassRequest
+	54,  // 48: api.traceability.v1.Traceability.RegisterEquipment:input_type -> api.traceability.v1.RegisterEquipmentRequest
+	56,  // 49: api.traceability.v1.Traceability.ListEquipment:input_type -> api.traceability.v1.ListEquipmentRequest
+	59,  // 50: api.traceability.v1.Traceability.UpdateEquipment:input_type -> api.traceability.v1.UpdateEquipmentRequest
+	61,  // 51: api.traceability.v1.Traceability.DeleteEquipment:input_type -> api.traceability.v1.DeleteEquipmentRequest
+	63,  // 52: api.traceability.v1.Traceability.AddCapability:input_type -> api.traceability.v1.AddCapabilityRequest
+	65,  // 53: api.traceability.v1.Traceability.ListCapabilities:input_type -> api.traceability.v1.ListCapabilitiesRequest
+	68,  // 54: api.traceability.v1.Traceability.UpdateCapability:input_type -> api.traceability.v1.UpdateCapabilityRequest
+	70,  // 55: api.traceability.v1.Traceability.DeleteCapability:input_type -> api.traceability.v1.DeleteCapabilityRequest
+	72,  // 56: api.traceability.v1.Traceability.SetProperty:input_type -> api.traceability.v1.SetPropertyRequest
+	74,  // 57: api.traceability.v1.Traceability.ListProperties:input_type -> api.traceability.v1.ListPropertiesRequest
+	77,  // 58: api.traceability.v1.Traceability.UpdateProperty:input_type -> api.traceability.v1.UpdatePropertyRequest
+	79,  // 59: api.traceability.v1.Traceability.DeleteProperty:input_type -> api.traceability.v1.DeletePropertyRequest
+	81,  // 60: api.traceability.v1.Traceability.LogEvent:input_type -> api.traceability.v1.LogEventRequest
+	83,  // 61: api.traceability.v1.Traceability.ListLogs:input_type -> api.traceability.v1.ListLogsRequest
+	86,  // 62: api.traceability.v1.Traceability.CreateMaterialDefinition:input_type -> api.traceability.v1.CreateMaterialDefinitionRequest
+	88,  // 63: api.traceability.v1.Traceability.ListMaterialDefinitions:input_type -> api.traceability.v1.ListMaterialDefinitionsRequest
+	91,  // 64: api.traceability.v1.Traceability.CreateMaterialLot:input_type -> api.traceability.v1.CreateMaterialLotRequest
+	93,  // 65: api.traceability.v1.Traceability.GetMaterialLot:input_type -> api.traceability.v1.GetMaterialLotRequest
+	95,  // 66: api.traceability.v1.Traceability.ListMaterialLots:input_type -> api.traceability.v1.ListMaterialLotsRequest
+	98,  // 67: api.traceability.v1.Traceability.UpdateMaterialLotStatus:input_type -> api.traceability.v1.UpdateMaterialLotStatusRequest
+	100, // 68: api.traceability.v1.Traceability.CreateOperator:input_type -> api.traceability.v1.CreateOperatorRequest
+	102, // 69: api.traceability.v1.Traceability.ListOperators:input_type -> api.traceability.v1.ListOperatorsRequest
+	105, // 70: api.traceability.v1.Traceability.UpdateOperator:input_type -> api.traceability.v1.UpdateOperatorRequest
+	107, // 71: api.traceability.v1.Traceability.CreateWorkOrder:input_type -> api.traceability.v1.CreateWorkOrderRequest
+	109, // 72: api.traceability.v1.Traceability.GetWorkOrder:input_type -> api.traceability.v1.GetWorkOrderRequest
+	112, // 73: api.traceability.v1.Traceability.ListWorkOrders:input_type -> api.traceability.v1.ListWorkOrdersRequest
+	115, // 74: api.traceability.v1.Traceability.UpdateWorkOrderStatus:input_type -> api.traceability.v1.UpdateWorkOrderStatusRequest
+	117, // 75: api.traceability.v1.Traceability.RegisterGenealogyLink:input_type -> api.traceability.v1.RegisterGenealogyLinkRequest
+	119, // 76: api.traceability.v1.Traceability.TraceBackward:input_type -> api.traceability.v1.TraceRequest
+	119, // 77: api.traceability.v1.Traceability.TraceForward:input_type -> api.traceability.v1.TraceRequest
+	119, // 78: api.traceability.v1.Traceability.TraceFullGenealogy:input_type -> api.traceability.v1.TraceRequest
+	119, // 79: api.traceability.v1.Traceability.GetEquipmentProcessHistory:input_type -> api.traceability.v1.TraceRequest
+	128, // 80: api.traceability.v1.Traceability.GetMachinePerformance:input_type -> api.traceability.v1.MachinePerformanceRequest
+	131, // 81: api.traceability.v1.Traceability.CompareMachinePerformance:input_type -> api.traceability.v1.MachineComparisonRequest
+	134, // 82: api.traceability.v1.Traceability.GetProductionTrends:input_type -> api.traceability.v1.ProductionTrendsRequest
+	137, // 83: api.traceability.v1.Traceability.GetDashboardSummary:input_type -> api.traceability.v1.DashboardSummaryRequest
+	1,   // 84: api.traceability.v1.Traceability.CreateEnterprise:output_type -> api.traceability.v1.CreateEnterpriseReply
+	3,   // 85: api.traceability.v1.Traceability.ListEnterprises:output_type -> api.traceability.v1.ListEnterprisesReply
+	6,   // 86: api.traceability.v1.Traceability.UpdateEnterprise:output_type -> api.traceability.v1.UpdateEnterpriseReply
+	8,   // 87: api.traceability.v1.Traceability.DeleteEnterprise:output_type -> api.traceability.v1.DeleteEnterpriseReply
+	10,  // 88: api.traceability.v1.Traceability.CreateSite:output_type -> api.traceability.v1.CreateSiteReply
+	12,  // 89: api.traceability.v1.Traceability.ListSites:output_type -> api.traceability.v1.ListSitesReply
+	15,  // 90: api.traceability.v1.Traceability.UpdateSite:output_type -> api.traceability.v1.UpdateSiteReply
+	17,  // 91: api.traceability.v1.Traceability.DeleteSite:output_type -> api.traceability.v1.DeleteSiteReply
+	19,  // 92: api.traceability.v1.Traceability.CreateArea:output_type -> api.traceability.v1.CreateAreaReply
+	21,  // 93: api.traceability.v1.Traceability.ListAreas:output_type -> api.traceability.v1.ListAreasReply
+	24,  // 94: api.traceability.v1.Traceability.UpdateArea:output_type -> api.traceability.v1.UpdateAreaReply
+	26,  // 95: api.traceability.v1.Traceability.DeleteArea:output_type -> api.traceability.v1.DeleteAreaReply
+	28,  // 96: api.traceability.v1.Traceability.CreateLine:output_type -> api.traceability.v1.CreateLineReply
+	30,  // 97: api.traceability.v1.Traceability.ListLines:output_type -> api.traceability.v1.ListLinesReply
+	33,  // 98: api.traceability.v1.Traceability.UpdateLine:output_type -> api.traceability.v1.UpdateLineReply
+	35,  // 99: api.traceability.v1.Traceability.DeleteLine:output_type -> api.traceability.v1.DeleteLineReply
+	37,  // 100: api.traceability.v1.Traceability.CreateProductionUnit:output_type -> api.traceability.v1.CreateProductionUnitReply
+	39,  // 101: api.traceability.v1.Traceability.ListProductionUnits:output_type -> api.traceability.v1.ListProductionUnitsReply
+	42,  // 102: api.traceability.v1.Traceability.UpdateProductionUnit:output_type -> api.traceability.v1.UpdateProductionUnitReply
+	44,  // 103: api.traceability.v1.Traceability.DeleteProductionUnit:output_type -> api.traceability.v1.DeleteProductionUnitReply
+	46,  // 104: api.traceability.v1.Traceability.CreateEquipmentClass:output_type -> api.traceability.v1.CreateEquipmentClassReply
+	48,  // 105: api.traceability.v1.Traceability.ListEquipmentClasses:output_type -> api.traceability.v1.ListEquipmentClassesReply
+	51,  // 106: api.traceability.v1.Traceability.UpdateEquipmentClass:output_type -> api.traceability.v1.UpdateEquipmentClassReply
+	53,  // 107: api.traceability.v1.Traceability.DeleteEquipmentClass:output_type -> api.traceability.v1.DeleteEquipmentClassReply
+	55,  // 108: api.traceability.v1.Traceability.RegisterEquipment:output_type -> api.traceability.v1.RegisterEquipmentReply
+	57,  // 109: api.traceability.v1.Traceability.ListEquipment:output_type -> api.traceability.v1.ListEquipmentReply
+	60,  // 110: api.traceability.v1.Traceability.UpdateEquipment:output_type -> api.traceability.v1.UpdateEquipmentReply
+	62,  // 111: api.traceability.v1.Traceability.DeleteEquipment:output_type -> api.traceability.v1.DeleteEquipmentReply
+	64,  // 112: api.traceability.v1.Traceability.AddCapability:output_type -> api.traceability.v1.AddCapabilityReply
+	66,  // 113: api.traceability.v1.Traceability.ListCapabilities:output_type -> api.traceability.v1.ListCapabilitiesReply
+	69,  // 114: api.traceability.v1.Traceability.UpdateCapability:output_type -> api.traceability.v1.UpdateCapabilityReply
+	71,  // 115: api.traceability.v1.Traceability.DeleteCapability:output_type -> api.traceability.v1.DeleteCapabilityReply
+	73,  // 116: api.traceability.v1.Traceability.SetProperty:output_type -> api.traceability.v1.SetPropertyReply
+	75,  // 117: api.traceability.v1.Traceability.ListProperties:output_type -> api.traceability.v1.ListPropertiesReply
+	78,  // 118: api.traceability.v1.Traceability.UpdateProperty:output_type -> api.traceability.v1.UpdatePropertyReply
+	80,  // 119: api.traceability.v1.Traceability.DeleteProperty:output_type -> api.traceability.v1.DeletePropertyReply
+	82,  // 120: api.traceability.v1.Traceability.LogEvent:output_type -> api.traceability.v1.LogEventReply
+	84,  // 121: api.traceability.v1.Traceability.ListLogs:output_type -> api.traceability.v1.ListLogsReply
+	87,  // 122: api.traceability.v1.Traceability.CreateMaterialDefinition:output_type -> api.traceability.v1.CreateMaterialDefinitionReply
+	89,  // 123: api.traceability.v1.Traceability.ListMaterialDefinitions:output_type -> api.traceability.v1.ListMaterialDefinitionsReply
+	92,  // 124: api.traceability.v1.Traceability.CreateMaterialLot:output_type -> api.traceability.v1.CreateMaterialLotReply
+	94,  // 125: api.traceability.v1.Traceability.GetMaterialLot:output_type -> api.traceability.v1.GetMaterialLotReply
+	96,  // 126: api.traceability.v1.Traceability.ListMaterialLots:output_type -> api.traceability.v1.ListMaterialLotsReply
+	99,  // 127: api.traceability.v1.Traceability.UpdateMaterialLotStatus:output_type -> api.traceability.v1.UpdateMaterialLotStatusReply
+	101, // 128: api.traceability.v1.Traceability.CreateOperator:output_type -> api.traceability.v1.CreateOperatorReply
+	103, // 129: api.traceability.v1.Traceability.ListOperators:output_type -> api.traceability.v1.ListOperatorsReply
+	106, // 130: api.traceability.v1.Traceability.UpdateOperator:output_type -> api.traceability.v1.UpdateOperatorReply
+	108, // 131: api.traceability.v1.Traceability.CreateWorkOrder:output_type -> api.traceability.v1.CreateWorkOrderReply
+	110, // 132: api.traceability.v1.Traceability.GetWorkOrder:output_type -> api.traceability.v1.GetWorkOrderReply
+	113, // 133: api.traceability.v1.Traceability.ListWorkOrders:output_type -> api.traceability.v1.ListWorkOrdersReply
+	116, // 134: api.traceability.v1.Traceability.UpdateWorkOrderStatus:output_type -> api.traceability.v1.UpdateWorkOrderStatusReply
+	118, // 135: api.traceability.v1.Traceability.RegisterGenealogyLink:output_type -> api.traceability.v1.RegisterGenealogyLinkReply
+	120, // 136: api.traceability.v1.Traceability.TraceBackward:output_type -> api.traceability.v1.TraceReply
+	120, // 137: api.traceability.v1.Traceability.TraceForward:output_type -> api.traceability.v1.TraceReply
+	122, // 138: api.traceability.v1.Traceability.TraceFullGenealogy:output_type -> api.traceability.v1.GenealogyTreeReply
+	125, // 139: api.traceability.v1.Traceability.GetEquipmentProcessHistory:output_type -> api.traceability.v1.EquipmentProcessHistoryReply
+	129, // 140: api.traceability.v1.Traceability.GetMachinePerformance:output_type -> api.traceability.v1.MachinePerformanceReply
+	132, // 141: api.traceability.v1.Traceability.CompareMachinePerformance:output_type -> api.traceability.v1.MachineComparisonReply
+	135, // 142: api.traceability.v1.Traceability.GetProductionTrends:output_type -> api.traceability.v1.ProductionTrendsReply
+	138, // 143: api.traceability.v1.Traceability.GetDashboardSummary:output_type -> api.traceability.v1.DashboardSummaryReply
+	84,  // [84:144] is the sub-list for method output_type
+	24,  // [24:84] is the sub-list for method input_type
+	24,  // [24:24] is the sub-list for extension type_name
+	24,  // [24:24] is the sub-list for extension extendee
+	0,   // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_traceability_v1_traceability_proto_init() }
@@ -8141,7 +9079,7 @@ func file_traceability_v1_traceability_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_traceability_v1_traceability_proto_rawDesc), len(file_traceability_v1_traceability_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   128,
+			NumMessages:   139,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

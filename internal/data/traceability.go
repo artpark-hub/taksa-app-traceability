@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"traceability/internal/biz"
@@ -889,4 +890,306 @@ func (r *traceabilityRepo) GetEquipmentProcessHistoryReadings(ctx context.Contex
 		return nil, err
 	}
 	return list, nil
+}
+
+// ==========================================
+// 17. Analytics (S014)
+// ==========================================
+
+func (r *traceabilityRepo) GetMachinePerformance(ctx context.Context, req *biz.MachinePerformanceRequest) (*biz.MachinePerformanceResult, error) {
+	type scan struct {
+		EquipmentID        string  `gorm:"column:equipment_id"`
+		EquipmentClassName string  `gorm:"column:equipment_class_name"`
+		OperationalStatus  string  `gorm:"column:operational_status"`
+		TotalWorkOrders    int32   `gorm:"column:total_work_orders"`
+		TotalUnitsProduced float64 `gorm:"column:total_units_produced"`
+		AvgCycleTimeHours  float64 `gorm:"column:avg_cycle_time_hours"`
+		TotalActiveHours   float64 `gorm:"column:total_active_hours"`
+		UtilizationPct     float64 `gorm:"column:utilization_pct"`
+	}
+	sqlStr := `
+		SELECT em.id AS equipment_id, ec.class_name AS equipment_class_name, em.operational_status,
+			COUNT(DISTINCT wo.work_order_id) AS total_work_orders,
+			COALESCE(SUM(wo.actual_quantity), 0) AS total_units_produced,
+			COALESCE(AVG(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0) AS avg_cycle_time_hours,
+			COALESCE(SUM(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0) AS total_active_hours,
+			CASE WHEN EXTRACT(EPOCH FROM (?::timestamptz - ?::timestamptz)) > 0 THEN
+				100.0 * COALESCE(SUM(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0)
+				/ (EXTRACT(EPOCH FROM (?::timestamptz - ?::timestamptz)) / 3600.0)
+			ELSE 0 END AS utilization_pct
+		FROM equipment_master em
+		LEFT JOIN equipment_class ec ON ec.id = em.equipment_class_id
+		LEFT JOIN work_order wo ON wo.equipment_id = em.id
+			AND wo.actual_start >= ?::timestamptz AND wo.actual_end <= ?::timestamptz
+			AND wo.status = 'completed'
+		WHERE em.id = ?
+		GROUP BY em.id, ec.class_name, em.operational_status`
+
+	var s scan
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr,
+		req.To, req.From, req.To, req.From, req.From, req.To, req.EquipmentID,
+	).Scan(&s).Error; err != nil {
+		return nil, err
+	}
+	return &biz.MachinePerformanceResult{
+		EquipmentID:        s.EquipmentID,
+		EquipmentClassName: s.EquipmentClassName,
+		OperationalStatus:  s.OperationalStatus,
+		TotalWorkOrders:    s.TotalWorkOrders,
+		TotalUnitsProduced: s.TotalUnitsProduced,
+		AvgCycleTimeHours:  s.AvgCycleTimeHours,
+		TotalActiveHours:   s.TotalActiveHours,
+		UtilizationPct:     s.UtilizationPct,
+	}, nil
+}
+
+func (r *traceabilityRepo) GetMachineEventSummary(ctx context.Context, equipmentID string, from, to interface{}) ([]*biz.MachineEventSummary, error) {
+	type scan struct {
+		EventType string `gorm:"column:event_type"`
+		Count     int32  `gorm:"column:count"`
+	}
+	sqlStr := `SELECT event_type, COUNT(*) AS count FROM traceability_log
+		WHERE equipment_id = ? AND event_time >= ?::timestamptz AND event_time <= ?::timestamptz
+		GROUP BY event_type ORDER BY count DESC`
+	var rows []scan
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, equipmentID, from, to).Scan(&rows).Error; err != nil {
+		return nil, err
+	}
+	list := make([]*biz.MachineEventSummary, len(rows))
+	for i, x := range rows {
+		list[i] = &biz.MachineEventSummary{EventType: x.EventType, Count: x.Count}
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) CompareMachinePerformance(ctx context.Context, req *biz.MachineComparisonRequest) ([]*biz.MachineMetrics, error) {
+	if len(req.EquipmentIDs) == 0 {
+		return []*biz.MachineMetrics{}, nil
+	}
+
+	// Build safe IN clause placeholders
+	placeholders := make([]string, len(req.EquipmentIDs))
+	for i := range req.EquipmentIDs {
+		placeholders[i] = "?"
+	}
+	// Time args come first (matching SQL order), equipment IDs last (for IN clause at end)
+	args := make([]interface{}, 0, 8+len(req.EquipmentIDs))
+	args = append(args, req.To, req.From, req.To, req.From, req.From, req.To, req.From, req.To)
+	for _, id := range req.EquipmentIDs {
+		args = append(args, id)
+	}
+
+	inClause := "(" + strings.Join(placeholders, ",") + ")"
+	sqlStr := fmt.Sprintf(`
+		SELECT em.id AS equipment_id, ec.class_name AS equipment_class_name, em.operational_status,
+			COUNT(DISTINCT wo.work_order_id) AS total_work_orders,
+			COALESCE(SUM(wo.actual_quantity), 0) AS total_units_produced,
+			COALESCE(AVG(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0) AS avg_cycle_time_hours,
+			CASE WHEN EXTRACT(EPOCH FROM (?::timestamptz - ?::timestamptz)) > 0 THEN
+				100.0 * COALESCE(SUM(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0)
+				/ (EXTRACT(EPOCH FROM (?::timestamptz - ?::timestamptz)) / 3600.0)
+			ELSE 0 END AS utilization_pct,
+			COALESCE(err.error_count, 0) AS error_count
+		FROM equipment_master em
+		LEFT JOIN equipment_class ec ON ec.id = em.equipment_class_id
+		LEFT JOIN work_order wo ON wo.equipment_id = em.id
+			AND wo.actual_start >= ?::timestamptz AND wo.actual_end <= ?::timestamptz
+			AND wo.status = 'completed'
+		LEFT JOIN (
+			SELECT equipment_id, COUNT(*) AS error_count FROM traceability_log
+			WHERE event_time >= ?::timestamptz AND event_time <= ?::timestamptz
+				AND event_type LIKE 'error%%'
+			GROUP BY equipment_id
+		) err ON err.equipment_id = em.id
+		WHERE em.id IN %s
+		GROUP BY em.id, ec.class_name, em.operational_status, err.error_count
+		ORDER BY total_units_produced DESC`, inClause)
+
+	type scan struct {
+		EquipmentID        string  `gorm:"column:equipment_id"`
+		EquipmentClassName string  `gorm:"column:equipment_class_name"`
+		OperationalStatus  string  `gorm:"column:operational_status"`
+		TotalWorkOrders    int32   `gorm:"column:total_work_orders"`
+		TotalUnitsProduced float64 `gorm:"column:total_units_produced"`
+		AvgCycleTimeHours  float64 `gorm:"column:avg_cycle_time_hours"`
+		UtilizationPct     float64 `gorm:"column:utilization_pct"`
+		ErrorCount         int32   `gorm:"column:error_count"`
+	}
+	var rows []scan
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, args...).Scan(&rows).Error; err != nil {
+		return nil, err
+	}
+	list := make([]*biz.MachineMetrics, len(rows))
+	for i, x := range rows {
+		list[i] = &biz.MachineMetrics{
+			EquipmentID:        x.EquipmentID,
+			EquipmentClassName: x.EquipmentClassName,
+			OperationalStatus:  x.OperationalStatus,
+			TotalWorkOrders:    x.TotalWorkOrders,
+			TotalUnitsProduced: x.TotalUnitsProduced,
+			AvgCycleTimeHours:  x.AvgCycleTimeHours,
+			UtilizationPct:     x.UtilizationPct,
+			ErrorCount:         x.ErrorCount,
+		}
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) GetProductionTrends(ctx context.Context, req *biz.ProductionTrendsRequest) ([]*biz.ProductionTrendPoint, error) {
+	truncFunc := "day"
+	switch req.Granularity {
+	case "weekly":
+		truncFunc = "week"
+	case "monthly":
+		truncFunc = "month"
+	}
+
+	args := []interface{}{req.From, req.To}
+	filterClause := ""
+	if req.EquipmentID != "" {
+		filterClause = " AND equipment_id = ?"
+		args = append(args, req.EquipmentID)
+	}
+
+	sqlStr := fmt.Sprintf(`
+		SELECT DATE_TRUNC('%s', actual_end) AS period, equipment_id,
+			COALESCE(SUM(actual_quantity), 0) AS units_produced,
+			COUNT(*) AS work_orders_completed,
+			COALESCE(AVG(EXTRACT(EPOCH FROM (actual_end - actual_start)) / 3600.0), 0) AS avg_cycle_time_hours
+		FROM work_order
+		WHERE actual_end >= ?::timestamptz AND actual_end <= ?::timestamptz
+			AND status = 'completed'%s
+		GROUP BY DATE_TRUNC('%s', actual_end), equipment_id
+		ORDER BY period, equipment_id`, truncFunc, filterClause, truncFunc)
+
+	type scan struct {
+		Period              string  `gorm:"column:period"`
+		EquipmentID         string  `gorm:"column:equipment_id"`
+		UnitsProduced       float64 `gorm:"column:units_produced"`
+		WorkOrdersCompleted int32   `gorm:"column:work_orders_completed"`
+		AvgCycleTimeHours   float64 `gorm:"column:avg_cycle_time_hours"`
+	}
+	var rows []scan
+	if err := r.data.db.WithContext(ctx).Raw(sqlStr, args...).Scan(&rows).Error; err != nil {
+		return nil, err
+	}
+	list := make([]*biz.ProductionTrendPoint, len(rows))
+	for i, x := range rows {
+		list[i] = &biz.ProductionTrendPoint{
+			Period:              x.Period,
+			EquipmentID:         x.EquipmentID,
+			UnitsProduced:       x.UnitsProduced,
+			WorkOrdersCompleted: x.WorkOrdersCompleted,
+			AvgCycleTimeHours:   x.AvgCycleTimeHours,
+		}
+	}
+	return list, nil
+}
+
+func (r *traceabilityRepo) GetDashboardSummary(ctx context.Context, req *biz.DashboardSummaryRequest) (*biz.DashboardSummary, error) {
+	// 1. Production KPIs
+	type prodScan struct {
+		TotalUnitsProduced       float64 `gorm:"column:total_units_produced"`
+		TotalWorkOrdersCompleted int32   `gorm:"column:total_work_orders_completed"`
+		ActiveEquipmentCount     int32   `gorm:"column:active_equipment_count"`
+	}
+	var prod prodScan
+	sqlProd := `SELECT
+		COALESCE(SUM(actual_quantity), 0) AS total_units_produced,
+		COUNT(CASE WHEN status = 'completed' THEN 1 END) AS total_work_orders_completed,
+		COUNT(DISTINCT CASE WHEN status IN ('completed','in_progress') THEN equipment_id END) AS active_equipment_count
+		FROM work_order
+		WHERE created_at >= ?::timestamptz AND created_at <= ?::timestamptz`
+	if err := r.data.db.WithContext(ctx).Raw(sqlProd, req.From, req.To).Scan(&prod).Error; err != nil {
+		return nil, err
+	}
+
+	// 2. Quality KPIs
+	type qualScan struct {
+		LotsReleased    int32 `gorm:"column:lots_released"`
+		LotsQuarantined int32 `gorm:"column:lots_quarantined"`
+	}
+	var qual qualScan
+	sqlQual := `SELECT
+		COUNT(CASE WHEN status = 'released' THEN 1 END) AS lots_released,
+		COUNT(CASE WHEN status = 'quarantined' THEN 1 END) AS lots_quarantined
+		FROM material_lot
+		WHERE created_at >= ?::timestamptz AND created_at <= ?::timestamptz`
+	if err := r.data.db.WithContext(ctx).Raw(sqlQual, req.From, req.To).Scan(&qual).Error; err != nil {
+		return nil, err
+	}
+
+	// 3. Error events
+	type errScan struct {
+		TotalErrors int32 `gorm:"column:total_errors"`
+	}
+	var errs errScan
+	sqlErr := `SELECT COUNT(*) AS total_errors FROM traceability_log
+		WHERE event_time >= ?::timestamptz AND event_time <= ?::timestamptz
+		AND event_type LIKE 'error%'`
+	if err := r.data.db.WithContext(ctx).Raw(sqlErr, req.From, req.To).Scan(&errs).Error; err != nil {
+		return nil, err
+	}
+
+	// 4. Top performers (top 5 by units produced)
+	type topScan struct {
+		EquipmentID        string  `gorm:"column:equipment_id"`
+		EquipmentClassName string  `gorm:"column:equipment_class_name"`
+		OperationalStatus  string  `gorm:"column:operational_status"`
+		TotalWorkOrders    int32   `gorm:"column:total_work_orders"`
+		TotalUnitsProduced float64 `gorm:"column:total_units_produced"`
+		AvgCycleTimeHours  float64 `gorm:"column:avg_cycle_time_hours"`
+		UtilizationPct     float64 `gorm:"column:utilization_pct"`
+	}
+	sqlTop := `
+		SELECT em.id AS equipment_id, ec.class_name AS equipment_class_name, em.operational_status,
+			COUNT(DISTINCT wo.work_order_id) AS total_work_orders,
+			COALESCE(SUM(wo.actual_quantity), 0) AS total_units_produced,
+			COALESCE(AVG(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0) AS avg_cycle_time_hours,
+			CASE WHEN EXTRACT(EPOCH FROM (?::timestamptz - ?::timestamptz)) > 0 THEN
+				100.0 * COALESCE(SUM(EXTRACT(EPOCH FROM (wo.actual_end - wo.actual_start)) / 3600.0), 0)
+				/ (EXTRACT(EPOCH FROM (?::timestamptz - ?::timestamptz)) / 3600.0)
+			ELSE 0 END AS utilization_pct
+		FROM equipment_master em
+		LEFT JOIN equipment_class ec ON ec.id = em.equipment_class_id
+		LEFT JOIN work_order wo ON wo.equipment_id = em.id
+			AND wo.actual_start >= ?::timestamptz AND wo.actual_end <= ?::timestamptz
+			AND wo.status = 'completed'
+		GROUP BY em.id, ec.class_name, em.operational_status
+		ORDER BY total_units_produced DESC
+		LIMIT 5`
+	var topRows []topScan
+	if err := r.data.db.WithContext(ctx).Raw(sqlTop, req.To, req.From, req.To, req.From, req.From, req.To).Scan(&topRows).Error; err != nil {
+		return nil, err
+	}
+
+	topPerformers := make([]*biz.MachineMetrics, len(topRows))
+	for i, x := range topRows {
+		topPerformers[i] = &biz.MachineMetrics{
+			EquipmentID:        x.EquipmentID,
+			EquipmentClassName: x.EquipmentClassName,
+			OperationalStatus:  x.OperationalStatus,
+			TotalWorkOrders:    x.TotalWorkOrders,
+			TotalUnitsProduced: x.TotalUnitsProduced,
+			AvgCycleTimeHours:  x.AvgCycleTimeHours,
+			UtilizationPct:     x.UtilizationPct,
+		}
+	}
+
+	qualityRate := float64(0)
+	total := qual.LotsReleased + qual.LotsQuarantined
+	if total > 0 {
+		qualityRate = 100.0 * float64(qual.LotsReleased) / float64(total)
+	}
+
+	return &biz.DashboardSummary{
+		TotalUnitsProduced:       prod.TotalUnitsProduced,
+		TotalWorkOrdersCompleted: prod.TotalWorkOrdersCompleted,
+		ActiveEquipmentCount:     prod.ActiveEquipmentCount,
+		LotsReleased:             qual.LotsReleased,
+		LotsQuarantined:          qual.LotsQuarantined,
+		QualityRatePct:           qualityRate,
+		TotalErrorEvents:         errs.TotalErrors,
+		TopPerformers:            topPerformers,
+	}, nil
 }

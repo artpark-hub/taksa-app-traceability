@@ -1,0 +1,18 @@
+meta {
+  name: 4. Dashboard Summary
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/analytics/dashboard?from_time=2026-02-24T00:00:00Z&to_time=2026-02-27T00:00:00Z
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.totalUnitsProduced: isNumber
+  res.body.qualityRatePct: isNumber
+  res.body.topPerformers: isArray
+}

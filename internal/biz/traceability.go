@@ -245,6 +245,81 @@ type TelemetryReading struct {
 }
 
 // ==========================================
+// Analytics Domain Models (S014)
+// ==========================================
+
+type MachinePerformanceRequest struct {
+	EquipmentID string
+	From        time.Time
+	To          time.Time
+}
+
+type MachinePerformanceResult struct {
+	EquipmentID        string
+	EquipmentClassName string
+	OperationalStatus  string
+	TotalWorkOrders    int32
+	TotalUnitsProduced float64
+	AvgCycleTimeHours  float64
+	TotalActiveHours   float64
+	UtilizationPct     float64
+	EventSummary       []*MachineEventSummary
+}
+
+type MachineEventSummary struct {
+	EventType string
+	Count     int32
+}
+
+type MachineComparisonRequest struct {
+	EquipmentIDs []string
+	From         time.Time
+	To           time.Time
+}
+
+type MachineMetrics struct {
+	EquipmentID        string
+	EquipmentClassName string
+	OperationalStatus  string
+	TotalWorkOrders    int32
+	TotalUnitsProduced float64
+	AvgCycleTimeHours  float64
+	UtilizationPct     float64
+	ErrorCount         int32
+}
+
+type ProductionTrendsRequest struct {
+	From        time.Time
+	To          time.Time
+	Granularity string // "daily", "weekly", "monthly"
+	EquipmentID string // optional filter
+}
+
+type ProductionTrendPoint struct {
+	Period               string
+	EquipmentID          string
+	UnitsProduced        float64
+	WorkOrdersCompleted  int32
+	AvgCycleTimeHours    float64
+}
+
+type DashboardSummaryRequest struct {
+	From time.Time
+	To   time.Time
+}
+
+type DashboardSummary struct {
+	TotalUnitsProduced       float64
+	TotalWorkOrdersCompleted int32
+	ActiveEquipmentCount     int32
+	LotsReleased             int32
+	LotsQuarantined          int32
+	QualityRatePct           float64
+	TotalErrorEvents         int32
+	TopPerformers            []*MachineMetrics
+}
+
+// ==========================================
 // 2. Repository Interface (Contract for Data Layer)
 // ==========================================
 
@@ -338,6 +413,13 @@ type TraceabilityRepo interface {
 	TraceFullGenealogyEdges(ctx context.Context, lotID string) ([]*GenealogyEdge, error)
 	GetEquipmentProcessHistorySummary(ctx context.Context, lotID string) ([]*EquipmentParameterSummary, error)
 	GetEquipmentProcessHistoryReadings(ctx context.Context, lotID string) ([]*TelemetryReading, error)
+
+	// Analytics (S014)
+	GetMachinePerformance(ctx context.Context, req *MachinePerformanceRequest) (*MachinePerformanceResult, error)
+	GetMachineEventSummary(ctx context.Context, equipmentID string, from, to interface{}) ([]*MachineEventSummary, error)
+	CompareMachinePerformance(ctx context.Context, req *MachineComparisonRequest) ([]*MachineMetrics, error)
+	GetProductionTrends(ctx context.Context, req *ProductionTrendsRequest) ([]*ProductionTrendPoint, error)
+	GetDashboardSummary(ctx context.Context, req *DashboardSummaryRequest) (*DashboardSummary, error)
 }
 
 // ==========================================
@@ -553,4 +635,33 @@ func (uc *TraceabilityUsecase) GetEquipmentProcessHistory(ctx context.Context, l
 		return nil, nil, err
 	}
 	return summary, readings, nil
+}
+
+// ==========================================
+// Analytics Usecase Methods (S014)
+// ==========================================
+
+func (uc *TraceabilityUsecase) GetMachinePerformance(ctx context.Context, req *MachinePerformanceRequest) (*MachinePerformanceResult, error) {
+	result, err := uc.repo.GetMachinePerformance(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	events, err := uc.repo.GetMachineEventSummary(ctx, req.EquipmentID, req.From, req.To)
+	if err != nil {
+		return nil, err
+	}
+	result.EventSummary = events
+	return result, nil
+}
+
+func (uc *TraceabilityUsecase) CompareMachinePerformance(ctx context.Context, req *MachineComparisonRequest) ([]*MachineMetrics, error) {
+	return uc.repo.CompareMachinePerformance(ctx, req)
+}
+
+func (uc *TraceabilityUsecase) GetProductionTrends(ctx context.Context, req *ProductionTrendsRequest) ([]*ProductionTrendPoint, error) {
+	return uc.repo.GetProductionTrends(ctx, req)
+}
+
+func (uc *TraceabilityUsecase) GetDashboardSummary(ctx context.Context, req *DashboardSummaryRequest) (*DashboardSummary, error) {
+	return uc.repo.GetDashboardSummary(ctx, req)
 }

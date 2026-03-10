@@ -829,6 +829,134 @@ func (s *TraceabilityService) TraceFullGenealogy(ctx context.Context, req *pb.Tr
 	}, nil
 }
 
+// ==========================================
+// 17. Historical Analytics (S014)
+// ==========================================
+
+func mapMachineMetrics(m *biz.MachineMetrics) *pb.MachineMetrics {
+	return &pb.MachineMetrics{
+		EquipmentId:        m.EquipmentID,
+		EquipmentClassName: m.EquipmentClassName,
+		OperationalStatus:  m.OperationalStatus,
+		TotalWorkOrders:    m.TotalWorkOrders,
+		TotalUnitsProduced: m.TotalUnitsProduced,
+		AvgCycleTimeHours:  m.AvgCycleTimeHours,
+		UtilizationPct:     m.UtilizationPct,
+		ErrorCount:         m.ErrorCount,
+	}
+}
+
+func (s *TraceabilityService) GetMachinePerformance(ctx context.Context, req *pb.MachinePerformanceRequest) (*pb.MachinePerformanceReply, error) {
+	from, _ := time.Parse(time.RFC3339, req.FromTime)
+	to, _ := time.Parse(time.RFC3339, req.ToTime)
+	result, err := s.uc.GetMachinePerformance(ctx, &biz.MachinePerformanceRequest{
+		EquipmentID: req.EquipmentId,
+		From:        from,
+		To:          to,
+	})
+	if err != nil {
+		return nil, err
+	}
+	events := make([]*pb.MachineEventSummary, len(result.EventSummary))
+	for i, e := range result.EventSummary {
+		events[i] = &pb.MachineEventSummary{EventType: e.EventType, Count: e.Count}
+	}
+	return &pb.MachinePerformanceReply{
+		EquipmentId:        result.EquipmentID,
+		EquipmentClassName: result.EquipmentClassName,
+		OperationalStatus:  result.OperationalStatus,
+		FromTime:           req.FromTime,
+		ToTime:             req.ToTime,
+		TotalWorkOrders:    result.TotalWorkOrders,
+		TotalUnitsProduced: result.TotalUnitsProduced,
+		AvgCycleTimeHours:  result.AvgCycleTimeHours,
+		TotalActiveHours:   result.TotalActiveHours,
+		UtilizationPct:     result.UtilizationPct,
+		EventSummary:       events,
+	}, nil
+}
+
+func (s *TraceabilityService) CompareMachinePerformance(ctx context.Context, req *pb.MachineComparisonRequest) (*pb.MachineComparisonReply, error) {
+	from, _ := time.Parse(time.RFC3339, req.FromTime)
+	to, _ := time.Parse(time.RFC3339, req.ToTime)
+	list, err := s.uc.CompareMachinePerformance(ctx, &biz.MachineComparisonRequest{
+		EquipmentIDs: req.EquipmentIds,
+		From:         from,
+		To:           to,
+	})
+	if err != nil {
+		return nil, err
+	}
+	machines := make([]*pb.MachineMetrics, len(list))
+	for i, m := range list {
+		machines[i] = mapMachineMetrics(m)
+	}
+	return &pb.MachineComparisonReply{
+		FromTime: req.FromTime,
+		ToTime:   req.ToTime,
+		Machines: machines,
+	}, nil
+}
+
+func (s *TraceabilityService) GetProductionTrends(ctx context.Context, req *pb.ProductionTrendsRequest) (*pb.ProductionTrendsReply, error) {
+	from, _ := time.Parse(time.RFC3339, req.FromTime)
+	to, _ := time.Parse(time.RFC3339, req.ToTime)
+	granularity := req.Granularity
+	if granularity == "" {
+		granularity = "daily"
+	}
+	list, err := s.uc.GetProductionTrends(ctx, &biz.ProductionTrendsRequest{
+		From:        from,
+		To:          to,
+		Granularity: granularity,
+		EquipmentID: req.EquipmentId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	points := make([]*pb.ProductionTrendPoint, len(list))
+	for i, p := range list {
+		points[i] = &pb.ProductionTrendPoint{
+			Period:              p.Period,
+			EquipmentId:         p.EquipmentID,
+			UnitsProduced:       p.UnitsProduced,
+			WorkOrdersCompleted: p.WorkOrdersCompleted,
+			AvgCycleTimeHours:   p.AvgCycleTimeHours,
+		}
+	}
+	return &pb.ProductionTrendsReply{
+		FromTime:   req.FromTime,
+		ToTime:     req.ToTime,
+		Granularity: granularity,
+		DataPoints: points,
+	}, nil
+}
+
+func (s *TraceabilityService) GetDashboardSummary(ctx context.Context, req *pb.DashboardSummaryRequest) (*pb.DashboardSummaryReply, error) {
+	from, _ := time.Parse(time.RFC3339, req.FromTime)
+	to, _ := time.Parse(time.RFC3339, req.ToTime)
+	summary, err := s.uc.GetDashboardSummary(ctx, &biz.DashboardSummaryRequest{From: from, To: to})
+	if err != nil {
+		return nil, err
+	}
+	top := make([]*pb.MachineMetrics, len(summary.TopPerformers))
+	for i, m := range summary.TopPerformers {
+		top[i] = mapMachineMetrics(m)
+	}
+	return &pb.DashboardSummaryReply{
+		FromTime:                 req.FromTime,
+		ToTime:                   req.ToTime,
+		TotalUnitsProduced:       summary.TotalUnitsProduced,
+		TotalWorkOrdersCompleted: summary.TotalWorkOrdersCompleted,
+		ActiveEquipmentCount:     summary.ActiveEquipmentCount,
+		LotsReleased:             summary.LotsReleased,
+		LotsQuarantined:          summary.LotsQuarantined,
+		QualityRatePct:           summary.QualityRatePct,
+		TotalErrorEvents:         summary.TotalErrorEvents,
+		TopPerformers:            top,
+	}, nil
+}
+
 func (s *TraceabilityService) GetEquipmentProcessHistory(ctx context.Context, req *pb.TraceRequest) (*pb.EquipmentProcessHistoryReply, error) {
 	sParams, sReadings, err := s.uc.GetEquipmentProcessHistory(ctx, req.LotId)
 	if err != nil {
