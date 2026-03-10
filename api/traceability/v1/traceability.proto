@@ -653,9 +653,9 @@ message LogEntry {
 
 // 11. Material Definition Messages
 message CreateMaterialDefinitionRequest {
-    string name = 1;                // e.g., "Epoxy Resin Grade A"
-    string material_type = 2;       // RAW_MATERIAL, WORK_IN_PROGRESS, FINISHED_GOOD, PACKAGING
-    string unit_of_measure = 3;     // e.g., "kg", "liters", "units"
+    string name = 1;                
+    string material_type = 2;       
+    string unit_of_measure = 3;     
     string description = 4;
 }
 
@@ -664,7 +664,7 @@ message CreateMaterialDefinitionReply {
 }
 
 message ListMaterialDefinitionsRequest {
-    string material_type = 1;       // optional filter
+    string material_type = 1;       
 }
 
 message ListMaterialDefinitionsReply {
@@ -679,12 +679,9 @@ message MaterialDefinition {
     string description = 5;
 }
 
-// =====================================================================
 // 12. Material Lot Messages
-// =====================================================================
-
 message CreateMaterialLotRequest {
-    string lot_id = 1;                  // e.g., "RM-CELL-2026-001"
+    string lot_id = 1;                  
     int32 material_definition_id = 2;
     double quantity = 3;
     string unit_of_measure = 4;
@@ -705,7 +702,6 @@ message GetMaterialLotReply {
     string unit_of_measure = 4;
     string created_at = 5;
     string updated_at = 6;
-    // Material definition info (joined)
     int32 material_definition_id = 7;
     string material_name = 8;
     string material_type = 9;
@@ -713,8 +709,8 @@ message GetMaterialLotReply {
 }
 
 message ListMaterialLotsRequest {
-    string status = 1;              // optional filter: "available", "in_process", etc.
-    string material_type = 2;       // optional filter: "RAW_MATERIAL", etc.
+    string status = 1;              
+    string material_type = 2;       
 }
 
 message ListMaterialLotsReply {
@@ -733,22 +729,20 @@ message MaterialLotSummary {
 
 message UpdateMaterialLotStatusRequest {
     string lot_id = 1;
-    string status = 2;             // new status
+    string status = 2;             
 }
 
 message UpdateMaterialLotStatusReply {
     bool success = 1;
 }
 
-// =====================================================================
-// 13. Operator Messages
-// =====================================================================
 
+// 13. Operator Messages
 message CreateOperatorRequest {
-    string operator_id = 1;         // e.g., "OP-KAVYA-01"
+    string operator_id = 1;         
     string name = 2;
     string role = 3;
-    string shift = 4;               // DAY_SHIFT, NIGHT_SHIFT, MORNING_SHIFT
+    string shift = 4;               
 }
 
 message CreateOperatorReply {
@@ -756,8 +750,8 @@ message CreateOperatorReply {
 }
 
 message ListOperatorsRequest {
-    string shift = 1;               // optional filter
-    string status = 2;              // optional filter: "active", "inactive"
+    string shift = 1;               
+    string status = 2;              
 }
 
 message ListOperatorsReply {
@@ -783,19 +777,16 @@ message UpdateOperatorReply {
     bool success = 1;
 }
 
-// =====================================================================
 // 14. Work Order Messages
-// =====================================================================
-
 message CreateWorkOrderRequest {
-    string work_order_id = 1;       // e.g., "WO-2026-0001"
+    string work_order_id = 1;       
     string description = 2;
     string equipment_id = 3;
     string operator_id = 4;
     string output_lot_id = 5;
     double planned_quantity = 6;
     string unit_of_measure = 7;
-    string planned_start = 8;       // RFC3339 timestamp
+    string planned_start = 8;       
     string planned_end = 9;
 }
 
@@ -839,8 +830,8 @@ message WorkOrderInputLot {
 }
 
 message ListWorkOrdersRequest {
-    string status = 1;              // optional filter
-    string equipment_id = 2;        // optional filter
+    string status = 1;              
+    string equipment_id = 2;        
 }
 
 message ListWorkOrdersReply {
@@ -860,23 +851,21 @@ message WorkOrderSummary {
 
 message UpdateWorkOrderStatusRequest {
     string work_order_id = 1;
-    string status = 2;              // new status
-    double actual_quantity = 3;     // optional: set on completion
-    string actual_start = 4;        // optional: set on start
-    string actual_end = 5;          // optional: set on completion
+    string status = 2;              
+    double actual_quantity = 3;     
+    string actual_start = 4;        
+    string actual_end = 5;         
 }
 
 message UpdateWorkOrderStatusReply {
     bool success = 1;
 }
 
-// =====================================================================
 // 15. Lot Genealogy Messages
-// =====================================================================
 
 message RegisterGenealogyLinkRequest {
-    string parent_lot_id = 1;       // input consumed
-    string child_lot_id = 2;        // output produced
+    string parent_lot_id = 1;       
+    string child_lot_id = 2;        
     string work_order_id = 3;
     string equipment_id = 4;
     double quantity_consumed = 5;
@@ -887,9 +876,7 @@ message RegisterGenealogyLinkReply {
     int32 id = 1;
 }
 
-// =====================================================================
 // 16. Traceability Query Messages (THE CORE)
-// =====================================================================
 
 // Shared request for all trace queries — just needs a lot_id
 message TraceRequest {
@@ -979,15 +966,13 @@ message TelemetryReading {
     string recorded_at = 5;
 }
 
-// =====================================================================
-// 17. Historical Analytics Messages (S014)
-// =====================================================================
+// 17. Historical Analytics Messages 
 
 // --- Machine Performance ---
 message MachinePerformanceRequest {
     string equipment_id = 1;
-    string from_time = 2;           // RFC3339 timestamp
-    string to_time = 3;             // RFC3339 timestamp
+    string from_time = 2;           
+    string to_time = 3;             
 }
 
 message MachinePerformanceReply {
@@ -1037,8 +1022,8 @@ message MachineMetrics {
 message ProductionTrendsRequest {
     string from_time = 1;
     string to_time = 2;
-    string granularity = 3;         // "daily", "weekly", "monthly"
-    string equipment_id = 4;        // optional: filter by machine
+    string granularity = 3;         
+    string equipment_id = 4;        
 }
 
 message ProductionTrendsReply {
@@ -1049,7 +1034,7 @@ message ProductionTrendsReply {
 }
 
 message ProductionTrendPoint {
-    string period = 1;              // truncated timestamp label
+    string period = 1;             
     string equipment_id = 2;
     double units_produced = 3;
     int32  work_orders_completed = 4;

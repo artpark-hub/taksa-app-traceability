@@ -227,7 +227,7 @@ Every person who operates equipment on the factory floor.
 ---
 
 ### 14. `work_order`
-A production job — "produce 100 battery cells using MIXER-001, operated by Kavya, output into lot WIP-CELL-001".
+A production job — "produce 100 battery cells using MIXER-001, operated by Arjun, output into lot WIP-CELL-001".
 
 | Column | Type | Description |
 |---|---|---|
@@ -313,11 +313,11 @@ Here is a **battery cell manufacturing scenario** showing how all tables connect
 
 3. PRODUCTION (Work Order + Genealogy)
    ─────────────────────────────────────────
-   operator:       Kavya (OP-KAVYA-01, DAY_SHIFT, Quality Control)
+   operator:       Arjun (OP-Arjun-01, DAY_SHIFT, Quality Control)
 
    work_order:     WO-2026-0001
                      equipment = MIXER-001
-                     operator  = OP-KAVYA-01
+                     operator  = OP-Arjun-01
                      output    = WIP-SL-001
                      planned   = 200 kg → 100 liters slurry
                      status:   completed
@@ -328,10 +328,10 @@ Here is a **battery cell manufacturing scenario** showing how all tables connect
 4. EVENTS & TELEMETRY (Real-time)
    ─────────────────────────────────────────
    traceability_log:
-     10:00 AM  MIXER-001  start        WO-2026-0001  RM-LI-001  OP-KAVYA-01
-     10:05 AM  MIXER-001  qc_check     WO-2026-0001  RM-LI-001  OP-KAVYA-01
-     10:30 AM  MIXER-001  qc_pass      WO-2026-0001  WIP-SL-001 OP-KAVYA-01
-     10:32 AM  MIXER-001  stop         WO-2026-0001  WIP-SL-001 OP-KAVYA-01
+     10:00 AM  MIXER-001  start        WO-2026-0001  RM-LI-001  OP-Arjun-01
+     10:05 AM  MIXER-001  qc_check     WO-2026-0001  RM-LI-001  OP-Arjun-01
+     10:30 AM  MIXER-001  qc_pass      WO-2026-0001  WIP-SL-001 OP-Arjun-01
+     10:32 AM  MIXER-001  stop         WO-2026-0001  WIP-SL-001 OP-Arjun-01
 
    equipment_telemetry (every 5 sec during mixing):
      MIXER-001  temperature   78.5 °C    10:00:05
@@ -345,7 +345,7 @@ Here is a **battery cell manufacturing scenario** showing how all tables connect
      WIP-SL-001 was produced from:
        RM-LI-001 (200 kg Lithium Carbonate)
          processed on MIXER-001
-         by OP-KAVYA-01
+         by OP-Arjun-01
          at 10:30 AM on 2026-02-25
 ```
 

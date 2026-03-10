@@ -11,9 +11,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 )
 
-// ==========================================
 // 1. ORM Definitions (Database Tables)
-// ==========================================
 
 type EnterpriseORM struct {
 	ID          int32 `gorm:"primaryKey;autoIncrement"`
@@ -176,9 +174,7 @@ type LotGenealogyORM struct {
 
 func (LotGenealogyORM) TableName() string { return "lot_genealogy" }
 
-// ==========================================
 // 2. Repository Implementation
-// ==========================================
 
 type traceabilityRepo struct {
 	data *Data
@@ -491,9 +487,7 @@ func (r *traceabilityRepo) ListLogs(ctx context.Context, wid string) ([]*biz.Tra
 	return list, nil
 }
 
-// ==========================================
 // 11. Material Definition
-// ==========================================
 
 func (r *traceabilityRepo) CreateMaterialDefinition(ctx context.Context, md *biz.MaterialDefinition) (int32, error) {
 	orm := MaterialDefinitionORM{
@@ -528,9 +522,7 @@ func (r *traceabilityRepo) ListMaterialDefinitions(ctx context.Context, mType st
 	return list, nil
 }
 
-// ==========================================
 // 12. Material Lot
-// ==========================================
 
 func (r *traceabilityRepo) CreateMaterialLot(ctx context.Context, ml *biz.MaterialLot) (string, error) {
 	orm := MaterialLotORM{
@@ -586,9 +578,7 @@ func (r *traceabilityRepo) UpdateMaterialLotStatus(ctx context.Context, id, stat
 	return r.data.db.WithContext(ctx).Model(&MaterialLotORM{}).Where("lot_id = ?", id).Updates(map[string]interface{}{"status": status, "updated_at": time.Now()}).Error
 }
 
-// ==========================================
 // 13. Operator
-// ==========================================
 
 func (r *traceabilityRepo) CreateOperator(ctx context.Context, op *biz.Operator) (string, error) {
 	orm := OperatorORM{
@@ -632,9 +622,7 @@ func (r *traceabilityRepo) UpdateOperator(ctx context.Context, op *biz.Operator)
 	return r.data.db.WithContext(ctx).Model(&OperatorORM{}).Where("operator_id = ?", op.OperatorID).Updates(updates).Error
 }
 
-// ==========================================
 // 14. Work Order
-// ==========================================
 
 func (r *traceabilityRepo) CreateWorkOrder(ctx context.Context, wo *biz.WorkOrder) (string, error) {
 	orm := WorkOrderORM{
@@ -747,10 +735,7 @@ func (r *traceabilityRepo) UpdateWorkOrderStatus(ctx context.Context, wo *biz.Wo
 	return r.data.db.WithContext(ctx).Model(&WorkOrderORM{}).Where("work_order_id = ?", wo.WorkOrderID).Updates(updates).Error
 }
 
-// ==========================================
 // 15. Genealogy
-// ==========================================
-
 func (r *traceabilityRepo) RegisterGenealogyLink(ctx context.Context, lg *biz.LotGenealogy) (int32, error) {
 	orm := LotGenealogyORM{
 		ParentLotID:      lg.ParentLotID,
@@ -765,9 +750,7 @@ func (r *traceabilityRepo) RegisterGenealogyLink(ctx context.Context, lg *biz.Lo
 	return orm.ID, res.Error
 }
 
-// ==========================================
 // 16. Trace Queries
-// ==========================================
 
 func (r *traceabilityRepo) TraceBackward(ctx context.Context, lotID string) ([]*biz.TraceNode, error) {
 	sqlStr := `WITH RECURSIVE backward_trace AS (
@@ -892,9 +875,7 @@ func (r *traceabilityRepo) GetEquipmentProcessHistoryReadings(ctx context.Contex
 	return list, nil
 }
 
-// ==========================================
-// 17. Analytics (S014)
-// ==========================================
+// 17. Analytics
 
 func (r *traceabilityRepo) GetMachinePerformance(ctx context.Context, req *biz.MachinePerformanceRequest) (*biz.MachinePerformanceResult, error) {
 	type scan struct {
@@ -967,12 +948,10 @@ func (r *traceabilityRepo) CompareMachinePerformance(ctx context.Context, req *b
 		return []*biz.MachineMetrics{}, nil
 	}
 
-	// Build safe IN clause placeholders
 	placeholders := make([]string, len(req.EquipmentIDs))
 	for i := range req.EquipmentIDs {
 		placeholders[i] = "?"
 	}
-	// Time args come first (matching SQL order), equipment IDs last (for IN clause at end)
 	args := make([]interface{}, 0, 8+len(req.EquipmentIDs))
 	args = append(args, req.To, req.From, req.To, req.From, req.From, req.To, req.From, req.To)
 	for _, id := range req.EquipmentIDs {

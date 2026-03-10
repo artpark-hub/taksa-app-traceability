@@ -244,10 +244,7 @@ type TelemetryReading struct {
 	RecordedAt    *time.Time
 }
 
-// ==========================================
-// Analytics Domain Models (S014)
-// ==========================================
-
+// Analytics Domain Models 
 type MachinePerformanceRequest struct {
 	EquipmentID string
 	From        time.Time
@@ -291,8 +288,8 @@ type MachineMetrics struct {
 type ProductionTrendsRequest struct {
 	From        time.Time
 	To          time.Time
-	Granularity string // "daily", "weekly", "monthly"
-	EquipmentID string // optional filter
+	Granularity string 
+	EquipmentID string 
 }
 
 type ProductionTrendPoint struct {
@@ -319,9 +316,7 @@ type DashboardSummary struct {
 	TopPerformers            []*MachineMetrics
 }
 
-// ==========================================
-// 2. Repository Interface (Contract for Data Layer)
-// ==========================================
+// 2. Contract for Data Layer
 
 type TraceabilityRepo interface {
 	// Enterprise
@@ -414,7 +409,7 @@ type TraceabilityRepo interface {
 	GetEquipmentProcessHistorySummary(ctx context.Context, lotID string) ([]*EquipmentParameterSummary, error)
 	GetEquipmentProcessHistoryReadings(ctx context.Context, lotID string) ([]*TelemetryReading, error)
 
-	// Analytics (S014)
+	// Analytics
 	GetMachinePerformance(ctx context.Context, req *MachinePerformanceRequest) (*MachinePerformanceResult, error)
 	GetMachineEventSummary(ctx context.Context, equipmentID string, from, to interface{}) ([]*MachineEventSummary, error)
 	CompareMachinePerformance(ctx context.Context, req *MachineComparisonRequest) ([]*MachineMetrics, error)
@@ -422,9 +417,7 @@ type TraceabilityRepo interface {
 	GetDashboardSummary(ctx context.Context, req *DashboardSummaryRequest) (*DashboardSummary, error)
 }
 
-// ==========================================
 // 3. Usecase Implementation (Business Logic)
-// ==========================================
 
 type TraceabilityUsecase struct {
 	repo TraceabilityRepo
@@ -435,7 +428,7 @@ func NewTraceabilityUsecase(repo TraceabilityRepo, logger log.Logger) *Traceabil
 	return &TraceabilityUsecase{repo: repo, log: log.NewHelper(logger)}
 }
 
-// --- Methods (Pass-through to Repo for now) ---
+// --- Methods ---
 
 func (uc *TraceabilityUsecase) CreateEnterprise(ctx context.Context, e *Enterprise) (int32, error) {
 	return uc.repo.CreateEnterprise(ctx, e)
@@ -637,9 +630,7 @@ func (uc *TraceabilityUsecase) GetEquipmentProcessHistory(ctx context.Context, l
 	return summary, readings, nil
 }
 
-// ==========================================
-// Analytics Usecase Methods (S014)
-// ==========================================
+// Analytics Usecase Methods
 
 func (uc *TraceabilityUsecase) GetMachinePerformance(ctx context.Context, req *MachinePerformanceRequest) (*MachinePerformanceResult, error) {
 	result, err := uc.repo.GetMachinePerformance(ctx, req)

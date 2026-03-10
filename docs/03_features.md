@@ -160,9 +160,9 @@ planned  →  in_progress  →  completed  →  closed
 ### Real factory scenario
 > **WO-2026-0051**: Mix 500 kg Lithium Carbonate into 250 litres of Anode Slurry
 > - Machine: MIXER-001
-> - Operator: Kavya (Day Shift)
+> - Operator: Arjun (Day Shift)
 > - Planned: 08:00 – 10:00
-> - Actual: 08:05 – 09:48 (under time!)
+> - Actual: 08:05 – 09:48 
 > - Actual output: 247.5 litres
 >
 > This work order is the permanent production record for that batch.
@@ -400,47 +400,5 @@ A single API call that returns all top-level KPIs for a factory management dashb
 
 ---
 
-## User Story Compliance
-
-### S006 — Product Traceability ✅ Done
-
-> *"Plant managers must track which machine produced which batch and when."*
-
-| Acceptance Criterion | Status | Implementation |
-|---|---|---|
-| Batch tracking implemented | ✅ | `material_lot` table with unique `lot_id` PK and 7 lifecycle statuses (`available → in_process → completed → released → shipped`) |
-| Machine and timestamp association stored | ✅ | `work_order` links output lot → equipment; `traceability_log` stores `equipment_id + event_time` per event; `lot_genealogy` stores `equipment_id + event_time` per transformation |
-| Searchable traceability records available | ✅ | 4 dedicated query endpoints: backward trace, forward trace, full genealogy tree (nodes+edges), equipment process history |
-
-**Features that satisfy S006:** Features 6, 7, 8, 9, 10 (Genealogy, Backward/Forward Trace, Full Tree, Equipment History)
-
----
-
-### S014 — Historical Analytics ✅ Done
-
-> *"Plant managers must analyze historical production and machine data to identify trends and improvement opportunities."*
-
-| Acceptance Criterion | Status | Implementation |
-|---|---|---|
-| Historical dashboards available | ✅ | `GET /analytics/dashboard` — total units produced, WO completion count, quality rate %, error event count, top 5 machines by utilization |
-| Machine performance comparison supported | ✅ | `POST /analytics/machine-comparison` — side-by-side KPIs for any N machines: units produced, cycle time, utilization %, error count |
-| Trend analysis supported | ✅ | `GET /analytics/production-trends` — output bucketed by day/week/month per machine, ready for chart rendering |
-
-**Features that satisfy S014:** Features 11, 12, 13, 14 (Machine Performance, Machine Comparison, Production Trends, Factory Dashboard)
-
----
-
-## README Feature Verification
-
-The application's README describes the following features. Here is how each is satisfied by the implementation:
-
-| README Feature | Status | How It Is Satisfied |
-|---|---|---|
-| **End-to-End Unit Tracking** — unique identifiers, tracking across all processing stages | ✅ | `material_lot` has a user-defined `lot_id` primary key. Each lot has a status that moves through `available → in_process → completed → quarantined / released / shipped / scrapped`. The `lot_genealogy` table links lots across every processing step. |
-| **Parent-Child Relationships** — components assembled into larger assemblies | ✅ | `lot_genealogy.parent_lot_id → child_lot_id` models the exact input-to-output transformation. Multiple inputs (parents) can link to one output (child), supporting multi-ingredient recipes. |
-| **Backward Traceability** — trace a finished product back to raw materials | ✅ | `GET /trace/backward/{lot_id}` uses a recursive PostgreSQL CTE to walk all the way back to original raw material lots, returning depth, quantities, machine, and operator at each step. |
-| **Forward Traceability** — identify all products affected by a specific lot | ✅ | `GET /trace/forward/{lot_id}` uses the same recursive CTE in the forward direction — critical for product recall: "every finished good that contains this raw material lot." |
-| **Status Tracking** — current status (In-Progress, On-Hold, Completed, Scrapped) | ✅ | Both `material_lot.status` and `work_order.status` are tracked and updatable via API. Lots can be `quarantined` (on-hold), `completed`, or `scrapped`. Work orders track `planned → in_progress → completed → closed`. |
-| **Location Tracking** — where materials are located within the facility | ✅* | Equipment is placed in a `production_unit → production_line → area → site` hierarchy. A material lot's location is deterministically known: if its status is `in_process`, its active work order references an `equipment_id`, which maps to a specific station on a specific line in a specific hall at a specific factory. |
-
+Note :
 > *Location is implicit (derived from work order → equipment → production hierarchy) rather than a standalone real-time location endpoint. All the data to answer "where is this lot right now?" is fully present in the system.

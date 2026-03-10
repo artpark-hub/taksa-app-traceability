@@ -157,7 +157,7 @@ create_bru("15_Queries", "4. Equipment History.bru", "4. Equipment History", "ge
     f'{{{{baseUrl}}}}/api/v1/traceability/trace/equipment-history/WIP-{TS}',
     None, ["res.status: eq 200"], 4)
 
-# --- 17. Historical Analytics (S014) ---
+# --- 17. Historical Analytics  ---
 # Use seed data dates for time range (2026-02-25 covers Production Run 1)
 create_bru("17_Analytics", "1. Machine Performance.bru", "1. Machine Performance", "get",
     "{{baseUrl}}/api/v1/traceability/analytics/machine-performance?equipment_id=MIXER-001&from_time=2026-02-25T00:00:00Z&to_time=2026-02-26T00:00:00Z",

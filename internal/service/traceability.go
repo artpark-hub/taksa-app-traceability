@@ -17,9 +17,7 @@ func NewTraceabilityService(uc *biz.TraceabilityUsecase) *TraceabilityService {
 	return &TraceabilityService{uc: uc}
 }
 
-// ==========================================
 // 1. Enterprise Management
-// ==========================================
 
 func (s *TraceabilityService) CreateEnterprise(ctx context.Context, req *pb.CreateEnterpriseRequest) (*pb.CreateEnterpriseReply, error) {
 	id, err := s.uc.CreateEnterprise(ctx, &biz.Enterprise{
@@ -60,9 +58,7 @@ func (s *TraceabilityService) DeleteEnterprise(ctx context.Context, req *pb.Dele
 	return &pb.DeleteEnterpriseReply{Success: true}, nil
 }
 
-// ==========================================
 // 2. Site Management
-// ==========================================
 
 func (s *TraceabilityService) CreateSite(ctx context.Context, req *pb.CreateSiteRequest) (*pb.CreateSiteReply, error) {
 	id, err := s.uc.CreateSite(ctx, &biz.Site{
@@ -105,9 +101,7 @@ func (s *TraceabilityService) DeleteSite(ctx context.Context, req *pb.DeleteSite
 	return &pb.DeleteSiteReply{Success: true}, nil
 }
 
-// ==========================================
 // 3. Area Management
-// ==========================================
 
 func (s *TraceabilityService) CreateArea(ctx context.Context, req *pb.CreateAreaRequest) (*pb.CreateAreaReply, error) {
 	id, err := s.uc.CreateArea(ctx, &biz.Area{
@@ -149,9 +143,7 @@ func (s *TraceabilityService) DeleteArea(ctx context.Context, req *pb.DeleteArea
 	return &pb.DeleteAreaReply{Success: true}, nil
 }
 
-// ==========================================
 // 4. Production Line Management
-// ==========================================
 
 func (s *TraceabilityService) CreateLine(ctx context.Context, req *pb.CreateLineRequest) (*pb.CreateLineReply, error) {
 	id, err := s.uc.CreateLine(ctx, &biz.ProductionLine{
@@ -193,9 +185,7 @@ func (s *TraceabilityService) DeleteLine(ctx context.Context, req *pb.DeleteLine
 	return &pb.DeleteLineReply{Success: true}, nil
 }
 
-// ==========================================
 // 5. Production Unit Management
-// ==========================================
 
 func (s *TraceabilityService) CreateProductionUnit(ctx context.Context, req *pb.CreateProductionUnitRequest) (*pb.CreateProductionUnitReply, error) {
 	id, err := s.uc.CreateProductionUnit(ctx, &biz.ProductionUnit{
@@ -241,9 +231,7 @@ func (s *TraceabilityService) DeleteProductionUnit(ctx context.Context, req *pb.
 	return &pb.DeleteProductionUnitReply{Success: true}, nil
 }
 
-// ==========================================
 // 6. Equipment Class Management
-// ==========================================
 
 func (s *TraceabilityService) CreateEquipmentClass(ctx context.Context, req *pb.CreateEquipmentClassRequest) (*pb.CreateEquipmentClassReply, error) {
 	id, err := s.uc.CreateEquipmentClass(ctx, &biz.EquipmentClass{
@@ -285,9 +273,7 @@ func (s *TraceabilityService) DeleteEquipmentClass(ctx context.Context, req *pb.
 	return &pb.DeleteEquipmentClassReply{Success: true}, nil
 }
 
-// ==========================================
 // 7. Equipment Master Management
-// ==========================================
 
 func (s *TraceabilityService) RegisterEquipment(ctx context.Context, req *pb.RegisterEquipmentRequest) (*pb.RegisterEquipmentReply, error) {
 	id, err := s.uc.RegisterEquipment(ctx, &biz.EquipmentMaster{
@@ -343,9 +329,7 @@ func (s *TraceabilityService) DeleteEquipment(ctx context.Context, req *pb.Delet
 	return &pb.DeleteEquipmentReply{Success: true}, nil
 }
 
-// ==========================================
 // 8. Equipment Capability
-// ==========================================
 
 func (s *TraceabilityService) AddCapability(ctx context.Context, req *pb.AddCapabilityRequest) (*pb.AddCapabilityReply, error) {
 	id, err := s.uc.AddCapability(ctx, &biz.EquipmentCapability{
@@ -389,9 +373,7 @@ func (s *TraceabilityService) DeleteCapability(ctx context.Context, req *pb.Dele
 	return &pb.DeleteCapabilityReply{Success: true}, nil
 }
 
-// ==========================================
 // 9. Equipment Properties
-// ==========================================
 
 func (s *TraceabilityService) SetProperty(ctx context.Context, req *pb.SetPropertyRequest) (*pb.SetPropertyReply, error) {
 	id, err := s.uc.SetProperty(ctx, &biz.EquipmentProperty{
@@ -433,9 +415,7 @@ func (s *TraceabilityService) DeleteProperty(ctx context.Context, req *pb.Delete
 	return &pb.DeletePropertyReply{Success: true}, nil
 }
 
-// ==========================================
 // 10. Traceability Logs
-// ==========================================
 
 func (s *TraceabilityService) LogEvent(ctx context.Context, req *pb.LogEventRequest) (*pb.LogEventReply, error) {
 	id, err := s.uc.LogEvent(ctx, &biz.TraceabilityLog{
@@ -468,9 +448,7 @@ func (s *TraceabilityService) ListLogs(ctx context.Context, req *pb.ListLogsRequ
 	return &pb.ListLogsReply{Logs: res}, nil
 }
 
-// ==========================================
 // 11. Material Definition
-// ==========================================
 
 func (s *TraceabilityService) CreateMaterialDefinition(ctx context.Context, req *pb.CreateMaterialDefinitionRequest) (*pb.CreateMaterialDefinitionReply, error) {
 	id, err := s.uc.CreateMaterialDefinition(ctx, &biz.MaterialDefinition{
@@ -503,9 +481,7 @@ func (s *TraceabilityService) ListMaterialDefinitions(ctx context.Context, req *
 	return &pb.ListMaterialDefinitionsReply{Definitions: res}, nil
 }
 
-// ==========================================
 // 12. Material Lot
-// ==========================================
 
 func (s *TraceabilityService) CreateMaterialLot(ctx context.Context, req *pb.CreateMaterialLotRequest) (*pb.CreateMaterialLotReply, error) {
 	lotID, err := s.uc.CreateMaterialLot(ctx, &biz.MaterialLot{
@@ -568,9 +544,7 @@ func (s *TraceabilityService) UpdateMaterialLotStatus(ctx context.Context, req *
 	return &pb.UpdateMaterialLotStatusReply{Success: true}, nil
 }
 
-// ==========================================
 // 13. Operator
-// ==========================================
 
 func (s *TraceabilityService) CreateOperator(ctx context.Context, req *pb.CreateOperatorRequest) (*pb.CreateOperatorReply, error) {
 	opID, err := s.uc.CreateOperator(ctx, &biz.Operator{
@@ -617,9 +591,7 @@ func (s *TraceabilityService) UpdateOperator(ctx context.Context, req *pb.Update
 	return &pb.UpdateOperatorReply{Success: true}, nil
 }
 
-// ==========================================
 // 14. Work Order
-// ==========================================
 
 func (s *TraceabilityService) CreateWorkOrder(ctx context.Context, req *pb.CreateWorkOrderRequest) (*pb.CreateWorkOrderReply, error) {
 	start, _ := time.Parse(time.RFC3339, req.PlannedStart)
@@ -720,9 +692,7 @@ func (s *TraceabilityService) UpdateWorkOrderStatus(ctx context.Context, req *pb
 	return &pb.UpdateWorkOrderStatusReply{Success: true}, nil
 }
 
-// ==========================================
 // 15. Genealogy
-// ==========================================
 
 func (s *TraceabilityService) RegisterGenealogyLink(ctx context.Context, req *pb.RegisterGenealogyLinkRequest) (*pb.RegisterGenealogyLinkReply, error) {
 	id, err := s.uc.RegisterGenealogyLink(ctx, &biz.LotGenealogy{
@@ -739,9 +709,7 @@ func (s *TraceabilityService) RegisterGenealogyLink(ctx context.Context, req *pb
 	return &pb.RegisterGenealogyLinkReply{Id: id}, nil
 }
 
-// ==========================================
 // 16. Trace
-// ==========================================
 
 func mapTraceNodes(bizNodes []*biz.TraceNode) []*pb.TraceNode {
 	res := make([]*pb.TraceNode, len(bizNodes))
@@ -829,9 +797,7 @@ func (s *TraceabilityService) TraceFullGenealogy(ctx context.Context, req *pb.Tr
 	}, nil
 }
 
-// ==========================================
-// 17. Historical Analytics (S014)
-// ==========================================
+// 17. Historical Analytics 
 
 func mapMachineMetrics(m *biz.MachineMetrics) *pb.MachineMetrics {
 	return &pb.MachineMetrics{

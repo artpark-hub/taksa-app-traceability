@@ -553,7 +553,7 @@ Show all sensor readings and telemetry summaries for machines that processed thi
 
 ---
 
-## 17. Historical Analytics (S014)
+## 17. Historical Analytics
 
 ### `GET /api/v1/traceability/analytics/machine-performance`
 KPI report for a single machine over a date range.

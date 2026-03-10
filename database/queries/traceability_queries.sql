@@ -308,9 +308,7 @@ JOIN equipment_telemetry et
 ORDER BY et.equipment_id, et.parameter_name, et.recorded_at;
 
 
--- ============================================================================
---  S014 – Historical Analytics Queries
--- ============================================================================
+-- Historical Analytics Queries
 
 -- ---- 1. Machine Performance ------------------------------------------------
 -- Compute production KPIs for a single machine over a given time window.
