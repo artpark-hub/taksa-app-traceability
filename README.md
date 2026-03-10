@@ -4,22 +4,7 @@ An enterprise-grade manufacturing traceability and genealogy service built with 
 
 > **Version:** 0.0.x | **Status:** Feature-complete for S006 (Product Traceability) and S014 (Historical Analytics)
 
-## Features
-
-### **S006 — Product Traceability** ✅ Complete
-
-* **Batch Tracking:** Material lots with unique IDs and 7-stage lifecycle management (`available → in_process → completed → released → shipped / scrapped / quarantined`).
-* **Machine & Timestamp Association:** Every transformation is recorded with equipment ID, operator, and exact timestamp in `work_order` and `lot_genealogy` tables.
-* **Searchable Traceability Records:** 4 dedicated query endpoints for complete production genealogy.
-
-### **S014 — Historical Analytics** ✅ Complete
-
-* **Machine Performance Dashboards:** Single machine KPIs over any time window (work orders, units produced, cycle time, utilization %, event summary).
-* **Machine Comparison:** Side-by-side analysis of multiple machines with utilization %, error counts, and production volumes.
-* **Trend Analysis:** Daily/weekly/monthly output trends ready for visualization in dashboards.
-* **Factory Dashboard:** Aggregate KPIs including quality rate %, error event counts, and top 5 performing machines.
-
-### **Foundation Features**
+### **Features**
 
 * **Physical Factory Hierarchy (ISA-95):** Manage Enterprises, Sites, Areas, Production Lines, Production Units, and Equipment with full CRUD operations.
 * **Equipment Registry & Capabilities:** Register machines with serial numbers, classify by type, track operational status, record technical capabilities and runtime properties.
@@ -67,6 +52,8 @@ psql -U postgres -c "CREATE DATABASE traceability_db;"
 
 # Apply master schema (includes TimescaleDB hypertables)
 psql -U postgres -d traceability_db -f database/schema/schema.sql
+psql -U postgres -d traceability_db -f database/schema/002_traceability_features.sql
+
 
 # Load the factory simulation seed data
 psql -U postgres -d traceability_db -f database/schema/seed.sql
@@ -227,16 +214,6 @@ cd tests/api
 npx @usebruno/cli run --env "Dev VM"
 ```
 
-### What Gets Tested
-
-| Folder | Tests | What It Covers |
-|---|---|---|
-| `01_Enterprise` through `10_Operators` | 10 requests | Setup: hierarchy creation, equipment registration, operator setup |
-| `11_Lots` through `13_Genealogy` | 4 requests | Execution: lot registration, work orders, genealogy links |
-| `15_Queries` | 4 requests | **S006:** backward/forward/full genealogy traces, equipment history |
-| `17_Analytics` | 4 requests | **S014:** machine performance, machine comparison, production trends, dashboard |
-| `99_Cleanup` | 2 requests | Teardown: cascade delete to clean test data |
-
 ## Project Structure
 
 ```text
@@ -333,19 +310,8 @@ npx @usebruno/cli run --env "Dev VM"
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to submit pull requests, report issues, and suggest improvements.
 
-For development:
-1. Create a feature branch from `develop`
-2. Implement changes following the clean architecture pattern
-3. Add tests in `tests/api/` by editing `generate_tests.py`
-4. Run `./run_tests.sh` to verify all tests pass
-5. Submit PR to `release/0.0.x` with detailed description of changes
-
 ## License
 
 This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
 
----
 
-**Maintained by:** Kavya & Taksa Team  
-**Last Updated:** March 10, 2026  
-**Version:** 0.0.x (in development)
