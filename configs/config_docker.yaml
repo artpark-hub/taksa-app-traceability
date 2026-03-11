@@ -7,8 +7,7 @@ server:
     timeout: 1s
 data:
   database:
-    driver: postgres
-    source: postgres://taksa:taksa_123@taksa-tsdb:5432/traceability_db?sslmode=disable
+    source: postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable
   redis:
     addr: taksa-tsdb:6379
     read_timeout: 0.2s

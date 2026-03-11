@@ -61,11 +61,44 @@ psql -U postgres -d traceability_db -f database/schema/seed.sql
 
 ### 3. Configuration
 
-The service uses `configs/config.yaml`. Database credentials can be overridden via environment variables:
+The service uses environment variable substitution (`envsubst`) for all credentials. Config files contain `${VAR}` placeholders — **never hard-coded credentials**.
+
+There are two config files, both safe to commit:
+
+| File | Used For |
+|------|----------|
+| `configs/config.yaml` | Local development — Redis points to `127.0.0.1` |
+| `configs/config_docker.yaml` | Docker deployment — Redis points to `taksa-tsdb` service name |
+
+**Setting Credentials:**
+
+Credentials are injected at runtime via environment variables. The `run_tests.sh` script handles this automatically with sensible defaults sourced from the Taksa platform defaults.
+
+To override for your environment:
 
 ```bash
-export DB_SOURCE="postgres://user:password@localhost:5432/traceability_db?sslmode=disable"
+export DB_HOST=127.0.0.1
+export DB_PORT=5433
+export DB_USER=taksa
+export DB_PASSWORD=<your_password>
+export DB_NAME=taksa
+./run_tests.sh
 ```
+
+For Docker deployments, set these as container environment variables — the `config_docker.yaml` placeholders are substituted at container startup:
+
+```bash
+docker run -d \
+  -e DB_HOST=taksa-tsdb \
+  -e DB_PORT=5433 \
+  -e DB_USER=taksa \
+  -e DB_PASSWORD=<secret> \
+  -e DB_NAME=taksa \
+  -p 8000:8000 -p 9000:9000 \
+  taksa/traceability:latest
+```
+
+⚠️ Credentials are managed by the Taksa platform deployment system (`taksa-deployments/`). Do NOT hardcode passwords in any config file.
 
 ## Building
 
@@ -98,12 +131,15 @@ The service will start listening on:
 ```bash
 docker build -t taksa/traceability:latest .
 
+# Credentials are passed as environment variables — config_docker.yaml substitutes them at startup
 docker run -d \
   --name traceability \
-  -p 8000:8000 \
-  -p 9000:9000 \
-  -v $(pwd)/configs:/data/conf \
-  -e DB_SOURCE="postgres://user:password@db:5432/traceability_db" \
+  -p 8000:8000 -p 9000:9000 \
+  -e DB_HOST=taksa-tsdb \
+  -e DB_PORT=5433 \
+  -e DB_USER=taksa \
+  -e DB_PASSWORD=<secret> \
+  -e DB_NAME=taksa \
   taksa/traceability:latest
 ```
 
@@ -305,10 +341,6 @@ npx @usebruno/cli run --env "Dev VM"
 * **Recursive CTE limits** to prevent infinite loops in genealogy (configurable depth)
 * **TimescaleDB compression** for old telemetry data
 * **Batch operations** for high-volume lot/event inserts
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to submit pull requests, report issues, and suggest improvements.
 
 ## License
 

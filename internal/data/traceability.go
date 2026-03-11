@@ -924,7 +924,7 @@ func (r *traceabilityRepo) GetMachinePerformance(ctx context.Context, req *biz.M
 	}, nil
 }
 
-func (r *traceabilityRepo) GetMachineEventSummary(ctx context.Context, equipmentID string, from, to interface{}) ([]*biz.MachineEventSummary, error) {
+func (r *traceabilityRepo) GetMachineEventSummary(ctx context.Context, equipmentID string, from, to time.Time) ([]*biz.MachineEventSummary, error) {
 	type scan struct {
 		EventType string `gorm:"column:event_type"`
 		Count     int32  `gorm:"column:count"`

@@ -411,7 +411,7 @@ type TraceabilityRepo interface {
 
 	// Analytics
 	GetMachinePerformance(ctx context.Context, req *MachinePerformanceRequest) (*MachinePerformanceResult, error)
-	GetMachineEventSummary(ctx context.Context, equipmentID string, from, to interface{}) ([]*MachineEventSummary, error)
+	GetMachineEventSummary(ctx context.Context, equipmentID string, from, to time.Time) ([]*MachineEventSummary, error)
 	CompareMachinePerformance(ctx context.Context, req *MachineComparisonRequest) ([]*MachineMetrics, error)
 	GetProductionTrends(ctx context.Context, req *ProductionTrendsRequest) ([]*ProductionTrendPoint, error)
 	GetDashboardSummary(ctx context.Context, req *DashboardSummaryRequest) (*DashboardSummary, error)
@@ -421,11 +421,10 @@ type TraceabilityRepo interface {
 
 type TraceabilityUsecase struct {
 	repo TraceabilityRepo
-	log  *log.Helper
 }
 
 func NewTraceabilityUsecase(repo TraceabilityRepo, logger log.Logger) *TraceabilityUsecase {
-	return &TraceabilityUsecase{repo: repo, log: log.NewHelper(logger)}
+	return &TraceabilityUsecase{repo: repo}
 }
 
 // --- Methods ---

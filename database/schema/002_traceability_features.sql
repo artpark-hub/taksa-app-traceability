@@ -92,5 +92,6 @@ SELECT create_hypertable('equipment_telemetry', 'recorded_at', if_not_exists => 
 
 CREATE INDEX IF NOT EXISTS idx_telemetry_equip_param ON equipment_telemetry(equipment_id, parameter_name, recorded_at DESC);
 
+CREATE ROLE IF NOT EXISTS taksa_ai_reader;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO taksa_ai_reader;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO taksa_ai_reader;
