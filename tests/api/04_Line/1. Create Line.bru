@@ -1,0 +1,28 @@
+meta {
+  name: 1. Create Line
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/lines
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "area_id": {{areaId}},
+    "name": "Line A",
+    "description": "Main Line"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNumber
+}
+
+script:post-response {
+  bru.setVar("lineId", res.body.id);
+}

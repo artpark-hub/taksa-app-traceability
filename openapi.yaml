@@ -1,0 +1,2419 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Traceability API
+    version: 0.0.1
+paths:
+    /api/v1/traceability/analytics/dashboard:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetDashboardSummary
+            parameters:
+                - name: fromTime
+                  in: query
+                  schema:
+                    type: string
+                - name: toTime
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DashboardSummaryReply'
+    /api/v1/traceability/analytics/machine-comparison:
+        post:
+            tags:
+                - Traceability
+            operationId: Traceability_CompareMachinePerformance
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.MachineComparisonRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.MachineComparisonReply'
+    /api/v1/traceability/analytics/machine-performance:
+        get:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 17. Historical Analytics (S014)
+                 =====================================================================
+            operationId: Traceability_GetMachinePerformance
+            parameters:
+                - name: equipmentId
+                  in: query
+                  schema:
+                    type: string
+                - name: fromTime
+                  in: query
+                  schema:
+                    type: string
+                - name: toTime
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.MachinePerformanceReply'
+    /api/v1/traceability/analytics/production-trends:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetProductionTrends
+            parameters:
+                - name: fromTime
+                  in: query
+                  schema:
+                    type: string
+                - name: toTime
+                  in: query
+                  schema:
+                    type: string
+                - name: granularity
+                  in: query
+                  schema:
+                    type: string
+                - name: equipmentId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ProductionTrendsReply'
+    /api/v1/traceability/areas:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListAreas
+            parameters:
+                - name: siteId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListAreasReply'
+        post:
+            tags:
+                - Traceability
+            description: 3. Area Management
+            operationId: Traceability_CreateArea
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateAreaRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateAreaReply'
+    /api/v1/traceability/areas/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteArea
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteAreaReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateArea
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateAreaRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateAreaReply'
+    /api/v1/traceability/enterprises:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListEnterprises
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListEnterprisesReply'
+        post:
+            tags:
+                - Traceability
+            description: 1. Enterprise Management
+            operationId: Traceability_CreateEnterprise
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateEnterpriseRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateEnterpriseReply'
+    /api/v1/traceability/enterprises/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteEnterprise
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteEnterpriseReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateEnterprise
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateEnterpriseRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateEnterpriseReply'
+    /api/v1/traceability/equipment:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListEquipment
+            parameters:
+                - name: lineId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: parentEquipmentId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListEquipmentReply'
+        post:
+            tags:
+                - Traceability
+            description: 7. Equipment Master Management
+            operationId: Traceability_RegisterEquipment
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.RegisterEquipmentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.RegisterEquipmentReply'
+    /api/v1/traceability/equipment-classes:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListEquipmentClasses
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListEquipmentClassesReply'
+        post:
+            tags:
+                - Traceability
+            description: 6. Equipment Class Management
+            operationId: Traceability_CreateEquipmentClass
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateEquipmentClassRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateEquipmentClassReply'
+    /api/v1/traceability/equipment-classes/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteEquipmentClass
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteEquipmentClassReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateEquipmentClass
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateEquipmentClassRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateEquipmentClassReply'
+    /api/v1/traceability/equipment/{equipmentId}/capabilities:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListCapabilities
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListCapabilitiesReply'
+        post:
+            tags:
+                - Traceability
+            description: 8. Equipment Capability Management
+            operationId: Traceability_AddCapability
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.AddCapabilityRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.AddCapabilityReply'
+    /api/v1/traceability/equipment/{equipmentId}/capabilities/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteCapability
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteCapabilityReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateCapability
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateCapabilityRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateCapabilityReply'
+    /api/v1/traceability/equipment/{equipmentId}/properties:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListProperties
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListPropertiesReply'
+        post:
+            tags:
+                - Traceability
+            description: 9. Equipment Property Management
+            operationId: Traceability_SetProperty
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.SetPropertyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.SetPropertyReply'
+    /api/v1/traceability/equipment/{equipmentId}/properties/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteProperty
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeletePropertyReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateProperty
+            parameters:
+                - name: equipmentId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdatePropertyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdatePropertyReply'
+    /api/v1/traceability/equipment/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteEquipment
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteEquipmentReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateEquipment
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateEquipmentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateEquipmentReply'
+    /api/v1/traceability/genealogy:
+        post:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 15. Lot Genealogy Registration
+                 =====================================================================
+            operationId: Traceability_RegisterGenealogyLink
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.RegisterGenealogyLinkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.RegisterGenealogyLinkReply'
+    /api/v1/traceability/lines:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListLines
+            parameters:
+                - name: areaId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListLinesReply'
+        post:
+            tags:
+                - Traceability
+            description: 4. Production Line Management
+            operationId: Traceability_CreateLine
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateLineRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateLineReply'
+    /api/v1/traceability/lines/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteLine
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteLineReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateLine
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateLineRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateLineReply'
+    /api/v1/traceability/logs:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListLogs
+            parameters:
+                - name: workOrderId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListLogsReply'
+        post:
+            tags:
+                - Traceability
+            description: 10. Traceability Logs
+            operationId: Traceability_LogEvent
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.LogEventRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.LogEventReply'
+    /api/v1/traceability/lots:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListMaterialLots
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: materialType
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListMaterialLotsReply'
+        post:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 12. Material Lot Management
+                 =====================================================================
+            operationId: Traceability_CreateMaterialLot
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateMaterialLotRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateMaterialLotReply'
+    /api/v1/traceability/lots/{lotId}:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetMaterialLot
+            parameters:
+                - name: lotId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.GetMaterialLotReply'
+    /api/v1/traceability/lots/{lotId}/status:
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateMaterialLotStatus
+            parameters:
+                - name: lotId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateMaterialLotStatusRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateMaterialLotStatusReply'
+    /api/v1/traceability/material-definitions:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListMaterialDefinitions
+            parameters:
+                - name: materialType
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListMaterialDefinitionsReply'
+        post:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 11. Material Definition Management
+                 =====================================================================
+            operationId: Traceability_CreateMaterialDefinition
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateMaterialDefinitionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateMaterialDefinitionReply'
+    /api/v1/traceability/operators:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListOperators
+            parameters:
+                - name: shift
+                  in: query
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListOperatorsReply'
+        post:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 13. Operator Management
+                 =====================================================================
+            operationId: Traceability_CreateOperator
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateOperatorRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateOperatorReply'
+    /api/v1/traceability/operators/{operatorId}:
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateOperator
+            parameters:
+                - name: operatorId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateOperatorRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateOperatorReply'
+    /api/v1/traceability/production-units:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListProductionUnits
+            parameters:
+                - name: lineId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListProductionUnitsReply'
+        post:
+            tags:
+                - Traceability
+            description: 5. Production Unit Management
+            operationId: Traceability_CreateProductionUnit
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateProductionUnitRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateProductionUnitReply'
+    /api/v1/traceability/production-units/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteProductionUnit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteProductionUnitReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateProductionUnit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateProductionUnitRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateProductionUnitReply'
+    /api/v1/traceability/sites:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListSites
+            parameters:
+                - name: enterpriseId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListSitesReply'
+        post:
+            tags:
+                - Traceability
+            description: 2. Site Management
+            operationId: Traceability_CreateSite
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateSiteRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateSiteReply'
+    /api/v1/traceability/sites/{id}:
+        delete:
+            tags:
+                - Traceability
+            operationId: Traceability_DeleteSite
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.DeleteSiteReply'
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateSite
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateSiteRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateSiteReply'
+    /api/v1/traceability/trace/backward/{lotId}:
+        get:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 16. Traceability Queries (THE CORE FEATURES)
+                 =====================================================================
+            operationId: Traceability_TraceBackward
+            parameters:
+                - name: lotId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.TraceReply'
+    /api/v1/traceability/trace/equipment-history/{lotId}:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetEquipmentProcessHistory
+            parameters:
+                - name: lotId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.EquipmentProcessHistoryReply'
+    /api/v1/traceability/trace/forward/{lotId}:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_TraceForward
+            parameters:
+                - name: lotId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.TraceReply'
+    /api/v1/traceability/trace/full/{lotId}:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_TraceFullGenealogy
+            parameters:
+                - name: lotId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.GenealogyTreeReply'
+    /api/v1/traceability/work-orders:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_ListWorkOrders
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: equipmentId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.ListWorkOrdersReply'
+        post:
+            tags:
+                - Traceability
+            description: |-
+                =====================================================================
+                 14. Work Order Management
+                 =====================================================================
+            operationId: Traceability_CreateWorkOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.CreateWorkOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.CreateWorkOrderReply'
+    /api/v1/traceability/work-orders/{workOrderId}:
+        get:
+            tags:
+                - Traceability
+            operationId: Traceability_GetWorkOrder
+            parameters:
+                - name: workOrderId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.GetWorkOrderReply'
+    /api/v1/traceability/work-orders/{workOrderId}/status:
+        patch:
+            tags:
+                - Traceability
+            operationId: Traceability_UpdateWorkOrderStatus
+            parameters:
+                - name: workOrderId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.traceability.v1.UpdateWorkOrderStatusRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.traceability.v1.UpdateWorkOrderStatusReply'
+components:
+    schemas:
+        api.traceability.v1.AddCapabilityReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.AddCapabilityRequest:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                capabilityName:
+                    type: string
+                value:
+                    type: string
+                uom:
+                    type: string
+                description:
+                    type: string
+            description: 8. Capabilities
+        api.traceability.v1.Area:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.Capability:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                value:
+                    type: string
+                uom:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.CreateAreaReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateAreaRequest:
+            type: object
+            properties:
+                siteId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+            description: 3. Area
+        api.traceability.v1.CreateEnterpriseReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateEnterpriseRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+            description: 1. Enterprise
+        api.traceability.v1.CreateEquipmentClassReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateEquipmentClassRequest:
+            type: object
+            properties:
+                className:
+                    type: string
+                version:
+                    type: string
+                description:
+                    type: string
+            description: 6. Equipment Class
+        api.traceability.v1.CreateLineReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateLineRequest:
+            type: object
+            properties:
+                areaId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+            description: 4. Production Line
+        api.traceability.v1.CreateMaterialDefinitionReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateMaterialDefinitionRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                materialType:
+                    type: string
+                unitOfMeasure:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.CreateMaterialLotReply:
+            type: object
+            properties:
+                lotId:
+                    type: string
+        api.traceability.v1.CreateMaterialLotRequest:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                materialDefinitionId:
+                    type: integer
+                    format: int32
+                quantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+        api.traceability.v1.CreateOperatorReply:
+            type: object
+            properties:
+                operatorId:
+                    type: string
+        api.traceability.v1.CreateOperatorRequest:
+            type: object
+            properties:
+                operatorId:
+                    type: string
+                name:
+                    type: string
+                role:
+                    type: string
+                shift:
+                    type: string
+        api.traceability.v1.CreateProductionUnitReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateProductionUnitRequest:
+            type: object
+            properties:
+                productionLineId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+            description: 5. Production Unit
+        api.traceability.v1.CreateSiteReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.CreateSiteRequest:
+            type: object
+            properties:
+                enterpriseId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                location:
+                    type: string
+                description:
+                    type: string
+            description: 2. Site
+        api.traceability.v1.CreateWorkOrderReply:
+            type: object
+            properties:
+                workOrderId:
+                    type: string
+        api.traceability.v1.CreateWorkOrderRequest:
+            type: object
+            properties:
+                workOrderId:
+                    type: string
+                description:
+                    type: string
+                equipmentId:
+                    type: string
+                operatorId:
+                    type: string
+                outputLotId:
+                    type: string
+                plannedQuantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+                plannedStart:
+                    type: string
+                plannedEnd:
+                    type: string
+        api.traceability.v1.DashboardSummaryReply:
+            type: object
+            properties:
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                totalUnitsProduced:
+                    type: number
+                    description: Production KPIs
+                    format: double
+                totalWorkOrdersCompleted:
+                    type: integer
+                    format: int32
+                activeEquipmentCount:
+                    type: integer
+                    format: int32
+                lotsReleased:
+                    type: integer
+                    description: Quality KPIs
+                    format: int32
+                lotsQuarantined:
+                    type: integer
+                    format: int32
+                qualityRatePct:
+                    type: number
+                    format: double
+                totalErrorEvents:
+                    type: integer
+                    description: Total event anomalies
+                    format: int32
+                topPerformers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MachineMetrics'
+                    description: Top performing machines
+        api.traceability.v1.DeleteAreaReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteCapabilityReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteEnterpriseReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteEquipmentClassReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteEquipmentReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteLineReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteProductionUnitReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeletePropertyReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.DeleteSiteReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.Enterprise:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.Equipment:
+            type: object
+            properties:
+                id:
+                    type: string
+                physicalAssetId:
+                    type: string
+                productionUnitId:
+                    type: integer
+                    format: int32
+                equipmentClassId:
+                    type: integer
+                    format: int32
+                operationalStatus:
+                    type: string
+                parentEquipmentId:
+                    type: string
+        api.traceability.v1.EquipmentClass:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                className:
+                    type: string
+                version:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.EquipmentParameterSummary:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                equipmentClassName:
+                    type: string
+                parameterName:
+                    type: string
+                unitOfMeasure:
+                    type: string
+                minValue:
+                    type: number
+                    format: double
+                maxValue:
+                    type: number
+                    format: double
+                avgValue:
+                    type: number
+                    format: double
+                readingCount:
+                    type: integer
+                    format: int32
+                processStart:
+                    type: string
+                processEnd:
+                    type: string
+            description: Aggregated summary per parameter
+        api.traceability.v1.EquipmentProcessHistoryReply:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                parameters:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.EquipmentParameterSummary'
+                readings:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.TelemetryReading'
+            description: '--- Equipment Process History Response ---'
+        api.traceability.v1.GenealogyEdge:
+            type: object
+            properties:
+                sourceLotId:
+                    type: string
+                targetLotId:
+                    type: string
+                workOrderId:
+                    type: string
+                equipmentId:
+                    type: string
+                quantityConsumed:
+                    type: number
+                    format: double
+                quantityProduced:
+                    type: number
+                    format: double
+                eventTime:
+                    type: string
+        api.traceability.v1.GenealogyNode:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                materialName:
+                    type: string
+                materialType:
+                    type: string
+                status:
+                    type: string
+                quantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+        api.traceability.v1.GenealogyTreeReply:
+            type: object
+            properties:
+                centerLotId:
+                    type: string
+                nodes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.GenealogyNode'
+                edges:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.GenealogyEdge'
+        api.traceability.v1.GetMaterialLotReply:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                status:
+                    type: string
+                quantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+                createdAt:
+                    type: string
+                updatedAt:
+                    type: string
+                materialDefinitionId:
+                    type: integer
+                    description: Material definition info (joined)
+                    format: int32
+                materialName:
+                    type: string
+                materialType:
+                    type: string
+                materialDescription:
+                    type: string
+        api.traceability.v1.GetWorkOrderReply:
+            type: object
+            properties:
+                workOrderId:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                plannedQuantity:
+                    type: number
+                    format: double
+                actualQuantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+                plannedStart:
+                    type: string
+                plannedEnd:
+                    type: string
+                actualStart:
+                    type: string
+                actualEnd:
+                    type: string
+                outputLotId:
+                    type: string
+                equipmentId:
+                    type: string
+                    description: Equipment info
+                equipmentClassName:
+                    type: string
+                operatorId:
+                    type: string
+                    description: Operator info
+                operatorName:
+                    type: string
+                operatorShift:
+                    type: string
+                inputLots:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.WorkOrderInputLot'
+                    description: Input lots consumed by this work order
+        api.traceability.v1.Line:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.ListAreasReply:
+            type: object
+            properties:
+                areas:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Area'
+        api.traceability.v1.ListCapabilitiesReply:
+            type: object
+            properties:
+                capabilities:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Capability'
+        api.traceability.v1.ListEnterprisesReply:
+            type: object
+            properties:
+                enterprises:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Enterprise'
+        api.traceability.v1.ListEquipmentClassesReply:
+            type: object
+            properties:
+                classes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.EquipmentClass'
+        api.traceability.v1.ListEquipmentReply:
+            type: object
+            properties:
+                equipment:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Equipment'
+        api.traceability.v1.ListLinesReply:
+            type: object
+            properties:
+                lines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Line'
+        api.traceability.v1.ListLogsReply:
+            type: object
+            properties:
+                logs:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.LogEntry'
+        api.traceability.v1.ListMaterialDefinitionsReply:
+            type: object
+            properties:
+                definitions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MaterialDefinition'
+        api.traceability.v1.ListMaterialLotsReply:
+            type: object
+            properties:
+                lots:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MaterialLotSummary'
+        api.traceability.v1.ListOperatorsReply:
+            type: object
+            properties:
+                operators:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Operator'
+        api.traceability.v1.ListProductionUnitsReply:
+            type: object
+            properties:
+                units:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.ProductionUnit'
+        api.traceability.v1.ListPropertiesReply:
+            type: object
+            properties:
+                properties:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Property'
+        api.traceability.v1.ListSitesReply:
+            type: object
+            properties:
+                sites:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.Site'
+        api.traceability.v1.ListWorkOrdersReply:
+            type: object
+            properties:
+                workOrders:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.WorkOrderSummary'
+        api.traceability.v1.LogEntry:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                eventType:
+                    type: string
+                eventTime:
+                    type: string
+                operatorId:
+                    type: string
+        api.traceability.v1.LogEventReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.LogEventRequest:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                eventType:
+                    type: string
+                workOrderId:
+                    type: string
+                materialLotId:
+                    type: string
+                operatorId:
+                    type: string
+            description: 10. Traceability Logs
+        api.traceability.v1.MachineComparisonReply:
+            type: object
+            properties:
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                machines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MachineMetrics'
+        api.traceability.v1.MachineComparisonRequest:
+            type: object
+            properties:
+                equipmentIds:
+                    type: array
+                    items:
+                        type: string
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+            description: '--- Machine Comparison ---'
+        api.traceability.v1.MachineEventSummary:
+            type: object
+            properties:
+                eventType:
+                    type: string
+                count:
+                    type: integer
+                    format: int32
+        api.traceability.v1.MachineMetrics:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                equipmentClassName:
+                    type: string
+                operationalStatus:
+                    type: string
+                totalWorkOrders:
+                    type: integer
+                    format: int32
+                totalUnitsProduced:
+                    type: number
+                    format: double
+                avgCycleTimeHours:
+                    type: number
+                    format: double
+                utilizationPct:
+                    type: number
+                    format: double
+                errorCount:
+                    type: integer
+                    format: int32
+        api.traceability.v1.MachinePerformanceReply:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                equipmentClassName:
+                    type: string
+                operationalStatus:
+                    type: string
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                totalWorkOrders:
+                    type: integer
+                    format: int32
+                totalUnitsProduced:
+                    type: number
+                    format: double
+                avgCycleTimeHours:
+                    type: number
+                    format: double
+                totalActiveHours:
+                    type: number
+                    format: double
+                utilizationPct:
+                    type: number
+                    format: double
+                eventSummary:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.MachineEventSummary'
+        api.traceability.v1.MaterialDefinition:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                materialType:
+                    type: string
+                unitOfMeasure:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.MaterialLotSummary:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                status:
+                    type: string
+                quantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+                createdAt:
+                    type: string
+                materialName:
+                    type: string
+                materialType:
+                    type: string
+        api.traceability.v1.Operator:
+            type: object
+            properties:
+                operatorId:
+                    type: string
+                name:
+                    type: string
+                role:
+                    type: string
+                shift:
+                    type: string
+                status:
+                    type: string
+        api.traceability.v1.ProductionTrendPoint:
+            type: object
+            properties:
+                period:
+                    type: string
+                equipmentId:
+                    type: string
+                unitsProduced:
+                    type: number
+                    format: double
+                workOrdersCompleted:
+                    type: integer
+                    format: int32
+                avgCycleTimeHours:
+                    type: number
+                    format: double
+        api.traceability.v1.ProductionTrendsReply:
+            type: object
+            properties:
+                fromTime:
+                    type: string
+                toTime:
+                    type: string
+                granularity:
+                    type: string
+                dataPoints:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.ProductionTrendPoint'
+        api.traceability.v1.ProductionUnit:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.Property:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                value:
+                    type: string
+        api.traceability.v1.RegisterEquipmentReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        api.traceability.v1.RegisterEquipmentRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                physicalAssetId:
+                    type: string
+                productionUnitId:
+                    type: integer
+                    format: int32
+                equipmentClassId:
+                    type: integer
+                    format: int32
+                operationalStatus:
+                    type: string
+                parentEquipmentId:
+                    type: string
+            description: 7. Equipment Master
+        api.traceability.v1.RegisterGenealogyLinkReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.RegisterGenealogyLinkRequest:
+            type: object
+            properties:
+                parentLotId:
+                    type: string
+                childLotId:
+                    type: string
+                workOrderId:
+                    type: string
+                equipmentId:
+                    type: string
+                quantityConsumed:
+                    type: number
+                    format: double
+                quantityProduced:
+                    type: number
+                    format: double
+        api.traceability.v1.SetPropertyReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.traceability.v1.SetPropertyRequest:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                propertyName:
+                    type: string
+                currentValue:
+                    type: string
+            description: 9. Properties
+        api.traceability.v1.Site:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                location:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.TelemetryReading:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                parameterName:
+                    type: string
+                value:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+                recordedAt:
+                    type: string
+            description: Individual telemetry data point
+        api.traceability.v1.TraceNode:
+            type: object
+            properties:
+                depth:
+                    type: integer
+                    format: int32
+                lotId:
+                    type: string
+                relatedLotId:
+                    type: string
+                materialName:
+                    type: string
+                materialType:
+                    type: string
+                lotStatus:
+                    type: string
+                quantity:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+                quantityUsed:
+                    type: number
+                    format: double
+                workOrderId:
+                    type: string
+                equipmentId:
+                    type: string
+                equipmentClassName:
+                    type: string
+                operatorId:
+                    type: string
+                operatorName:
+                    type: string
+                eventTime:
+                    type: string
+        api.traceability.v1.TraceReply:
+            type: object
+            properties:
+                queriedLotId:
+                    type: string
+                traceDirection:
+                    type: string
+                nodes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.traceability.v1.TraceNode'
+            description: '--- Backward & Forward Trace Response ---'
+        api.traceability.v1.UpdateAreaReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateAreaRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.UpdateCapabilityReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateCapabilityRequest:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+                value:
+                    type: string
+        api.traceability.v1.UpdateEnterpriseReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateEnterpriseRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.UpdateEquipmentClassReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateEquipmentClassRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                version:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.UpdateEquipmentReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateEquipmentRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                operationalStatus:
+                    type: string
+                productionUnitId:
+                    type: integer
+                    format: int32
+        api.traceability.v1.UpdateLineReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateLineRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.UpdateMaterialLotStatusReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateMaterialLotStatusRequest:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                status:
+                    type: string
+        api.traceability.v1.UpdateOperatorReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateOperatorRequest:
+            type: object
+            properties:
+                operatorId:
+                    type: string
+                role:
+                    type: string
+                shift:
+                    type: string
+                status:
+                    type: string
+        api.traceability.v1.UpdateProductionUnitReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateProductionUnitRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                description:
+                    type: string
+        api.traceability.v1.UpdatePropertyReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdatePropertyRequest:
+            type: object
+            properties:
+                equipmentId:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+                currentValue:
+                    type: string
+        api.traceability.v1.UpdateSiteReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateSiteRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                location:
+                    type: string
+        api.traceability.v1.UpdateWorkOrderStatusReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.traceability.v1.UpdateWorkOrderStatusRequest:
+            type: object
+            properties:
+                workOrderId:
+                    type: string
+                status:
+                    type: string
+                actualQuantity:
+                    type: number
+                    format: double
+                actualStart:
+                    type: string
+                actualEnd:
+                    type: string
+        api.traceability.v1.WorkOrderInputLot:
+            type: object
+            properties:
+                lotId:
+                    type: string
+                materialName:
+                    type: string
+                materialType:
+                    type: string
+                quantityConsumed:
+                    type: number
+                    format: double
+                unitOfMeasure:
+                    type: string
+        api.traceability.v1.WorkOrderSummary:
+            type: object
+            properties:
+                workOrderId:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                equipmentId:
+                    type: string
+                operatorId:
+                    type: string
+                outputLotId:
+                    type: string
+                actualStart:
+                    type: string
+                actualEnd:
+                    type: string
+tags:
+    - name: Traceability

@@ -1,0 +1,27 @@
+meta {
+  name: 1. Register Link
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/genealogy
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "parent_lot_id": "LOT-SIL-1773208353",
+    "child_lot_id": "WIP-1773208353",
+    "work_order_id": "WO-TEST-1773208353",
+    "equipment_id": "ROBOT-1773208353",
+    "quantity_consumed": 50,
+    "quantity_produced": 10
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNumber
+}

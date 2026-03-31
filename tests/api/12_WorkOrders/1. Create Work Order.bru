@@ -1,0 +1,29 @@
+meta {
+  name: 1. Create Work Order
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/traceability/work-orders
+  body: json
+  auth: none
+}
+
+body:json {
+{
+    "work_order_id": "WO-TEST-1773208353",
+    "description": "Test Production Run",
+    "equipment_id": "ROBOT-1773208353",
+    "operator_id": "OP-TEST-1773208353",
+    "output_lot_id": "WIP-1773208353",
+    "planned_quantity": 10,
+    "unit_of_measure": "units",
+    "planned_start": "2026-02-27T10:00:00Z",
+    "planned_end": "2026-02-27T18:00:00Z"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

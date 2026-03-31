@@ -1,0 +1,16 @@
+meta {
+  name: 2. Full Genealogy
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/trace/full/WIP-1773208353
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.nodes: isArray
+}

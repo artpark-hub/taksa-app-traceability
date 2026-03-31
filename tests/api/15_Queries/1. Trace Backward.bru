@@ -1,0 +1,16 @@
+meta {
+  name: 1. Trace Backward
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/traceability/trace/backward/WIP-1773208353
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.traceDirection: eq "backward"
+}

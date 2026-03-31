@@ -26,7 +26,20 @@ go.work.sum
 
 # env file
 .env
+.env.local
+.env.*.local
+
+# Local config files with credentials
+configs/*.local.yaml
+configs/config.local.yaml
 
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Build artifacts
+traceability
+
+# Logs
+*.log
+server.log
