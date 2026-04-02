@@ -1,8 +1,6 @@
 module traceability
 
-go 1.24.0
-
-toolchain go1.25.5
+go 1.26.1
 
 require (
 	github.com/go-kratos/kratos/v2 v2.8.0
