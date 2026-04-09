@@ -86,3 +86,13 @@ Tests are **integration tests** using Bruno (open-source API client with `.bru` 
 ## Configuration
 
 YAML configs in `configs/` use environment variable substitution (`${DB_USER}`, etc.). `config.yaml` for local dev, `config_docker.yaml` for containers. Server listens on HTTP :8000 and gRPC :9000.
+
+### Environment Variable Substitution in Docker
+
+The Dockerfile uses `envsubst` to process environment variables in `config_docker.yaml` before the application starts:
+
+```bash
+envsubst < /app/configs/config_docker.yaml > /tmp/config_resolved.yaml
+```
+
+The resolved config is written to `/tmp` (not `/app/configs`) to ensure write permissions in any execution environment, including non-root containers. The application then loads the resolved config from `/tmp/config_resolved.yaml`.

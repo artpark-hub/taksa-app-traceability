@@ -32,4 +32,4 @@ EXPOSE 8000
 EXPOSE 9000
 
 
-CMD ["sh", "-c", "envsubst < /app/configs/config_docker.yaml > /app/configs/config_resolved.yaml && /app/traceability -conf /app/configs/config_resolved.yaml"]
+CMD ["sh", "-c", "envsubst < /app/configs/config_docker.yaml > /tmp/config_resolved.yaml && /app/traceability -conf /tmp/config_resolved.yaml"]
