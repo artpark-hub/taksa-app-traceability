@@ -1,5 +1,5 @@
 
-FROM golang:1.24 AS builder
+FROM golang:1.26 AS builder
 
 COPY . /src
 WORKDIR /src
@@ -14,8 +14,9 @@ RUN go build -o /app/traceability ./cmd/traceability
 FROM debian:stable-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates  \
+        ca-certificates \
         netbase \
+	gettext \
         && rm -rf /var/lib/apt/lists/ \
         && apt-get autoremove -y && apt-get autoclean -y
 
@@ -31,4 +32,4 @@ EXPOSE 8000
 EXPOSE 9000
 
 
-CMD ["./traceability", "-conf", "/app/configs/config_docker.yaml"]
+CMD ["sh", "-c", "envsubst < /app/configs/config_docker.yaml > /tmp/config_resolved.yaml && /app/traceability -conf /tmp/config_resolved.yaml"]
