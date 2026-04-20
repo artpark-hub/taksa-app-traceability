@@ -49,10 +49,7 @@ paths:
         get:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 17. Historical Analytics (S014)
-                 =====================================================================
+            description: 17. Historical Analytics
             operationId: Traceability_GetMachinePerformance
             parameters:
                 - name: equipmentId
@@ -603,10 +600,7 @@ paths:
         post:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 15. Lot Genealogy Registration
-                 =====================================================================
+            description: 15. Lot Genealogy Registration
             operationId: Traceability_RegisterGenealogyLink
             requestBody:
                 content:
@@ -759,10 +753,7 @@ paths:
         post:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 12. Material Lot Management
-                 =====================================================================
+            description: 12. Material Lot Management
             operationId: Traceability_CreateMaterialLot
             requestBody:
                 content:
@@ -839,10 +830,7 @@ paths:
         post:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 11. Material Definition Management
-                 =====================================================================
+            description: 11. Material Definition Management
             operationId: Traceability_CreateMaterialDefinition
             requestBody:
                 content:
@@ -881,10 +869,7 @@ paths:
         post:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 13. Operator Management
-                 =====================================================================
+            description: 13. Operator Management
             operationId: Traceability_CreateOperator
             requestBody:
                 content:
@@ -1085,10 +1070,7 @@ paths:
         get:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 16. Traceability Queries (THE CORE FEATURES)
-                 =====================================================================
+            description: 16. Traceability Queries
             operationId: Traceability_TraceBackward
             parameters:
                 - name: lotId
@@ -1181,10 +1163,7 @@ paths:
         post:
             tags:
                 - Traceability
-            description: |-
-                =====================================================================
-                 14. Work Order Management
-                 =====================================================================
+            description: 14. Work Order Management
             operationId: Traceability_CreateWorkOrder
             requestBody:
                 content:
@@ -1368,6 +1347,7 @@ components:
                     type: string
                 description:
                     type: string
+            description: 11. Material Definition Messages
         api.traceability.v1.CreateMaterialLotReply:
             type: object
             properties:
@@ -1386,6 +1366,7 @@ components:
                     format: double
                 unitOfMeasure:
                     type: string
+            description: 12. Material Lot Messages
         api.traceability.v1.CreateOperatorReply:
             type: object
             properties:
@@ -1402,6 +1383,7 @@ components:
                     type: string
                 shift:
                     type: string
+            description: 13. Operator Messages
         api.traceability.v1.CreateProductionUnitReply:
             type: object
             properties:
@@ -1465,6 +1447,7 @@ components:
                     type: string
                 plannedEnd:
                     type: string
+            description: 14. Work Order Messages
         api.traceability.v1.DashboardSummaryReply:
             type: object
             properties:
@@ -1693,7 +1676,6 @@ components:
                     type: string
                 materialDefinitionId:
                     type: integer
-                    description: Material definition info (joined)
                     format: int32
                 materialName:
                     type: string
